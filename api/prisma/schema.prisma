@@ -20,15 +20,16 @@ enum Role {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
-  password       String?
-  firstName      String?
-  lastName       String?
-  role           Role     @default(PLAYER)
-  googleId       String?  @unique
-  microsoftId    String?  @unique
-  refreshToken   String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             String    @id @default(uuid())
+  email          String    @unique @db.VarChar(120)
+  username       String    @unique @db.VarChar(40)
+  password       String?   @db.VarChar(100)
+  name           String    @db.VarChar(255)
+  googleId       String?   @unique @db.VarChar(30)
+  microsoftId    String?   @unique @db.VarChar(30)
+  facebookId     String?   @unique @db.VarChar(30)
+  avatar         String?   @db.VarChar(255)
+  role           Role      @default(PLAYER)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

@@ -1,7 +1,9 @@
-// src/auth/microsoft.strategy.ts
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-microsoft';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { Role } from 'src/users/interfaces/user.interface';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -19,30 +21,41 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     done: Function,
   ): Promise<any> {
-    const { id, displayName, userPrincipalName, emails } = profile;
+    const { id, displayName, userPrincipalName, emails, photos } = profile;
     const email = emails && emails.length ? emails[0] : userPrincipalName;
+    let username = email.split('@')[0]; // Pega o que está antes do '@' no e-mail
+    const avatar = photos && photos.length ? photos[0] : null;
 
-    // Verifica se o usuário já existe
     let user = await this.usersService.findOneByMicrosoftId(id);
     if (!user) {
-      // Se não existir, verifica se há um usuário com o mesmo e-mail
+      // Verifica se o username já está em uso
+      const existingUsername =
+        await this.usersService.findOneByUsername(username);
+      if (existingUsername) {
+        username = `${username}_${Math.floor(Math.random() * 10000)}`;
+      }
+
+      // Verifica se há um usuário com o mesmo e-mail
       user = await this.usersService.findOneByEmail(email);
       if (user) {
         // Atualiza o microsoftId do usuário existente
         user = await this.usersService.updateUser(user.id, {
           microsoftId: id,
+          avatar,
         });
       } else {
-        // Se não existir, cria um novo usuário
-        user = await this.usersService.createUser({
+        const createUserDto: CreateUserDto = {
           email,
-          firstName: displayName.split(' ')[0],
-          lastName: displayName.split(' ').slice(1).join(' '),
+          username,
+          name: displayName,
           microsoftId: id,
-        });
+          avatar,
+          role: Role.PLAYER,
+        };
+
+        user = await this.usersService.createUser(createUserDto);
       }
     }
 

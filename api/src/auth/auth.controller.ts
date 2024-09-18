@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Body,
   Controller,
@@ -9,63 +10,33 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
-import { Request as ExpressRequest } from 'express';
-import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
-import { Role } from 'src/users/user.interface';
-import { Public } from './public.decorator';
-
-interface AuthenticatedRequest extends ExpressRequest {
-  user: any; // Você pode especificar um tipo mais específico se tiver uma interface User definida
-}
+import { Public } from './decorators/public.decorator';
+import { Throttle } from '@nestjs/throttler';
+import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private usersService: UsersService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   // Rota para registro de novos usuários
   @Public()
   @Post('register')
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   async register(@Body() body: RegisterDto) {
-    const { email, password, firstName, lastName } = body;
+    const user = await this.authService.register(body);
 
-    // Verifica se o usuário já existe
-    const existingUser = await this.usersService.findOneByEmail(email);
-    if (existingUser) {
-      return { message: 'E-mail já registrado' };
-    }
-
-    // Criptografa a senha
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Cria o novo usuário
-    const user = await this.usersService.createUser({
-      email,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      role: Role.PLAYER,
-    });
-
-    // Renomear a variável password ao desestruturar
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, googleId, ...registeredUser } = user;
-
-    return { message: 'Usuário registrado com sucesso', registeredUser };
+    return { message: 'Usuário registrado com sucesso', user };
   }
 
   // Rota para login por e-mail/senha
   @Public()
   @UseGuards(AuthGuard('local'))
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Post('login')
   async login(@Request() req: AuthenticatedRequest) {
-    return this.authService.login(req.user);
+    return await this.authService.login(req.user);
   }
 
   // Rota para redirecionar o usuário para o Google
@@ -116,21 +87,29 @@ export class AuthController {
   }
 
   @Public()
-  @Post('refresh')
-  async refresh(@Body() body: any) {
-    const { refreshToken } = body;
-    const user = await this.usersService.getUserIfRefreshTokenMatches(
-      refreshToken,
-      body.userId,
-    );
-    const tokens = await this.authService.login(user);
-    return tokens;
+  @Get('facebook')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuth(@Request() req: AuthenticatedRequest) {
+    // Inicia o fluxo de autenticação
   }
 
+  @Public()
+  @Get('facebook/redirect')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuthRedirect(@Request() req: AuthenticatedRequest) {
+    const user = req.user;
+    const jwt = await this.authService.login(user);
+    return {
+      message: 'Autenticação via Facebook bem-sucedida',
+      user,
+      ...jwt,
+    };
+  }
+
+  // O logout pode permanecer para remover o token do lado do cliente
   @Post('logout')
-  @UseGuards(AuthGuard('jwt'))
-  async logout(@Request() req: AuthenticatedRequest) {
-    await this.authService.logout(req.user.id);
+  async logout() {
+    // Sem refresh tokens, não há necessidade de manipular o logout no servidor
     return { message: 'Logout realizado com sucesso' };
   }
 }

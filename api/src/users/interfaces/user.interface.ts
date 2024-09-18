@@ -5,14 +5,13 @@ export enum Role {
 }
 
 export interface User {
-  id: number;
+  id: string;
   email: string;
-  password?: string;
-  firstName?: string;
-  lastName?: string;
-  googleId?: string;
-  microsoftId?: string;
-  refreshToken?: string;
+  password?: string | null;
+  name: string;
+  googleId?: string | null;
+  microsoftId?: string | null;
+  facebookId?: string | null;
   role: Role;
   createdAt: Date;
   updatedAt: Date;

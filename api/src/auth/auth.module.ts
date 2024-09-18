@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy/jwt.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './google.strategy/google.strategy';
+import { GoogleStrategy } from './strategies/google.strategy';
 import { UsersService } from 'src/users/users.service';
-import { LocalStrategy } from './local.strategy/local.strategy';
-import { MicrosoftStrategy } from './microsoft.strategy/microsoft.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { MicrosoftStrategy } from './strategies/microsoft.strategy';
+import { FacebookStrategy } from './strategies/facebook.strategy';
+import { UserPrismaRepository } from 'src/users/repositories/user-prisma.repository';
 
 @Module({
   imports: [
@@ -24,6 +26,11 @@ import { MicrosoftStrategy } from './microsoft.strategy/microsoft.strategy';
     LocalStrategy,
     GoogleStrategy,
     MicrosoftStrategy,
+    FacebookStrategy,
+    {
+      provide: 'IUserRepository',
+      useClass: UserPrismaRepository,
+    },
   ],
   exports: [AuthService],
   controllers: [AuthController],

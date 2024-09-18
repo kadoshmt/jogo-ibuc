@@ -1,14 +1,14 @@
 import { Controller, Get, Request } from '@nestjs/common';
 import { Request as ExpressRequest } from 'express';
-import { Public } from 'src/auth/public.decorator';
-import { Roles } from 'src/auth/roles.decorator';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 interface AuthenticatedRequest extends ExpressRequest {
   user: any;
 }
 
-@Controller('quiz')
-export class QuizController {
+@Controller('test-roles')
+export class TestRolesController {
   @Get('protected')
   getProtectedData(@Request() req: AuthenticatedRequest) {
     return {

@@ -1,77 +1,65 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaClient, User } from '@prisma/client';
-import * as crypto from 'crypto';
-import * as bcrypt from 'bcrypt';
-import { Role } from './user.interface';
+import { Inject, Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+import { IUserRepository } from './interfaces/user-repository.interface';
+import { PaginationFilter } from 'src/common/dtos/pagination-filter.dto';
 
 @Injectable()
 export class UsersService {
-  private prisma = new PrismaClient();
+  constructor(
+    @Inject('IUserRepository') private userRepository: IUserRepository,
+  ) {}
 
-  async findOneByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
+  async findOneById(id: string): Promise<User | null> {
+    return this.userRepository.findOne({ id });
   }
 
-  async createUser(data: {
-    email: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
-    googleId?: string;
-    microsoftId?: string;
-    role?: Role;
-  }): Promise<User> {
-    return this.prisma.user.create({
-      data,
-    });
+  async findOneByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ email });
+  }
+
+  async findOneByUsername(username: string): Promise<User | null> {
+    return this.userRepository.findOne({ username });
   }
 
   async findOneByGoogleId(googleId: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { googleId },
-    });
+    return this.userRepository.findOne({ googleId });
   }
 
   async findOneByMicrosoftId(microsoftId: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { microsoftId },
-    });
+    return this.userRepository.findOne({ microsoftId });
   }
 
-  async updateUser(id: number, data: Partial<User>): Promise<User> {
-    return this.prisma.user.update({
-      where: { id },
-      data,
-    });
+  async findOneByFacebookId(facebookId: string): Promise<User | null> {
+    return this.userRepository.findOne({ facebookId });
   }
 
-  async getUserIfRefreshTokenMatches(
-    refreshToken: string,
-    userId: number,
-  ): Promise<User> {
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-
-    if (!user || !user.refreshToken) {
-      throw new UnauthorizedException(
-        'Usuário não encontrado ou não autenticado',
-      );
+  async findAll(condition: PaginationFilter): Promise<User[]> {
+    if (condition.q && condition.q?.length >= 3) {
+      condition.conditions?.push({
+        column: 'name',
+        condition: 'contains',
+        value: condition.q,
+      });
     }
 
-    // Gera o hash SHA-256 do refresh token recebido
-    const sha256Hash = crypto
-      .createHash('sha256')
-      .update(refreshToken)
-      .digest('hex');
+    return await this.userRepository.findAll(condition);
+  }
 
-    // Comparar o refreshToken original com o hash armazenado
-    const isMatch = await bcrypt.compareSync(sha256Hash, user.refreshToken);
+  async createUser(data: CreateUserDto): Promise<User> {
+    return this.userRepository.create(data);
+  }
 
-    if (isMatch) {
-      return user;
-    } else {
-      throw new UnauthorizedException('Token inválido');
-    }
+  async updateUser(id: string, data: Partial<User>): Promise<User> {
+    return this.userRepository.update(id, data);
+  }
+
+  async isUsernameAvailable(username: string): Promise<boolean> {
+    const user = this.userRepository.findOne({ username });
+    return !user;
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await this.userRepository.delete(id);
   }
 }

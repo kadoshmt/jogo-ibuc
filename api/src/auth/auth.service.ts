@@ -1,15 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/auth/auth.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
+// import { User } from '@prisma/client';
+import { RegisterDto } from './dto/register.dto';
+import { User } from 'src/users/interfaces/user.interface';
+import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
+import { UsernameConflictException } from 'src/common/exceptions/username-conflict.exception';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
     private jwtService: JwtService,
+    private usersService: UsersService,
   ) {}
 
   // Valida o usuário por e-mail e senha
@@ -18,7 +29,6 @@ export class AuthService {
     if (user && user.password) {
       const isMatch = await bcrypt.compare(pass, user.password);
       if (isMatch) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...result } = user;
         return result;
       }
@@ -26,52 +36,56 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async register(userForm: RegisterDto): Promise<UserResponseDto> {
+    const { email, password, name, username } = userForm;
+
+    // Verifica se o e-mail já está registrado
+    const existingEmail = await this.usersService.findOneByEmail(email);
+    if (existingEmail) {
+      throw new EmailConflictException();
+    }
+
+    // Verifica se o username já está em uso
+    const existingUsername =
+      await this.usersService.findOneByUsername(username);
+    if (existingUsername) {
+      throw new UsernameConflictException();
+    }
+
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Cria o novo usuário
+    const user = await this.usersService.createUser({
+      email,
+      username,
+      password: hashedPassword,
+      name,
+    });
+
+    // Retorna o objeto transformado para o DTO de resposta
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+      role: user.role,
+    };
+  }
+
+  async login(user: User): Promise<{ accessToken: string }> {
     const payload = { username: user.email, sub: user.id, role: user.role };
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '15m', // Token de acesso válido por 15 minutos
-    });
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: '7d', // Refresh token válido por 7 dias
-    });
-
-    // Gera um hash SHA-256 do refresh token antes de passar para o bcrypt
-    // O brcrypt tem uma limitação de 72 caracteres
-    const sha256Hash = crypto
-      .createHash('sha256')
-      .update(refreshToken)
-      .digest('hex');
-
-    // Salva o refresh token no banco de dados (hash por segurança)
-    const hashedRefreshToken = await bcrypt.hash(sha256Hash, 10);
-
-    await this.usersService.updateUser(user.id, {
-      refreshToken: hashedRefreshToken,
+      expiresIn: '1h', // Ajuste o tempo de expiração conforme necessário
     });
 
     return {
       accessToken,
-      refreshToken,
     };
   }
 
-  async logout(userId: number) {
-    // Remove o refresh token do usuário
-    await this.usersService.updateUser(userId, { refreshToken: null });
-  }
-
-  // Método para validar e renovar o access token
-  async refreshToken(token: string) {
-    try {
-      const payload = this.jwtService.verify(token);
-      const user = await this.usersService.findOneByEmail(payload.username);
-      if (!user) {
-        throw new Error('Usuário não encontrado');
-      }
-      return this.login(user);
-    } catch (e) {
-      console.log(e);
-      throw new UnauthorizedException('Token inválido');
-    }
-  }
+  // async logout(userId: number) {
+  //   // Com a remoção do refreshToken, não há necessidade de manipular o logout
+  //   // Você pode implementar uma lista de revogação no futuro, se necessário
+  // }
 }
