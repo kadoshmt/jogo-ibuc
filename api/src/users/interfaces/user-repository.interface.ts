@@ -1,23 +1,22 @@
-import { User } from '@prisma/client';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { Users } from '@prisma/client';
 //import { PaginationFilter } from 'src/common/dtos/pagination-filter.dto';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { UserFilterInputDto } from '../dto/user-filter-input.dto';
+import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
 import { IFindUsersFilters } from './find-users-filters.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 
 export interface IUserRepository {
-  findOneById(id: string): Promise<User | null>;
-  findOne(condition: Partial<User>): Promise<User | null>;
+  findOneById(id: string): Promise<Users | null>;
+  findOne(condition: Partial<Users>): Promise<Users | null>;
   //findAll(condition: UserFilter): Promise<User[]>;
-  findAll(filterDto: UserFilterInputDto): Promise<UserProfileOutputDto[]>;
+  findAll(filterDto: UsersFilterInputDto): Promise<UserProfileOutputDto[]>;
   //findAllPaginated(condition: PaginationFilter): Promise<User[]>;
   findAllPaginated(
     filters: IFindUsersFilters,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>>;
-  findOneByEmail(email: string): Promise<User | null>;
+  findOneByEmail(email: string): Promise<Users | null>;
   // findOneByUsername(username: string): Promise<User | null>;
-  create(data: CreateUserDto): Promise<User>;
-  update(id: string, data: Partial<User>): Promise<User>;
+  create(data: Partial<Users>): Promise<Users>;
+  update(id: string, data: Partial<Users>): Promise<Users>;
   delete(id: string): Promise<void>;
 }

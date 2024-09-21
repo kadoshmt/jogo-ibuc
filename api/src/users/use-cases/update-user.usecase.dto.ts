@@ -9,7 +9,7 @@ import { IProfileRepository } from 'src/profile/interfaces/profile-repository.in
 import { UpdateUserInputDto } from '../dto/update-user-input.dto';
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
 import { RoleUser } from '../interfaces/role-user.enum';
-import { IUser } from '../interfaces/user.interface';
+import { IUsers } from '../interfaces/users.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 
@@ -26,7 +26,7 @@ export class UpdateUserUseCase {
   async execute(
     userId: string,
     userInput: UpdateUserInputDto,
-    loggedUser: IUser,
+    loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
     const { email, name, username, role } = userInput;
 
@@ -91,8 +91,10 @@ export class UpdateUserUseCase {
       email: updatedUser.email,
       name: updatedProfile.name,
       username: updatedProfile.username,
-      avatar: updatedProfile.avatar,
+      avatarUrl: updatedProfile.avatarUrl,
       role: updatedUser.role,
+      genre: updatedProfile.genre,
+      birthDate: updatedProfile.birthDate,
     };
   }
 }

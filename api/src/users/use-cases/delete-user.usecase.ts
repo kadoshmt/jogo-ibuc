@@ -3,7 +3,7 @@ import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { RoleUser } from '../interfaces/role-user.enum';
-import { IUser } from '../interfaces/user.interface';
+import { IUsers } from '../interfaces/users.interface';
 import { PrismaService } from 'src/shared/database/prisma.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class DeleteUserUseCase {
     private readonly prisma: PrismaService,
   ) {}
 
-  async execute(userID: string, transferibleID: string, loggedUser: IUser) {
+  async execute(userID: string, transferibleID: string, loggedUser: IUsers) {
     // Se o usuário adicionou perguntas ou outros dados que não devem ser perdidos,
     // estes devem ter o ID atualizado para o transferibleID
 

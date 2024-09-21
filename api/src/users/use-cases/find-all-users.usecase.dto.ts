@@ -3,8 +3,8 @@ import { IUserRepository } from '../interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { RoleUser } from '../interfaces/role-user.enum';
-import { IUser } from '../interfaces/user.interface';
-import { UserFilterInputDto } from '../dto/user-filter-input.dto';
+import { IUsers } from '../interfaces/users.interface';
+import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
 
 @Injectable()
 export class FindAllUsersUserCase {
@@ -16,8 +16,8 @@ export class FindAllUsersUserCase {
   ) {}
 
   async execute(
-    filterDto: UserFilterInputDto,
-    loggedUser: IUser,
+    filterDto: UsersFilterInputDto,
+    loggedUser: IUsers,
   ): Promise<UserProfileOutputDto[]> {
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
     if (

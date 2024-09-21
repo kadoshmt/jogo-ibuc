@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { RoleUser } from '../interfaces/role-user.enum';
 import { Transform } from 'class-transformer';
+import { Genre } from '@prisma/client';
 
 export class CreateUserInputDto {
   @IsEmail()
@@ -35,7 +36,13 @@ export class CreateUserInputDto {
 
   @IsNotEmpty()
   @IsEnum(RoleUser, {
-    message: 'Role must be one of: ADMIN, COLLABORATOR, PLAYER, TEACHER',
+    message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
   })
   role: RoleUser;
+
+  @IsNotEmpty()
+  @IsEnum(Genre, {
+    message: 'Genre must be one of: MASCULINO, FEMININO',
+  })
+  genre: Genre;
 }

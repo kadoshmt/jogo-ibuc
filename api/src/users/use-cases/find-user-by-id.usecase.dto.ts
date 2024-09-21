@@ -8,7 +8,7 @@ import { IUserRepository } from '../interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { RoleUser } from '../interfaces/role-user.enum';
-import { IUser } from '../interfaces/user.interface';
+import { IUsers } from '../interfaces/users.interface';
 
 @Injectable()
 export class FindUserByIdUserCase {
@@ -21,7 +21,7 @@ export class FindUserByIdUserCase {
 
   async execute(
     userId: string,
-    loggedUser: IUser,
+    loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
     if (loggedUser.role !== RoleUser.ADMIN) {
@@ -41,8 +41,10 @@ export class FindUserByIdUserCase {
       email: user.email,
       name: profile.name,
       username: profile.name,
-      avatar: profile.avatar,
+      avatarUrl: profile.avatarUrl,
       role: user.role,
+      genre: profile.genre,
+      birthDate: profile.birthDate,
     };
   }
 }
