@@ -28,9 +28,10 @@ export class LoginUseCase {
             email: user.email,
             name: profile.name,
             username: profile.username,
-            avatarUrl: profile.avatar ?? '',
+            avatarUrl: profile.avatarUrl ?? '',
             role: user.role,
             createdAt: user.createdAt,
+            genre: profile.genre,
           };
         }
       }

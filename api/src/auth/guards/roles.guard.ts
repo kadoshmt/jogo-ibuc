@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
-import { IUser } from '../../users/interfaces/user.interface';
+import { IUsers } from '../../users/interfaces/users.interface';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class RolesGuard implements CanActivate {
     );
 
     const request = context.switchToHttp().getRequest();
-    const user: IUser = request.user;
+    const user: IUsers = request.user;
 
     if (!requiredRoles) {
       // Se não há papéis especificados, permite o acesso

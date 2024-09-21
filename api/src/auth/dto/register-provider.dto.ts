@@ -1,7 +1,7 @@
 export class RegisterProviderDto {
   email: string;
   name: string;
-  avatar?: string;
+  avatarUrl?: string;
   username: string;
   provider: 'google' | 'microsoft' | 'facebook';
   providerId: string;

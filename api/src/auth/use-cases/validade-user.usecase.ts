@@ -3,7 +3,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
-import { IUser } from 'src/users/interfaces/user.interface';
+import { IUsers } from 'src/users/interfaces/users.interface';
 
 @Injectable()
 export class ValidateUserUseCase {
@@ -12,7 +12,7 @@ export class ValidateUserUseCase {
     private readonly profileRepository: IProfileRepository,
   ) {}
 
-  async execute(user: IUser): Promise<LoggedUserOutputDto> {
+  async execute(user: IUsers): Promise<LoggedUserOutputDto> {
     const profile = await this.profileRepository.findByUserId(user.id);
     if (!profile) {
       throw new NotFoundException('Perfil do usuário não encontrado');
@@ -22,9 +22,10 @@ export class ValidateUserUseCase {
       email: user.email,
       name: profile.name,
       username: profile.username,
-      avatarUrl: profile.avatar ?? '',
+      avatarUrl: profile.avatarUrl ?? '',
       role: user.role,
       createdAt: user.createdAt,
+      genre: profile.genre,
     };
   }
 }

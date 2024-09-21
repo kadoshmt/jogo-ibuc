@@ -5,6 +5,7 @@ import { RegisterProviderDto } from '../dto/register-provider.dto';
 import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
 import { ProviderConflictException } from 'src/common/exceptions/provider-conflict.exception';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Genre } from '@prisma/client';
 
 @Injectable()
 export class RegisterProviderUseCase {
@@ -17,7 +18,7 @@ export class RegisterProviderUseCase {
   ) {}
 
   async execute(register: RegisterProviderDto): Promise<LoggedUserOutputDto> {
-    const { email, name, username, provider, providerId } = register;
+    const { email, name, username, provider, providerId, avatarUrl } = register;
 
     // Verifica se o e-mail já está registrado
     const existingUser = await this.userRepository.findOneByEmail(email);
@@ -34,9 +35,10 @@ export class RegisterProviderUseCase {
           email: existingUser.email,
           name: profile?.name ?? name, // Usa o nome do perfil se existir
           username: profile?.username ?? username, // Usa o username do perfil se existir
-          avatarUrl: profile?.avatar ?? '',
+          avatarUrl: profile?.avatarUrl ?? '',
           role: existingUser.role,
           createdAt: existingUser.createdAt,
+          genre: profile?.genre ?? Genre.NAO_INFORMADO,
         };
       } else {
         // Se o e-mail já estiver registrado por outro provedor, lança exceção de conflito de provedor
@@ -66,6 +68,7 @@ export class RegisterProviderUseCase {
         userId: createdUser.id,
         username: newUsername !== null ? newUsername : username,
         name,
+        avatarUrl,
       });
 
       return [createdUser, createdProfile];
@@ -77,9 +80,10 @@ export class RegisterProviderUseCase {
       email: user.email,
       name: profile.name,
       username: profile.username,
-      avatarUrl: profile.avatar ?? '',
+      avatarUrl: profile.avatarUrl ?? '',
       role: user.role,
       createdAt: user.createdAt,
+      genre: profile.genre,
     };
   }
 }

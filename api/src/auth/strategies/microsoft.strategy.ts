@@ -30,7 +30,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     const { id, displayName, userPrincipalName, emails, photos } = profile;
     const email = emails && emails.length ? emails[0] : userPrincipalName;
     const username = email.split('@')[0]; // Pega o que está antes do '@' no e-mail
-    const avatar = photos && photos.length ? photos[0] : null;
+    const avatarUrl = photos && photos.length ? photos[0] : null;
 
     // let user = await this.usersService.findOneByMicrosoftId(id);
     // if (!user) {
@@ -47,7 +47,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     //     // Atualiza o microsoftId do usuário existente
     //     user = await this.usersService.updateUser(user.id, {
     //       microsoftId: id,
-    //       avatar,
+    //       avatarUrl,
     //     });
     //   } else {
     //     const createUserDto: CreateUserDto = {
@@ -55,7 +55,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     //       username,
     //       name: displayName,
     //       microsoftId: id,
-    //       avatar,
+    //       avatarUrl,
     //       role: Role.PLAYER,
     //     };
 
@@ -67,7 +67,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
       email,
       username,
       name: displayName,
-      avatar,
+      avatarUrl,
       provider: 'microsoft',
       providerId: id,
     });

@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { IUser } from 'src/users/interfaces/user.interface';
+import { IUsers } from 'src/users/interfaces/users.interface';
 
 export interface AuthenticatedRequest extends Request {
-  user: IUser;
+  user: IUsers;
 }

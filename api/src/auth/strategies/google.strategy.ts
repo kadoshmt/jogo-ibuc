@@ -30,10 +30,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     done: VerifyCallback,
   ): Promise<any> {
     const { id, emails, displayName, name, photos } = profile;
+
     const email = emails[0].value;
     // const verified = emails[0].verified;
     const username = email.split('@')[0]; // Pega o que está antes do '@' no e-mail
-    const avatar = photos[0].value; // URL da imagem de avatar
+    const avatarUrl = photos[0].value.replace('=s96-c', ''); // URL da imagem de avatar sem o limitador de tamanho
 
     // Obter o nome completo
     const fullName =
@@ -55,7 +56,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     //     // Atualiza o googleId do usuário existente
     //     user = await this.usersService.updateUser(user.id, {
     //       googleId: id,
-    //       avatar,
+    //       avatarUrl,
     //     });
     //   } else {
     //     // Cria um novo usuário
@@ -64,7 +65,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     //       username,
     //       name: fullName,
     //       googleId: id,
-    //       avatar,
+    //       avatarUrl,
     //       role: Role.PLAYER,
     //     };
 
@@ -76,7 +77,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       email,
       username,
       name: fullName,
-      avatar,
+      avatarUrl,
       provider: 'google',
       providerId: id,
     });
