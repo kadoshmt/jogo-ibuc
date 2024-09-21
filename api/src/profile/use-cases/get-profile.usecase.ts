@@ -16,9 +16,11 @@ export class GetProfileUseCase {
     }
     return {
       userId: profile.userId,
-      username: profile.username,
       name: profile.name,
-      avatar: profile.avatar,
+      username: profile.username,
+      avatarUrl: profile.avatarUrl,
+      genre: profile.genre,
+      birthDate: profile.birthDate,
     };
   }
 }
