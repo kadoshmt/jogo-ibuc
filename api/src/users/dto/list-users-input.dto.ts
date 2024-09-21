@@ -1,7 +1,6 @@
 import { Transform } from 'class-transformer';
 import {
   IsEnum,
-  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -60,9 +59,9 @@ export class ListUsersInputDto {
   })
   role: RoleUser;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Genre, {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
-  genre: Genre;
+  genre?: Genre;
 }
