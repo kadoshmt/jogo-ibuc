@@ -10,9 +10,9 @@ import { IProfileRepository } from 'src/profile/interfaces/profile-repository.in
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
 import { CreateUserInputDto } from '../dto/create-user-input.dto';
 import { IUsers } from '../interfaces/users.interface';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -31,7 +31,7 @@ export class CreateUserUseCase {
     const { email, password, name, username, role } = userInput;
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
-    if (loggedUser.role !== RoleUser.ADMIN) {
+    if (loggedUser.role !== Role.ADMIN) {
       throw new UnauthorizedException('Logged User is not an ADMIN user');
     }
 

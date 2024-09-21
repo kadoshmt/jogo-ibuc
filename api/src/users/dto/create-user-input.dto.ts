@@ -6,9 +6,8 @@ import {
   Matches,
   MinLength,
 } from 'class-validator';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { Transform } from 'class-transformer';
-import { Genre } from '@prisma/client';
+import { Genre, Role } from '@prisma/client';
 
 export class CreateUserInputDto {
   @IsEmail()
@@ -35,10 +34,10 @@ export class CreateUserInputDto {
   username: string;
 
   @IsNotEmpty()
-  @IsEnum(RoleUser, {
+  @IsEnum(Role, {
     message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
   })
-  role: RoleUser;
+  role: Role;
 
   @IsNotEmpty()
   @IsEnum(Genre, {

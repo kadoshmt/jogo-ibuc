@@ -1,10 +1,10 @@
-import { RoleUser } from './role-user.enum';
+import { Role } from '@prisma/client';
 
 export interface IFindUsersFilters {
   email?: string;
   name?: string;
   username?: string;
-  role?: RoleUser;
+  role?: Role;
   page?: number;
   perPage?: number;
 }

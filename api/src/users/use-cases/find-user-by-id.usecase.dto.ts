@@ -7,8 +7,8 @@ import {
 import { IUserRepository } from '../interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { IUsers } from '../interfaces/users.interface';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class FindUserByIdUserCase {
@@ -24,7 +24,7 @@ export class FindUserByIdUserCase {
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
-    if (loggedUser.role !== RoleUser.ADMIN) {
+    if (loggedUser.role !== Role.ADMIN) {
       throw new UnauthorizedException('Logged User is not an ADMIN user');
     }
 

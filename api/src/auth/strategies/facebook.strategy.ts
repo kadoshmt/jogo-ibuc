@@ -76,7 +76,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     //       name: fullName,
     //       microsoftId: id,
     //       avatarUrl: avatarUrl ?? '',
-    //       role: Role.PLAYER,
+    //       role: Role.JOGADOR,
     //     };
 
     //     user = await this.usersService.createUser(createUserDto);

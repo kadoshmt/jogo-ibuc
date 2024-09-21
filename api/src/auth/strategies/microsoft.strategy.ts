@@ -56,7 +56,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     //       name: displayName,
     //       microsoftId: id,
     //       avatarUrl,
-    //       role: Role.PLAYER,
+    //       role: Role.JOGADOR,
     //     };
 
     //     user = await this.usersService.createUser(createUserDto);

@@ -7,9 +7,9 @@ import {
 import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { IUsers } from '../interfaces/users.interface';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class DeleteUserUseCase {
@@ -33,7 +33,7 @@ export class DeleteUserUseCase {
     }
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
-    if (loggedUser.role !== RoleUser.ADMIN) {
+    if (loggedUser.role !== Role.ADMIN) {
       throw new UnauthorizedException('Logged User is not an ADMIN user.');
     }
 
@@ -51,7 +51,7 @@ export class DeleteUserUseCase {
     }
 
     // verifica se o usuário que receberá os regitros é do tipo ADMIN
-    if (transferibleUser.role !== RoleUser.ADMIN) {
+    if (transferibleUser.role !== Role.ADMIN) {
       throw new UnauthorizedException(
         'Transferible User is not an ADMIN user.',
       );

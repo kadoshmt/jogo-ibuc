@@ -7,8 +7,7 @@ import {
   IsUUID,
   Matches,
 } from 'class-validator';
-import { RoleUser } from '../interfaces/role-user.enum';
-import { Genre } from '@prisma/client';
+import { Genre, Role } from '@prisma/client';
 
 export class ListUsersInputDto {
   @IsNumber()
@@ -54,10 +53,10 @@ export class ListUsersInputDto {
   username: string;
 
   @IsOptional()
-  @IsEnum(RoleUser, {
-    message: 'Role must be one of: ADMIN, COLLABORATOR, PLAYER, TEACHER',
+  @IsEnum(Role, {
+    message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
   })
-  role: RoleUser;
+  role: Role;
 
   @IsOptional()
   @IsEnum(Genre, {
