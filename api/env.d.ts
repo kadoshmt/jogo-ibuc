@@ -4,6 +4,7 @@ declare namespace NodeJS {
     PORT?: string;
     DATABASE_URL: string;
     JWT_SECRET_KEY: string;
+    JWT_EXPIRES_IN: string;
     GOOGLE_CLIENT_ID?: string;
     GOOGLE_CLIENT_SECRET?: string;
     GOOGLE_REDIRECT_URI?: string;

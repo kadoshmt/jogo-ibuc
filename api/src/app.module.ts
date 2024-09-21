@@ -10,7 +10,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/exceptions/throttler-limit.exception';
 import { ProfileModule } from './profile/profile.module';
-import { PrismaModule } from './common/database/prisma.module';
+import { PrismaModule } from './shared/database/prisma.module';
 
 @Module({
   imports: [

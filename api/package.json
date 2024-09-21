@@ -49,6 +49,7 @@
     "@swc/core": "^1.7.26",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.17",
+    "@types/i18n": "^0.13.12",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.16.5",
     "@types/passport-facebook": "^3.0.3",

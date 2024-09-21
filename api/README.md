@@ -67,11 +67,12 @@ $ npm run test:cov
   - [ ] Configurar a estratégia de login social da Microsoft do Passaport
   - [ ] Configurar a estratégia de login social do Facebook Passaport
   - [x] Alterar o campo de firstname e lastname do banco para apenas name
-  - [ ] Não permitir que um usuário se cadastre por mais de 1 método
+  - [x] Não permitir que um usuário se cadastre por mais de 1 método
   - [ ] Quando logado, permitir que o usuário vincule um outro método de login
   - [ ] Criar uma rota que envia uma uma url de reset de senha
   - [ ] Criar uma rota para que o usuário redefine sua senha
   - [ ] Implementar mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
+  - [x] Criar um utilitário para lidar com a criptografia (brcrypt)
   - [ ] Criar os testes unitários das estratégias
   - [ ] Criar os testes de integração das estratégias
 
@@ -86,8 +87,9 @@ $ npm run test:cov
 
 - Usuários
   - [ ] Criar o módulo de usuários do Painel Administrativo
-    - [ ] Criar o CRUD básico
-      - [ ] Somente Administradores podem gerenciar usuários
+    - [X] Criar o CRUD básico
+      - [x] Somente Administradores podem gerenciar usuários
+      - [ ] Criar rota com paginação de usuários
     - [ ] Criar testes unitários
     - [ ] Criar testes de integração
 
@@ -107,7 +109,7 @@ $ npm run test:cov
   - [ ] Não exponha o ID do usuário em respostas públicas da API ou logs
   - [ ] Configurar HTTPS no ambiente de produção
   - [ ] Usar o pacote helmet para configurar cabeçalhos HTTP de segurança.
-  - [ ] Implementar rate limiting para proteger contra ataques de força bruta
+  - [x] Implementar rate limiting para proteger contra ataques de força bruta
   - [ ] Implementar monitoramento e alertas para detectar atividades suspeitas.
   - [ ] Utilizar cookies HTTP-only para armazenar o refresh token se possível.
   - [ ] Implementar proteção contra ataques CSRF se usar cookies.
@@ -115,20 +117,20 @@ $ npm run test:cov
 
 - Outros
   - [ ] Implementar um gerenciamento adequado de erros e exceções para fornecer feedbacks úteis e seguros aos usuários.
-  - [ ] Sanitizar e validar todas as entradas e saídas de dados
+  - [x] Sanitizar e validar todas as entradas e saídas de dados
   - [ ] Proteger o banco de dados com as melhores práticas de segurança, incluindo acesso restrito, criptografia em repouso e backups seguros
+  - [ ] Aplicar Internacionalização
 
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Você pode contribuir parao projeto através da chave PIX <b>35864425000123</b> ou através do [PagSeguro](https://pagseguro.uol.com.br/checkout/nc/nl/donation/sender-identification.jhtml?t=9e355ebc4bbb1c1433326954af3fe964c566452b95b21ce6b6df753a307b0f44&e=true).  Se quyiser conhecer o projeto, visite o [nosso site](https://ibuc.online).
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Dev - [Janes Roberto](https://www.linkedin.com/in/janes-roberto-da-costa/)
+- Website - [https://ibuc.online/](https://ibuc.online/)
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Esta aplicação usa o Nest, licensiado por uma [Licença MIT](https://github.com/nestjs/nest/blob/master/LICENSE).
