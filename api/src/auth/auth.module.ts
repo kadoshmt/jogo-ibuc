@@ -1,15 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
-import { UsersService } from 'src/users/users.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { MicrosoftStrategy } from './strategies/microsoft.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
-import { UserPrismaRepository } from 'src/users/repositories/user-prisma.repository';
+import { RegisterUseCase } from './use-cases/register.usecase';
+import { GenerateAccessTokenUseCase } from './use-cases/generate-access-token.usecase';
+import { RegisterProviderUseCase } from './use-cases/register-provider.usecase';
+import { SharedModule } from 'src/shared/shared.module';
+import { LoginUseCase } from './use-cases/login.usecase';
+import { ValidateUserUseCase } from './use-cases/validade-user.usecase';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Module({
   imports: [
@@ -18,21 +22,21 @@ import { UserPrismaRepository } from 'src/users/repositories/user-prisma.reposit
       secret: process.env.JWT_SECRET_KEY, // Use uma variável de ambiente em produção
       signOptions: { expiresIn: '60s' }, // Tempo de expiração do token
     }),
+    SharedModule,
   ],
   providers: [
-    AuthService,
-    UsersService,
     JwtStrategy,
     LocalStrategy,
+    LocalAuthGuard,
     GoogleStrategy,
     MicrosoftStrategy,
     FacebookStrategy,
-    {
-      provide: 'IUserRepository',
-      useClass: UserPrismaRepository,
-    },
+    RegisterUseCase,
+    RegisterProviderUseCase,
+    GenerateAccessTokenUseCase,
+    LoginUseCase,
+    ValidateUserUseCase,
   ],
-  exports: [AuthService],
   controllers: [AuthController],
 })
 export class AuthModule {}

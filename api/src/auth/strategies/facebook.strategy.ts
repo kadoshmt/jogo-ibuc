@@ -2,13 +2,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-facebook';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { Role } from 'src/users/interfaces/user.interface';
-import { UsersService } from 'src/users/users.service';
+// import { CreateUserDto } from 'src/users/dto/create-user.dto';
+// import { Role } from 'src/users/interfaces/user.interface';
+// import { UsersService } from 'src/users/users.service';
+import { RegisterProviderUseCase } from '../use-cases/register-provider.usecase';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
-  constructor(private usersService: UsersService) {
+  constructor(
+    // private usersService: UsersService,
+    private readonly registerProviderUseCase: RegisterProviderUseCase,
+  ) {
     super({
       clientID: process.env.FACEBOOK_APP_ID || 'FACEBOOK_APP_ID',
       clientSecret: process.env.FACEBOOK_APP_SECRET || 'FACEBOOK_APP_SECRET',
@@ -43,42 +47,51 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
       `${name.givenName} ${name.middleName || ''} ${name.familyName || ''}`.trim();
 
     const email = emails[0].value;
-    let username = email
+    const username = email
       ? email.split('@')[0]
       : name?.givenName || `user_${Math.floor(Math.random() * 10000)}`;
     const avatar = photos && photos.length ? photos[0].value : null;
 
-    let user = await this.usersService.findOneByFacebookId(id);
-    if (!user) {
-      // Verifica se o username já está em uso
-      const existingUsername =
-        await this.usersService.findOneByUsername(username);
-      if (existingUsername) {
-        username = `${username}_${Math.floor(Math.random() * 10000)}`;
-      }
+    // let user = await this.usersService.findOneByFacebookId(id);
+    // if (!user) {
+    //   // Verifica se o username já está em uso
+    //   const existingUsername =
+    //     await this.usersService.findOneByUsername(username);
+    //   if (existingUsername) {
+    //     username = `${username}_${Math.floor(Math.random() * 10000)}`;
+    //   }
 
-      // Verifica se há um usuário com o mesmo e-mail
-      user = email ? await this.usersService.findOneByEmail(email) : null;
-      if (user) {
-        // Atualiza o facebookId do usuário existente
-        user = await this.usersService.updateUser(user.id, {
-          facebookId: id,
-          avatar,
-        });
-      } else {
-        const createUserDto: CreateUserDto = {
-          email,
-          username,
-          name: fullName,
-          microsoftId: id,
-          avatar: avatar ?? undefined,
-          role: Role.PLAYER,
-        };
+    //   // Verifica se há um usuário com o mesmo e-mail
+    //   user = email ? await this.usersService.findOneByEmail(email) : null;
+    //   if (user) {
+    //     // Atualiza o facebookId do usuário existente
+    //     user = await this.usersService.updateUser(user.id, {
+    //       facebookId: id,
+    //       avatar,
+    //     });
+    //   } else {
+    //     const createUserDto: CreateUserDto = {
+    //       email,
+    //       username,
+    //       name: fullName,
+    //       microsoftId: id,
+    //       avatar: avatar ?? undefined,
+    //       role: Role.PLAYER,
+    //     };
 
-        user = await this.usersService.createUser(createUserDto);
-      }
-    }
+    //     user = await this.usersService.createUser(createUserDto);
+    //   }
+    // }
 
-    done(null, user);
+    const registeredUser = await this.registerProviderUseCase.execute({
+      email,
+      username,
+      name: fullName,
+      avatar: avatar ?? undefined,
+      provider: 'facebook',
+      providerId: id,
+    });
+
+    done(null, registeredUser);
   }
 }

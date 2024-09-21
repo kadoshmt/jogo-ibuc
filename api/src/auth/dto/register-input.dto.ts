@@ -7,14 +7,15 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class RegisterDto {
+export class RegisterInputDto {
   @IsEmail()
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(6, { message: 'A senha deve ter no mínimo 6 caracteres' })
+  @MinLength(6)
+  @Transform(({ value }) => value.trim())
   password: string;
 
   @IsNotEmpty()
@@ -24,7 +25,8 @@ export class RegisterDto {
   @IsNotEmpty()
   @IsString()
   @Matches(/^[a-zA-Z0-9_]+$/, {
-    message: 'Username deve conter apenas letras, números e underscores ("_")',
+    message:
+      'Username must contain only letters, numbers and underscores ("_")',
   })
   @Transform(({ value }) => value.trim())
   username: string;
