@@ -1,0 +1,6 @@
+export enum RoleUser {
+  ADMIN = 'ADMIN',
+  COLLABORATOR = 'COLLABORATOR',
+  PLAYER = 'PLAYER',
+  TEACHER = 'TEACHER',
+}

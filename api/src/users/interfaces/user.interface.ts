@@ -1,10 +1,6 @@
-export enum Role {
-  ADMIN = 'ADMIN',
-  COLLABORATOR = 'COLLABORATOR',
-  PLAYER = 'PLAYER',
-}
+import { RoleUser } from './role-user.enum';
 
-export interface User {
+export interface IUser {
   id: string;
   email: string;
   password?: string | null;
@@ -12,7 +8,7 @@ export interface User {
   googleId?: string | null;
   microsoftId?: string | null;
   facebookId?: string | null;
-  role: Role;
-  createdAt: Date;
-  updatedAt: Date;
+  role: RoleUser;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
