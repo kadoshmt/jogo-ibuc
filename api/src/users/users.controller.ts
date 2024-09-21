@@ -16,7 +16,6 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { ApiPaginatedResponse } from 'src/common/decorators/api-paginated-response.decorator';
-//import { UserResponseDto } from './dto/user-response.dto';
 import { CreateUserInputDto } from './dto/create-user-input.dto';
 import { CreateUserUseCase } from './use-cases/create-user.usecase.dto';
 import { UpdateUserUseCase } from './use-cases/update-user.usecase.dto';

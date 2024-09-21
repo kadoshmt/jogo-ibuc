@@ -19,8 +19,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET_KEY, // Use uma variável de ambiente em produção
-      signOptions: { expiresIn: '60s' }, // Tempo de expiração do token
+      secret: process.env.JWT_SECRET_KEY,
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN }, // Tempo de expiração do token
     }),
     SharedModule,
   ],

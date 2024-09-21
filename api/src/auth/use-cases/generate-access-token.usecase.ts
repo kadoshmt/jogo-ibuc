@@ -4,7 +4,7 @@ import { UserJwtPayload } from '../dto/user-jwt-payload.dto';
 
 @Injectable()
 export class GenerateAccessTokenUseCase {
-  constructor(private jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   async execute(user: UserJwtPayload): Promise<string> {
     const payload = { username: user.email, sub: user.id, role: user.role };

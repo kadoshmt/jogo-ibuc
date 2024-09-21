@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
 import { IUsers } from 'src/users/interfaces/users.interface';
 

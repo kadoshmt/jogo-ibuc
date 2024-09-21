@@ -20,7 +20,7 @@ export class CreateUserUseCase {
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -89,6 +89,7 @@ export class CreateUserUseCase {
       role: createdUser.role,
       genre: profile.genre,
       birthDate: profile.birthDate,
+      createdAt: createdUser.createdAt.toISOString(),
     };
   }
 }
