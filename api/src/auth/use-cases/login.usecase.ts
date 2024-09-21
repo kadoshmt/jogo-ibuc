@@ -8,7 +8,7 @@ import { EncryptionUtil } from 'src/common/utils/encryption.util';
 export class LoginUseCase {
   constructor(
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
   ) {}

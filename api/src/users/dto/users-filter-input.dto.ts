@@ -1,12 +1,12 @@
 import { IsOptional, IsEnum, IsString } from 'class-validator';
-import { RoleUser } from '../interfaces/role-user.enum';
+import { Role } from '@prisma/client';
 
 export class UsersFilterInputDto {
   @IsOptional()
-  @IsEnum(RoleUser, {
-    message: 'Role must be one of: ADMIN, COLLABORATOR, PLAYER',
+  @IsEnum(Role, {
+    message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
   })
-  role?: RoleUser;
+  role?: Role;
 
   @IsOptional()
   @IsString()

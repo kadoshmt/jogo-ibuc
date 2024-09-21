@@ -1,5 +1,4 @@
 import { Users } from '@prisma/client';
-//import { PaginationFilter } from 'src/common/dtos/pagination-filter.dto';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
 import { IFindUsersFilters } from './find-users-filters.interface';
@@ -15,7 +14,6 @@ export interface IUserRepository {
     filters: IFindUsersFilters,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>>;
   findOneByEmail(email: string): Promise<Users | null>;
-  // findOneByUsername(username: string): Promise<User | null>;
   create(data: Partial<Users>): Promise<Users>;
   update(id: string, data: Partial<Users>): Promise<Users>;
   delete(id: string): Promise<void>;

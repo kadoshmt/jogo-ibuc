@@ -8,10 +8,10 @@ import { IUserRepository } from 'src/users/interfaces/user-repository.interface'
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { UpdateUserInputDto } from '../dto/update-user-input.dto';
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { IUsers } from '../interfaces/users.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -19,7 +19,7 @@ export class UpdateUserUseCase {
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
     private readonly prisma: PrismaService,
   ) {}
 
@@ -31,7 +31,7 @@ export class UpdateUserUseCase {
     const { email, name, username, role } = userInput;
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
-    if (loggedUser.role !== RoleUser.ADMIN) {
+    if (loggedUser.role !== Role.ADMIN) {
       throw new UnauthorizedException('Logged User is not an ADMIN user');
     }
 
@@ -95,6 +95,7 @@ export class UpdateUserUseCase {
       role: updatedUser.role,
       genre: updatedProfile.genre,
       birthDate: updatedProfile.birthDate,
+      createdAt: updatedUser.createdAt.toISOString(),
     };
   }
 }

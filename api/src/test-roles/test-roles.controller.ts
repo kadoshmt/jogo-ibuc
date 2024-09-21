@@ -13,7 +13,7 @@ export class TestRolesController {
   getProtectedData(@Request() req: AuthenticatedRequest) {
     return {
       message: 'Este é um endpoint protegido',
-      user: req.user, // O usuário autenticado está disponível aqui
+      user: req.user,
     };
   }
 

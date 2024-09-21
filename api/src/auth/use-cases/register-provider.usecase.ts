@@ -13,7 +13,7 @@ export class RegisterProviderUseCase {
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
     private readonly prisma: PrismaService,
   ) {}
 

@@ -7,8 +7,8 @@ import {
 import { IUserRepository } from '../interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { RoleUser } from '../interfaces/role-user.enum';
 import { IUsers } from '../interfaces/users.interface';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class FindUserByIdUserCase {
@@ -16,7 +16,7 @@ export class FindUserByIdUserCase {
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
   ) {}
 
   async execute(
@@ -24,8 +24,13 @@ export class FindUserByIdUserCase {
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
-    if (loggedUser.role !== RoleUser.ADMIN) {
-      throw new UnauthorizedException('Logged User is not an ADMIN user');
+    if (
+      loggedUser.role !== Role.ADMIN &&
+      loggedUser.role !== Role.COLABORADOR
+    ) {
+      throw new UnauthorizedException(
+        'Logged User is not an ADMIN or COLABORADOR user',
+      );
     }
 
     // Busca os dados do perfil
@@ -45,6 +50,7 @@ export class FindUserByIdUserCase {
       role: user.role,
       genre: profile.genre,
       birthDate: profile.birthDate,
+      createdAt: user.createdAt.toISOString(),
     };
   }
 }

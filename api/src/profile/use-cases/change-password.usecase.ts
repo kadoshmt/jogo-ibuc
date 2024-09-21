@@ -7,7 +7,7 @@ import { EncryptionUtil } from 'src/common/utils/encryption.util';
 export class ChangePasswordUseCase {
   constructor(
     @Inject('IUserRepository')
-    private userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository,
   ) {}
 
   async execute(userId: string, changePasswordDto: ChangePasswordInputDto) {

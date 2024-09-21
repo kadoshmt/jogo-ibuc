@@ -14,7 +14,6 @@ import { CreateUserInputDto } from '../dto/create-user-input.dto';
 export class PrismaUserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  private readonly prismaUsers = this.prismaService.users;
   private prisma = new PrismaClient();
 
   async findOneById(id: string): Promise<Users | null> {
@@ -40,10 +39,6 @@ export class PrismaUserRepository implements IUserRepository {
   async delete(id: string): Promise<void> {
     await this.prisma.users.delete({ where: { id } });
   }
-
-  // async findAll(condition: Partial<User>): Promise<User[]> {
-  //   return this.prisma.users.findMany({ where: condition });
-  // }
 
   async findAll(
     filterDto: UsersFilterInputDto,
@@ -81,6 +76,8 @@ export class PrismaUserRepository implements IUserRepository {
         username: user.profile?.username || '', // Verifica se o perfil existe
         avatarUrl: user.profile?.avatarUrl || null, // Verifica se o perfil existe
         role: user.role,
+        genre: user.profile?.genre,
+        createdAt: user.createdAt.toISOString(),
       } as UserProfileOutputDto;
     });
   }
@@ -102,6 +99,7 @@ export class PrismaUserRepository implements IUserRepository {
       id: true,
       email: true,
       role: true,
+      createdAt: true,
       profile: {
         select: {
           name: true,
@@ -116,12 +114,12 @@ export class PrismaUserRepository implements IUserRepository {
     const paginate = createPaginator({ perPage: filters.perPage ?? 10 });
 
     return paginate<UserProfileOutputDto, Prisma.UsersFindManyArgs>(
-      this.prismaUsers,
+      this.prisma.users,
       {
         where,
         select,
         orderBy: {
-          id: 'desc',
+          createdAt: 'desc',
         },
       },
       {
@@ -129,44 +127,4 @@ export class PrismaUserRepository implements IUserRepository {
       },
     );
   }
-
-  // async findAllPaginated(filter: PaginationFilter): Promise<User[]> {
-  //   const where = filter.conditions?.reduce(
-  //     (acc: Record<string, any>, condition) => {
-  //       acc[condition.column] = { [condition.condition]: condition.value };
-  //       return acc;
-  //     },
-  //     {},
-  //   );
-
-  //   const sort =
-  //     filter.sort === 'asc' || filter.sort === 'desc' ? filter.sort : 'desc';
-
-  //   const skip = filter.page === 1 ? 0 : (filter.page - 1) * filter.perPage;
-
-  //   const paginate = createPaginator({ perPage: condition.perPage });
-  //   return paginate<UserResponseDto, Prisma.UsersFindManyArgs>(
-  //     UserResponseDto,
-  //     {
-  //      where: {},
-  //       orderBy: {
-  //         id: 'desc',
-  //       },
-  //     },
-  //     {
-  //       page,
-  //     },
-  //   );
-
-  //   const result = await this.prisma.user.findMany({
-  //     skip: skip,
-  //     take: filter.perPage,
-  //     where: where,
-  //     orderBy: {
-  //       createdAt: sort,
-  //     },
-  //   });
-
-  //   return result;
-  // }
 }

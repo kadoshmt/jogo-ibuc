@@ -46,8 +46,6 @@ export class AuthController {
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   @UseGuards(LocalAuthGuard)
   async login(@Request() req: AuthenticatedRequest): Promise<any> {
-    //return await this.generateAccessTokenUseCase.execute(req.user);
-
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -71,7 +69,6 @@ export class AuthController {
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Request() req: AuthenticatedRequest): Promise<any> {
-    //return await this.generateAccessTokenUseCase.execute(req.user);
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -95,7 +92,6 @@ export class AuthController {
   async microsoftAuthRedirect(
     @Request() req: AuthenticatedRequest,
   ): Promise<any> {
-    //return await this.generateAccessTokenUseCase.execute(req.user);
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -119,7 +115,6 @@ export class AuthController {
   async facebookAuthRedirect(
     @Request() req: AuthenticatedRequest,
   ): Promise<any> {
-    //return await this.generateAccessTokenUseCase.execute(req.user);
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
