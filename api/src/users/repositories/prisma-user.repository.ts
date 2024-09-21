@@ -96,12 +96,30 @@ export class PrismaUserRepository implements IUserRepository {
         (where as any)[key] = (filters as any)[key];
       }
     }
+
+    // Definindo a seleção dos campos com base no DTO desejado
+    const select: Prisma.UsersSelect = {
+      id: true,
+      email: true,
+      role: true,
+      profile: {
+        select: {
+          name: true,
+          username: true,
+          avatarUrl: true,
+          genre: true,
+          birthDate: true,
+        },
+      },
+    };
+
     const paginate = createPaginator({ perPage: filters.perPage ?? 10 });
 
     return paginate<UserProfileOutputDto, Prisma.UsersFindManyArgs>(
       this.prismaUsers,
       {
         where,
+        select,
         orderBy: {
           id: 'desc',
         },
