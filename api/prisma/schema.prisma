@@ -15,23 +15,30 @@ datasource db {
 
 enum Role {
   ADMIN
-  COLLABORATOR
-  PLAYER
-  TEACHER
+  COLABORADOR
+  PROFESSOR
+  JOGADOR
 }
 
-model User {
+enum Genre {
+  MASCULINO
+  FEMININO
+  NAO_INFORMADO
+}
+
+model Users {
   id             String    @id @default(uuid())
-  googleId       String?   @unique @db.VarChar(30)
-  microsoftId    String?   @unique @db.VarChar(45)
-  facebookId     String?   @unique @db.VarChar(25)
+  googleId       String?   @unique @db.VarChar(30) @map("google_id")
+  microsoftId    String?   @unique @db.VarChar(45) @map("microsoft_id")
+  facebookId     String?   @unique @db.VarChar(25) @map("facebook_id")
   email          String    @unique @db.VarChar(100)
   password       String?   @db.VarChar(80)
-  role           Role      @default(PLAYER)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  role           Role      @default(JOGADOR)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   profile        Profile?
+  addresses      Addresses[]
 }
 
 model Profile {
@@ -39,8 +46,20 @@ model Profile {
   userId         String    @unique @map("user_id")
   name           String    @db.VarChar(255)
   username       String    @unique @db.VarChar(40)
-  avatar         String?   @db.VarChar(255)
+  avatarUrl      String?   @db.VarChar(255)  @map("avatar_url")
+  genre          Genre     @default(NAO_INFORMADO)
+  birthDate      String?   @db.VarChar(12) @map("birth_date")
 
-  user           User      @relation(fields: [userId], references: [id])
+  user           Users      @relation(fields: [userId], references: [id])
+}
 
+model Addresses {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  country        String?   @db.VarChar(120)
+  state          String?   @unique @db.VarChar(120)
+  city           String?  @db.VarChar(120)
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  user           Users      @relation(fields: [userId], references: [id])
 }

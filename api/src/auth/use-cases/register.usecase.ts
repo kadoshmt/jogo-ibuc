@@ -6,6 +6,7 @@ import { IProfileRepository } from 'src/profile/interfaces/profile-repository.in
 import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { Genre } from '@prisma/client';
 
 @Injectable()
 export class RegisterUseCase {
@@ -51,6 +52,7 @@ export class RegisterUseCase {
         userId: createdUser.id,
         username: newUsername !== null ? newUsername : username,
         name,
+        genre: userForm.genre || Genre.NAO_INFORMADO,
       });
 
       return [createdUser, createdProfile];
@@ -62,9 +64,10 @@ export class RegisterUseCase {
       email: user.email,
       name: profile.name,
       username: profile.username,
-      avatarUrl: profile.avatar ?? '',
+      avatarUrl: profile.avatarUrl ?? '',
       role: user.role,
       createdAt: user.createdAt,
+      genre: profile.genre,
     };
   }
 }

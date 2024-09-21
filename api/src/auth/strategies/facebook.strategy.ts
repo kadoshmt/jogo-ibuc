@@ -50,7 +50,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     const username = email
       ? email.split('@')[0]
       : name?.givenName || `user_${Math.floor(Math.random() * 10000)}`;
-    const avatar = photos && photos.length ? photos[0].value : null;
+    const avatarUrl = photos && photos.length ? photos[0].value : null;
 
     // let user = await this.usersService.findOneByFacebookId(id);
     // if (!user) {
@@ -67,7 +67,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     //     // Atualiza o facebookId do usuário existente
     //     user = await this.usersService.updateUser(user.id, {
     //       facebookId: id,
-    //       avatar,
+    //       avatarUrl,
     //     });
     //   } else {
     //     const createUserDto: CreateUserDto = {
@@ -75,7 +75,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     //       username,
     //       name: fullName,
     //       microsoftId: id,
-    //       avatar: avatar ?? undefined,
+    //       avatarUrl: avatarUrl ?? '',
     //       role: Role.PLAYER,
     //     };
 
@@ -87,7 +87,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
       email,
       username,
       name: fullName,
-      avatar: avatar ?? undefined,
+      avatarUrl: avatarUrl ?? '',
       provider: 'facebook',
       providerId: id,
     });

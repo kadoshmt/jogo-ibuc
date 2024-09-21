@@ -1,10 +1,12 @@
-import { Role } from '@prisma/client';
+import { Genre, Role } from '@prisma/client';
 
 export class UserProfileOutputDto {
   id: string;
   email: string;
   name: string;
   username: string;
-  avatar?: string | null;
+  avatarUrl?: string | null;
   role: Role;
+  genre: Genre;
+  birthDate?: string | null;
 }

@@ -10,6 +10,7 @@ import {
   Put,
   Query,
   Request,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -25,13 +26,15 @@ import { DeleteUserInputDto } from './dto/delete-user-input.dto';
 import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
 import { UserProfileOutputDto } from './dto/user-profile-output.dto';
 import { FindUserByIdUserCase } from './use-cases/find-user-by-id.usecase.dto';
-import { UserFilterInputDto } from './dto/user-filter-input.dto';
+import { UsersFilterInputDto } from './dto/users-filter-input.dto';
 import { FindAllUsersUserCase } from './use-cases/find-all-users.usecase.dto';
 import { ListUsersInputDto } from './dto/list-users-input.dto';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { FindAllUsersPaginatedUserCase } from './use-cases/find-all-users-paginated.usecase.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
@@ -73,7 +76,6 @@ export class UsersController {
     @Request() req: AuthenticatedRequest,
     @Body() body: DeleteUserInputDto,
   ) {
-    console.log('chegou');
     await this.deleteUserUseCase.execute(
       body.userId,
       body.transferUserId,
@@ -85,7 +87,7 @@ export class UsersController {
   @Roles('ADMIN')
   @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async findAllUsers(
-    @Query() filterDto: UserFilterInputDto,
+    @Query() filterDto: UsersFilterInputDto,
     @Request() req: AuthenticatedRequest,
   ) {
     return this.findAllUsersUserCase.execute(filterDto, req.user);

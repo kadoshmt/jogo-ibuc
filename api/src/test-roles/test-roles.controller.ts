@@ -23,11 +23,11 @@ export class TestRolesController {
     return { message: 'Splash Screen' };
   }
 
-  @Roles('PLAYER')
+  @Roles('JOGADOR')
   @Get('play')
   getQuizForPlayer(@Request() req: AuthenticatedRequest) {
     return {
-      message: 'Iniciando o quiz para o jogador ' + req.user.firstName,
+      message: 'Iniciando o quiz para o jogador ' + req.user.email,
       user: req.user,
     };
   }
@@ -36,11 +36,11 @@ export class TestRolesController {
   // Devemos garantir que o AuthGuard seja executado antes do RolesGuard,
   // para que o usuário seja autenticado antes de verificar o papel.
   //@UseGuards(AuthGuard('jwt'), RolesGuard) // Se AutoGuard e RolesGuard não estiver configurado globalmente
-  @Roles('ADMIN', 'COLLABORATOR')
+  @Roles('ADMIN', 'COLABORADOR')
   @Get('reports')
   getReports(@Request() req: AuthenticatedRequest) {
     return {
-      message: 'Relatórios de acesso para ' + req.user.firstName,
+      message: 'Relatórios de acesso para ' + req.user.email,
     };
   }
 }

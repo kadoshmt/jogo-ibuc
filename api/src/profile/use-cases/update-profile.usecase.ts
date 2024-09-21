@@ -33,7 +33,9 @@ export class UpdateProfileUseCase {
       userId: updatedProfile.userId,
       username: updatedProfile.username,
       name: updatedProfile.name,
-      avatar: updatedProfile.avatar,
+      avatarUrl: updatedProfile.avatarUrl,
+      genre: updatedProfile.genre,
+      birthDate: updatedProfile.birthDate,
     };
   }
 }

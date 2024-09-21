@@ -4,8 +4,10 @@ import {
   MinLength,
   Matches,
   IsString,
+  IsEnum,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { Genre } from '@prisma/client';
 
 export class RegisterInputDto {
   @IsEmail()
@@ -30,4 +32,10 @@ export class RegisterInputDto {
   })
   @Transform(({ value }) => value.trim())
   username: string;
+
+  @IsNotEmpty()
+  @IsEnum(Genre, {
+    message: 'Genre must be one of: MASCULINO, FEMININO',
+  })
+  genre: Genre;
 }

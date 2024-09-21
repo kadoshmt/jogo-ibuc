@@ -1,39 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient, User } from '@prisma/client';
+import { Prisma, PrismaClient, Users } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IUserRepository } from '../interfaces/user-repository.interface';
-import { CreateUserDto } from '../dto/create-user.dto';
+
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { UserFilterInputDto } from '../dto/user-filter-input.dto';
+import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
 import { IFindUsersFilters } from '../interfaces/find-users-filters.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { createPaginator } from 'prisma-pagination';
+import { CreateUserInputDto } from '../dto/create-user-input.dto';
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  private readonly prismaUsers = this.prismaService.user;
+  private readonly prismaUsers = this.prismaService.users;
   private prisma = new PrismaClient();
 
-  async findOneById(id: string): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { id } });
+  async findOneById(id: string): Promise<Users | null> {
+    return this.prisma.users.findUnique({ where: { id } });
   }
 
-  async findOneByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { email } });
+  async findOneByEmail(email: string): Promise<Users | null> {
+    return this.prisma.users.findUnique({ where: { email } });
   }
 
-  async findOne(condition: Partial<User>): Promise<User | null> {
-    return this.prisma.user.findFirst({ where: condition });
+  async findOne(condition: Partial<Users>): Promise<Users | null> {
+    return this.prisma.users.findFirst({ where: condition });
+  }
+
+  async create(data: CreateUserInputDto): Promise<Users> {
+    return this.prisma.users.create({ data });
+  }
+
+  async update(id: string, data: Partial<Users>): Promise<Users> {
+    return this.prisma.users.update({ where: { id }, data });
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.users.delete({ where: { id } });
   }
 
   // async findAll(condition: Partial<User>): Promise<User[]> {
-  //   return this.prisma.user.findMany({ where: condition });
+  //   return this.prisma.users.findMany({ where: condition });
   // }
 
   async findAll(
-    filterDto: UserFilterInputDto,
+    filterDto: UsersFilterInputDto,
   ): Promise<UserProfileOutputDto[]> {
     const { role, query } = filterDto;
 
@@ -52,7 +65,7 @@ export class PrismaUserRepository implements IUserRepository {
       ];
     }
 
-    const users = await this.prisma.user.findMany({
+    const users = await this.prisma.users.findMany({
       where,
       include: {
         profile: true,
@@ -66,7 +79,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: user.email,
         name: user.profile?.name || '', // Verifica se o perfil existe
         username: user.profile?.username || '', // Verifica se o perfil existe
-        avatar: user.profile?.avatar || null, // Verifica se o perfil existe
+        avatarUrl: user.profile?.avatarUrl || null, // Verifica se o perfil existe
         role: user.role,
       } as UserProfileOutputDto;
     });
@@ -75,7 +88,7 @@ export class PrismaUserRepository implements IUserRepository {
   async findAllPaginated(
     filters: IFindUsersFilters,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>> {
-    const where: Prisma.UserFindManyArgs['where'] = {};
+    const where: Prisma.UsersFindManyArgs['where'] = {};
 
     // Itera sobre cada chave de `filters` e adiciona ao `where` se a chave for válida
     for (const key in filters) {
@@ -83,12 +96,30 @@ export class PrismaUserRepository implements IUserRepository {
         (where as any)[key] = (filters as any)[key];
       }
     }
+
+    // Definindo a seleção dos campos com base no DTO desejado
+    const select: Prisma.UsersSelect = {
+      id: true,
+      email: true,
+      role: true,
+      profile: {
+        select: {
+          name: true,
+          username: true,
+          avatarUrl: true,
+          genre: true,
+          birthDate: true,
+        },
+      },
+    };
+
     const paginate = createPaginator({ perPage: filters.perPage ?? 10 });
 
-    return paginate<UserProfileOutputDto, Prisma.UserFindManyArgs>(
+    return paginate<UserProfileOutputDto, Prisma.UsersFindManyArgs>(
       this.prismaUsers,
       {
         where,
+        select,
         orderBy: {
           id: 'desc',
         },
@@ -138,16 +169,4 @@ export class PrismaUserRepository implements IUserRepository {
 
   //   return result;
   // }
-
-  async create(data: CreateUserDto): Promise<User> {
-    return this.prisma.user.create({ data });
-  }
-
-  async update(id: string, data: Partial<User>): Promise<User> {
-    return this.prisma.user.update({ where: { id }, data });
-  }
-
-  async delete(id: string): Promise<void> {
-    await this.prisma.user.delete({ where: { id } });
-  }
 }

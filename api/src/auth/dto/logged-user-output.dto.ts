@@ -1,3 +1,5 @@
+import { Genre } from '@prisma/client';
+
 export class LoggedUserOutputDto {
   id: string;
   email: string;
@@ -6,4 +8,5 @@ export class LoggedUserOutputDto {
   avatarUrl?: string;
   role: string;
   createdAt?: Date;
+  genre: Genre;
 }

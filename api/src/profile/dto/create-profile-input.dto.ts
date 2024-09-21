@@ -1,5 +1,12 @@
 import { Transform } from 'class-transformer';
-import { IsString, IsOptional, IsNotEmpty, Matches } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNotEmpty,
+  Matches,
+  IsEnum,
+} from 'class-validator';
+import { Genre } from '@prisma/client';
 
 export class CreateProfileInputDto {
   @IsString()
@@ -22,5 +29,16 @@ export class CreateProfileInputDto {
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
-  avatar?: string;
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  birthDate?: string;
+
+  @IsNotEmpty()
+  @IsEnum(Genre, {
+    message: 'Genre must be one of: MASCULINO or FEMININO',
+  })
+  genre: Genre;
 }

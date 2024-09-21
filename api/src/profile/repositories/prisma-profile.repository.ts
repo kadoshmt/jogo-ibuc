@@ -25,7 +25,9 @@ export class PrismaProfileRepository implements IProfileRepository {
       data: {
         name: profileData.name,
         username: profileData.username,
-        avatar: profileData.avatar,
+        avatarUrl: profileData.avatarUrl,
+        genre: profileData.genre,
+        birthDate: profileData.birthDate,
         user: {
           connect: { id: profileData.userId },
         },

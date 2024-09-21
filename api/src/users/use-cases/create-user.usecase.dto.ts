@@ -9,7 +9,7 @@ import { EmailConflictException } from 'src/common/exceptions/email-conflict.exc
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
 import { CreateUserInputDto } from '../dto/create-user-input.dto';
-import { IUser } from '../interfaces/user.interface';
+import { IUsers } from '../interfaces/users.interface';
 import { RoleUser } from '../interfaces/role-user.enum';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
@@ -26,7 +26,7 @@ export class CreateUserUseCase {
 
   async execute(
     userInput: CreateUserInputDto,
-    loggedUser: IUser,
+    loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
     const { email, password, name, username, role } = userInput;
 
@@ -85,8 +85,10 @@ export class CreateUserUseCase {
       email: createdUser.email,
       name: profile.name,
       username: profile.username,
-      avatar: profile.avatar,
+      avatarUrl: profile.avatarUrl,
       role: createdUser.role,
+      genre: profile.genre,
+      birthDate: profile.birthDate,
     };
   }
 }
