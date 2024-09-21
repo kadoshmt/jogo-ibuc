@@ -1,0 +1,48 @@
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
+import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
+import { RoleUser } from '../interfaces/role-user.enum';
+import { IUser } from '../interfaces/user.interface';
+
+@Injectable()
+export class FindUserByIdUserCase {
+  constructor(
+    @Inject('IProfileRepository')
+    private readonly profileRepository: IProfileRepository,
+    @Inject('IUserRepository')
+    private userRepository: IUserRepository,
+  ) {}
+
+  async execute(
+    userId: string,
+    loggedUser: IUser,
+  ): Promise<UserProfileOutputDto> {
+    // Verifica se o usuário que está tentando executar a ação é um ADMIN
+    if (loggedUser.role !== RoleUser.ADMIN) {
+      throw new UnauthorizedException('Logged User is not an ADMIN user');
+    }
+
+    // Busca os dados do perfil
+    const user = await this.userRepository.findOneById(userId);
+    const profile = await this.profileRepository.findByUserId(userId);
+
+    if (!user || !profile) {
+      throw new NotFoundException();
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: profile.name,
+      username: profile.name,
+      avatar: profile.avatar,
+      role: user.role,
+    };
+  }
+}
