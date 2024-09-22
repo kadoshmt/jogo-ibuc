@@ -6,7 +6,7 @@ import { ChangePasswordUseCase } from './use-cases/change-password.usecase';
 
 import { SharedModule } from 'src/shared/shared.module';
 import { DeleteAccountUseCase } from './use-cases/delete-account.usecase';
-import { CheckUsernameIsAvaliableUseCase } from './use-cases/check-username-is-avaliable.usecase';
+import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-available.usecase';
 
 @Module({
   imports: [SharedModule],
@@ -16,7 +16,7 @@ import { CheckUsernameIsAvaliableUseCase } from './use-cases/check-username-is-a
     UpdateProfileUseCase,
     ChangePasswordUseCase,
     DeleteAccountUseCase,
-    CheckUsernameIsAvaliableUseCase,
+    CheckUsernameIsAvailableUseCase,
   ],
 })
 export class ProfileModule {}

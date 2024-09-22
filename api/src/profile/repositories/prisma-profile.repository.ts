@@ -1,16 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Profile } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
 import { CreateProfileInputDto } from '../dto/create-profile-input.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PrismaProfileRepository implements IProfileRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findById(id: string): Promise<Profile | null> {
-    return this.prisma.profile.findUnique({ where: { id } });
-  }
+  // async findById(id: string): Promise<Profile | null> {
+  //   return this.prisma.profile.findUnique({ where: { id } });
+  // }
 
   async findByUserId(userId: string): Promise<Profile | null> {
     return this.prisma.profile.findUnique({ where: { userId } });
@@ -49,6 +50,17 @@ export class PrismaProfileRepository implements IProfileRepository {
   }
 
   async delete(userId: string): Promise<void> {
-    await this.prisma.profile.delete({ where: { userId } });
+    try {
+      await this.prisma.profile.delete({ where: { userId } });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`Profile with userId ${userId} not found`);
+      }
+      // Re-lança outras exceções para serem tratadas em outro lugar
+      throw error;
+    }
   }
 }

@@ -20,7 +20,7 @@ import { UpdateProfileUseCase } from './use-cases/update-profile.usecase';
 import { ProfileOutputDto } from './dto/profile-output.dto';
 import { DeleteAccountUseCase } from './use-cases/delete-account.usecase';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { CheckUsernameIsAvaliableUseCase } from './use-cases/check-username-is-avaliable.usecase';
+import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-available.usecase';
 import { CheckUsernameOutputDto } from './dto/check-username-output.dto';
 
 @Controller('profile')
@@ -31,7 +31,7 @@ export class ProfileController {
     private readonly updateProfileUseCase: UpdateProfileUseCase,
     private readonly changePasswordUseCase: ChangePasswordUseCase,
     private readonly deleteAccountUseCase: DeleteAccountUseCase,
-    private readonly checkUsernameIsAvaliableUseCase: CheckUsernameIsAvaliableUseCase,
+    private readonly checkUsernameIsAvaliableUseCase: CheckUsernameIsAvailableUseCase,
   ) {}
 
   // Rota para verificar a disponibilidade do username

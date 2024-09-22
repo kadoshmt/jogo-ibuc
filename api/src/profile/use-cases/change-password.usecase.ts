@@ -10,7 +10,10 @@ export class ChangePasswordUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(userId: string, changePasswordDto: ChangePasswordInputDto) {
+  async execute(
+    userId: string,
+    changePasswordDto: ChangePasswordInputDto,
+  ): Promise<void> {
     const { currentPassword, newPassword } = changePasswordDto;
 
     const user = await this.userRepository.findOneById(userId);
@@ -30,10 +33,8 @@ export class ChangePasswordUseCase {
 
     const hashedPassword = await EncryptionUtil.hashPassword(newPassword);
 
-    const changedUser = await this.userRepository.update(userId, {
+    await this.userRepository.update(userId, {
       password: hashedPassword,
     });
-
-    return changedUser ? true : false;
   }
 }
