@@ -35,6 +35,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
       avatarUrl,
       provider: 'microsoft',
       providerId: id,
+      newsletter: true,
     });
 
     done(null, registeredUser);

@@ -9,5 +9,8 @@ export class UserProfileOutputDto {
   role: Role;
   genre: Genre;
   birthDate?: string | null;
+  country?: string | null;
+  region?: string | null;
+  city?: string | null;
   createdAt?: string;
 }

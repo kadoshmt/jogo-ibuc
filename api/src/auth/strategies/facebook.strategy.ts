@@ -55,6 +55,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
       avatarUrl: avatarUrl ?? '',
       provider: 'facebook',
       providerId: id,
+      newsletter: true,
     });
 
     done(null, registeredUser);

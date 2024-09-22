@@ -36,6 +36,9 @@ export class UpdateProfileUseCase {
       avatarUrl: updatedProfile.avatarUrl,
       genre: updatedProfile.genre,
       birthDate: updatedProfile.birthDate,
+      country: updatedProfile.country,
+      region: updatedProfile.region,
+      city: updatedProfile.city,
     };
   }
 }

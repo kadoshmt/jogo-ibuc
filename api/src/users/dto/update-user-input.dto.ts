@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
 } from 'class-validator';
@@ -37,4 +38,19 @@ export class UpdateUserInputDto {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
   genre: Genre;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  country?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  region?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  city?: string;
 }

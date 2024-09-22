@@ -5,4 +5,5 @@ export class RegisterProviderDto {
   username: string;
   provider: 'google' | 'microsoft' | 'facebook';
   providerId: string;
+  newsletter?: boolean;
 }

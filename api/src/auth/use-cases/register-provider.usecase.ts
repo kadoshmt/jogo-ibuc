@@ -18,7 +18,15 @@ export class RegisterProviderUseCase {
   ) {}
 
   async execute(register: RegisterProviderDto): Promise<LoggedUserOutputDto> {
-    const { email, name, username, provider, providerId, avatarUrl } = register;
+    const {
+      email,
+      name,
+      username,
+      provider,
+      providerId,
+      avatarUrl,
+      newsletter,
+    } = register;
 
     // Verifica se o e-mail já está registrado
     const existingUser = await this.userRepository.findOneByEmail(email);
@@ -61,6 +69,7 @@ export class RegisterProviderUseCase {
       const createdUser = await this.userRepository.create({
         email,
         [`${provider}Id`]: providerId, // Atribui o ID do provedor ao campo correspondente dinamicamente
+        newsletter,
       });
 
       // Cria o perfil associado ao usuário
@@ -82,8 +91,8 @@ export class RegisterProviderUseCase {
       username: profile.username,
       avatarUrl: profile.avatarUrl ?? '',
       role: user.role,
-      createdAt: user.createdAt,
       genre: profile.genre,
+      createdAt: user.createdAt,
     };
   }
 }

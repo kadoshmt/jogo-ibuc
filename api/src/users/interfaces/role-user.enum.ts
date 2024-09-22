@@ -1,6 +1,0 @@
-export enum RoleUser {
-  ADMIN = 'ADMIN',
-  COLABORADOR = 'COLABORADOR',
-  PROFESSOR = 'PROFESSOR',
-  JOGADOR = 'JOGADOR',
-}
