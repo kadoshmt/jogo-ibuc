@@ -7,4 +7,7 @@ export class ProfileOutputDto {
   avatarUrl?: string | null;
   genre: Genre;
   birthDate?: string | null;
+  country?: string | null;
+  region?: string | null;
+  city?: string | null;
 }

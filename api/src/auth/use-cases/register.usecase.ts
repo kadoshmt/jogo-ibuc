@@ -19,7 +19,7 @@ export class RegisterUseCase {
   ) {}
 
   async execute(userForm: RegisterInputDto): Promise<LoggedUserOutputDto> {
-    const { email, password, name, username } = userForm;
+    const { email, password, name, username, newsletter } = userForm;
 
     // Verifica se o e-mail já está registrado
     const existingEmail = await this.userRepository.findOneByEmail(email);
@@ -45,6 +45,7 @@ export class RegisterUseCase {
       const createdUser = await this.userRepository.create({
         email,
         password: hashedPassword,
+        newsletter: newsletter ?? true,
       });
 
       // Cria o perfil associado ao usuário
@@ -58,6 +59,8 @@ export class RegisterUseCase {
       return [createdUser, createdProfile];
     });
 
+    // TO-DO: Pegar ao menos o pais via https://ipinfo.io/pricing
+
     // Retorna o objeto transformado para o DTO de resposta
     return {
       id: user.id,
@@ -66,8 +69,8 @@ export class RegisterUseCase {
       username: profile.username,
       avatarUrl: profile.avatarUrl ?? '',
       role: user.role,
-      createdAt: user.createdAt,
       genre: profile.genre,
+      createdAt: user.createdAt,
     };
   }
 }

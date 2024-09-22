@@ -28,7 +28,8 @@ export class CreateUserUseCase {
     userInput: CreateUserInputDto,
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
-    const { email, password, name, username, role } = userInput;
+    const { email, password, name, username, role, country, region, city } =
+      userInput;
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
     if (loggedUser.role !== Role.ADMIN) {
@@ -68,6 +69,9 @@ export class CreateUserUseCase {
           userId: createdUser.id,
           username: newUsername !== null ? newUsername : username,
           name,
+          country,
+          region,
+          city,
         });
 
         return [createdUser, createdProfile];
@@ -89,6 +93,9 @@ export class CreateUserUseCase {
       role: createdUser.role,
       genre: profile.genre,
       birthDate: profile.birthDate,
+      country: profile.country,
+      region: profile.region,
+      city: profile.city,
       createdAt: createdUser.createdAt.toISOString(),
     };
   }

@@ -1,13 +1,22 @@
 import { IUsers } from 'src/users/interfaces/users.interface';
 import { Genre } from '@prisma/client';
 
+export enum IGenre {
+  MASCULINO = 'MASCULINO',
+  FEMININO = 'FEMININO',
+  NAO_INFORMADO = 'NAO_INFORMADO',
+}
+
 export interface IProfile {
   id: string;
   userId: string;
   name: string;
   username: string;
   avatarUrl?: string | null;
-  genre: Genre;
+  genre: IGenre | Genre;
   birthDate?: string | null;
+  country?: string;
+  region?: string;
+  city?: string;
   user?: IUsers | null;
 }

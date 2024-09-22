@@ -21,6 +21,9 @@ export class GetProfileUseCase {
       avatarUrl: profile.avatarUrl,
       genre: profile.genre,
       birthDate: profile.birthDate,
+      country: profile.country,
+      region: profile.region,
+      city: profile.city,
     };
   }
 }

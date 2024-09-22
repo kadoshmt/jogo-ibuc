@@ -50,6 +50,9 @@ export class FindUserByIdUserCase {
       role: user.role,
       genre: profile.genre,
       birthDate: profile.birthDate,
+      country: profile.country,
+      region: profile.region,
+      city: profile.city,
       createdAt: user.createdAt.toISOString(),
     };
   }

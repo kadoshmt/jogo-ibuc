@@ -72,11 +72,15 @@ export class PrismaUserRepository implements IUserRepository {
       return {
         id: user.id,
         email: user.email,
-        name: user.profile?.name || '', // Verifica se o perfil existe
-        username: user.profile?.username || '', // Verifica se o perfil existe
-        avatarUrl: user.profile?.avatarUrl || null, // Verifica se o perfil existe
+        name: user.profile?.name || '',
+        username: user.profile?.username || '',
+        avatarUrl: user.profile?.avatarUrl || null,
         role: user.role,
         genre: user.profile?.genre,
+        birthDate: user.profile?.birthDate,
+        country: user.profile?.country,
+        region: user.profile?.region,
+        city: user.profile?.city,
         createdAt: user.createdAt.toISOString(),
       } as UserProfileOutputDto;
     });
@@ -107,6 +111,9 @@ export class PrismaUserRepository implements IUserRepository {
           avatarUrl: true,
           genre: true,
           birthDate: true,
+          country: true,
+          region: true,
+          city: true,
         },
       },
     };

@@ -40,6 +40,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       avatarUrl,
       provider: 'google',
       providerId: id,
+      newsletter: true,
     });
 
     done(null, registeredUser);

@@ -5,6 +5,8 @@ import {
   Matches,
   IsString,
   IsEnum,
+  IsOptional,
+  IsBoolean,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Genre } from '@prisma/client';
@@ -38,4 +40,8 @@ export class RegisterInputDto {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
   genre: Genre;
+
+  @IsOptional()
+  @IsBoolean()
+  newsletter?: boolean;
 }

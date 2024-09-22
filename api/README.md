@@ -58,7 +58,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Tarefas
+## Requisitos Funcionais e Não-funcionais
 
 - Autenticação:
   - [x] Configurar a estratégia de login e senha do Passaport
@@ -70,7 +70,6 @@ $ npm run test:cov
   - [x] Não permitir que um usuário se cadastre por mais de 1 método
   - [ ] Quando logado, permitir que o usuário vincule um outro método de login
   - [ ] Criar uma rota que envia uma uma url de reset de senha
-  - [ ] Criar uma rota para que o usuário redefine sua senha
   - [ ] Implementar mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
   - [x] Criar um utilitário para lidar com a criptografia (brcrypt)
   - [ ] Criar os testes unitários das estratégias
@@ -79,9 +78,10 @@ $ npm run test:cov
 - Profile
   - [x] Criar uma rota para que o usuário veja obtenha seus dados (/profile)
   - [x] Criar uma rota para que o usuário edite seus dados (/profile/edit)
-  - [x] Criar uma rota para que o usuário edite sua senha (/profile/change-password)
+  - [x] Criar uma rota para que o usuário redefina sua senha (/profile/change-password)
   - [ ] Criar uma rota para o usuário alterar sua foto de perfil (profile/change-avatar)
   - [x] Criar rota para usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
+  - [ ] Criar rota para usuário se cadastrar em newsletter
   - [ ] Criar testes unitários
   - [ ] Criar testes de integração
 
@@ -93,17 +93,39 @@ $ npm run test:cov
     - [ ] Criar testes unitários
     - [ ] Criar testes de integração
 
-- Lições / Módulos:
-  - [ ] Criar o múdulo de Lições e Módulos
+- Categorias:
+  - [ ] Criar o múdulo de Categorias (Lições e Módulos)
+    - [ ] Criar Crud Básico
+    - [ ] Categorias são recursivas
 
-- Perguntas:
+- Perguntas e Respostas:
   - [ ] Criar o múdulo de Perguntas e Respostas
     - [ ] CRUD de perguntas
       - [ ] A pergunta terá uma lista de respostas
       - [ ] Cada resposta pode ter um texto alternativo ao errar
       - [ ] Pergunta pode ter tags e níveis
       - [ ] Pergunta pode ter uma dica
+      - [ ] Resposta terá sua própria tabela (1:N)
       - [ ] No list, params niveis, tags e qtde
+
+- Sessões:
+  - [ ] Criar Tabela de sessões do Jogo
+    - [ ] CRUD de sessões
+
+- Placar:
+  - [ ] Criar Tabela de Ranking do jogo
+    - [ ] Salvar pontuação, tempo em milissegundos e média
+    - [ ] Salvar categoria, nível de dificuldade, id do usuário
+    - [ ] Visitantes não tem placar
+
+- Save Game:
+  - [ ] Criar Tabela para salvar sessão do jogo do usuário logado
+
+- IA:
+  - [ ] Criar rota para buscar tags sugeridas para a pergunta (/ia/generate-tags)
+  - [ ] Criar rota para criar uma pergunta e suas respostas (/ia/generate-anwsers)
+  - [ ] Criar rota para criar perguntas e suas respostas em lote (/ia/generate-anwsers/:amount)
+
 
 - Segurança
   - [ ] Não exponha o ID do usuário em respostas públicas da API ou logs

@@ -7,6 +7,9 @@ export class LoggedUserOutputDto {
   name: string;
   avatarUrl?: string;
   role: string;
-  createdAt?: Date;
   genre: Genre;
+  country?: string;
+  region?: string;
+  city?: string;
+  createdAt?: Date;
 }
