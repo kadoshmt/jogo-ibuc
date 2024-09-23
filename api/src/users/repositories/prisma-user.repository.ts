@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, PrismaClient, Users } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IUserRepository } from '../interfaces/user-repository.interface';
@@ -37,7 +37,18 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.users.delete({ where: { id } });
+    try {
+      await this.prisma.users.delete({ where: { id } });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
+      // Re-lança outras exceções para serem tratadas em outro lugar
+      throw error;
+    }
   }
 
   async findAll(
