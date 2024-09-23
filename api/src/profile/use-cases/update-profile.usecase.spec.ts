@@ -15,7 +15,6 @@ describe('UpdateProfileUseCase', () => {
   });
 
   it('should update the profile successfully', async () => {
-    // Arrange
     const profile: Profile = {
       id: 'profile-1',
       userId: 'user-1',
@@ -37,10 +36,8 @@ describe('UpdateProfileUseCase', () => {
       genre: IGenre.MASCULINO,
     };
 
-    // Act
     const result = await updateProfileUseCase.execute('user-1', updateData);
 
-    // Assert
     expect(result.name).toBe('John Smith');
     expect(result.username).toBe('johnsmith');
   });

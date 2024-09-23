@@ -14,18 +14,14 @@ describe('CheckUsernameIsAvailableUseCase', () => {
   });
 
   it('should return true if username is available', async () => {
-    // Arrange
     const username = 'availableUsername';
 
-    // Act
     const result = await checkUsernameIsAvailableUseCase.execute(username);
 
-    // Assert
     expect(result).toBe(true);
   });
 
   it('should return false if username is not available', async () => {
-    // Arrange
     const username = 'existingUsername';
     await profileRepository.create({
       userId: 'user-1',
@@ -34,10 +30,8 @@ describe('CheckUsernameIsAvailableUseCase', () => {
       genre: 'MASCULINO',
     });
 
-    // Act
     const result = await checkUsernameIsAvailableUseCase.execute(username);
 
-    // Assert
     expect(result).toBe(false);
   });
 });

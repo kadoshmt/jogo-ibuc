@@ -14,7 +14,6 @@ describe('ChangePasswordUseCase', () => {
   });
 
   it('should change the password successfully', async () => {
-    // Arrange
     const hashedPassword = await EncryptionUtil.hashPassword('oldPassword');
 
     const cretedUser = await userRepository.create({
@@ -31,43 +30,31 @@ describe('ChangePasswordUseCase', () => {
       newPassword: 'newPassword',
     };
 
-    // Act
     await changePasswordUseCase.execute(cretedUser.id, changePasswordDto);
-
-    // Assert
-    //expect(result).toBe(true);
 
     const updatedUser = await userRepository.findOneById(cretedUser.id);
     const updatedPassword = updatedUser?.password;
 
-    if (!updatedPassword) {
-      throw new Error('Updated password is null or undefined');
-    }
-
     const isPasswordCorrect = await EncryptionUtil.comparePassword(
       'newPassword',
-      updatedPassword,
+      updatedPassword!, // nullish, pois o valor foi definido anteriormente
     );
     expect(isPasswordCorrect).toBe(true);
   });
 
   it('should throw BadRequestException if user is not found', async () => {
-    // Arrange
     const userId = 'non-existent-user';
     const changePasswordDto = {
       currentPassword: 'oldPassword',
       newPassword: 'newPassword',
     };
 
-    // Act & Assert
     await expect(
       changePasswordUseCase.execute(userId, changePasswordDto),
     ).rejects.toThrow(BadRequestException);
   });
 
   it('should throw BadRequestException if current password is incorrect', async () => {
-    // Arrange
-
     const hashedPassword = await EncryptionUtil.hashPassword('oldPassword');
 
     const cretedUser = await userRepository.create({
@@ -86,7 +73,6 @@ describe('ChangePasswordUseCase', () => {
       newPassword: 'newPassword',
     };
 
-    // Act & Assert
     await expect(
       changePasswordUseCase.execute(userId, changePasswordDto),
     ).rejects.toThrow(BadRequestException);

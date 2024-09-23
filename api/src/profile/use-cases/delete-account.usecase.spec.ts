@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { NotFoundException } from '@nestjs/common';
-import { Profile } from '@prisma/client';
 import { InMemoryProfileRepository } from '../repositories/in-memory-profile.repository';
 import { DeleteAccountUseCase } from './delete-account.usecase';
 import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
 import { PrismaService } from 'src/shared/database/prisma.service';
+import { IGenre } from '../interfaces/profile.interface';
+import { IRole } from 'src/users/interfaces/users.interface';
 
 describe('DeleteAccountUseCase', () => {
   let deleteAccountUseCase: DeleteAccountUseCase;
@@ -22,10 +23,20 @@ describe('DeleteAccountUseCase', () => {
   });
 
   it('should delete the profile successfully', async () => {
-    // Arrange
-    const profile: Profile = {
+    const userToDelete = await userRepository.create({
+      email: 'newuser@example.com',
+      password: 'password123',
+      username: 'johndoe',
+      name: 'New User',
+      role: IRole.JOGADOR,
+      genre: IGenre.MASCULINO,
+    });
+
+    const userId = userToDelete.id;
+
+    const profileToDelete = await profileRepository.create({
       id: 'profile-1',
-      userId: 'user-1',
+      userId,
       name: 'John Doe',
       username: 'johndoe',
       avatarUrl: null,
@@ -34,20 +45,17 @@ describe('DeleteAccountUseCase', () => {
       country: null,
       region: null,
       city: null,
-    };
+    });
 
-    const profileCreated = await profileRepository.create(profile);
+    await deleteAccountUseCase.execute(userId);
 
-    await deleteAccountUseCase.execute('user-1');
+    const deletedProfile = await profileRepository.findByUserId(userId);
 
-    const deletedProfile = await profileRepository.findByUserId('user-1');
-
-    expect(profileCreated.userId).toBe('user-1');
+    expect(profileToDelete.userId).toBe(userId);
     expect(deletedProfile).toBeNull();
   });
 
   it('should throw NotFoundException when profile does not exist', async () => {
-    // Act & Assert
     await expect(
       deleteAccountUseCase.execute('non-existent-user'),
     ).rejects.toThrow(NotFoundException);

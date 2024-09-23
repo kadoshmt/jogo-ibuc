@@ -1,5 +1,3 @@
-// src/profile/use-cases/__tests__/get-profile.usecase.spec.ts
-
 import { describe, it, expect, beforeEach } from 'vitest';
 
 import { NotFoundException } from '@nestjs/common';
@@ -17,7 +15,6 @@ describe('GetProfileUseCase', () => {
   });
 
   it('should return the profile when found', async () => {
-    // Arrange
     const profile: Profile = {
       id: 'profile-1',
       userId: 'user-1',
@@ -49,7 +46,6 @@ describe('GetProfileUseCase', () => {
   });
 
   it('should throw NotFoundException when profile is not found', async () => {
-    // Act & Assert
     await expect(
       getProfileUseCase.execute('non-existent-user'),
     ).rejects.toThrow(NotFoundException);
