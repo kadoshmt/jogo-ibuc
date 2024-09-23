@@ -18,6 +18,6 @@ export interface IUsers {
   role: IRole | Role;
   createdAt?: Date;
   updatedAt?: Date;
-  newsletter?: string;
-  profile?: IProfile;
+  newsletter?: boolean;
+  profile?: IProfile | null;
 }

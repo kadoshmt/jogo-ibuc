@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Inject,
-  UnauthorizedException,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
@@ -77,10 +72,6 @@ export class CreateUserUseCase {
         return [createdUser, createdProfile];
       },
     );
-
-    if (!createdUser && !profile) {
-      throw new InternalServerErrorException('Unable to register user');
-    }
 
     // TO-DO: Enviar a senha por e-mail
 

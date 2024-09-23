@@ -17,19 +17,19 @@ import {
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { ApiPaginatedResponse } from 'src/common/decorators/api-paginated-response.decorator';
 import { CreateUserInputDto } from './dto/create-user-input.dto';
-import { CreateUserUseCase } from './use-cases/create-user.usecase.dto';
-import { UpdateUserUseCase } from './use-cases/update-user.usecase.dto';
+import { CreateUserUseCase } from './use-cases/create-user.usecase';
+import { UpdateUserUseCase } from './use-cases/update-user.usecase';
 import { UpdateUserInputDto } from './dto/update-user-input.dto';
 import { DeleteUserUseCase } from './use-cases/delete-user.usecase';
 import { DeleteUserInputDto } from './dto/delete-user-input.dto';
 import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
 import { UserProfileOutputDto } from './dto/user-profile-output.dto';
-import { FindUserByIdUserCase } from './use-cases/find-user-by-id.usecase.dto';
+import { FindUserByIdUserCase } from './use-cases/find-user-by-id.usecase';
 import { UsersFilterInputDto } from './dto/users-filter-input.dto';
-import { FindAllUsersUserCase } from './use-cases/find-all-users.usecase.dto';
+import { FindAllUsersUserCase } from './use-cases/find-all-users.usecase';
 import { ListUsersInputDto } from './dto/list-users-input.dto';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
-import { FindAllUsersPaginatedUserCase } from './use-cases/find-all-users-paginated.usecase.dto';
+import { FindAllUsersPaginatedUserCase } from './use-cases/find-all-users-paginated.usecase';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('users')

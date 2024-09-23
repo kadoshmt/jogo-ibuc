@@ -16,7 +16,9 @@
     "noImplicitAny": true,
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["vitest/globals"]
   },
-  "include": ["src", "env.d.ts"]
+  "include": ["src", "test", "env.d.ts", "vitest.config.ts"]
+
 }

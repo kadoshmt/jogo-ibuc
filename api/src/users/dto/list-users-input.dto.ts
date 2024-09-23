@@ -33,15 +33,15 @@ export class ListUsersInputDto {
   @IsOptional()
   @IsUUID(4)
   @Transform(({ value }) => value.trim().toLowerCase())
-  id: string;
+  id?: string;
 
   @IsOptional()
   @Transform(({ value }) => value.trim().toLowerCase())
-  email: string;
+  email?: string;
 
   @IsOptional()
   @Transform(({ value }) => value.trim())
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -50,13 +50,13 @@ export class ListUsersInputDto {
       'Username must contain only letters, numbers and underscores ("_")',
   })
   @Transform(({ value }) => value.trim())
-  username: string;
+  username?: string;
 
   @IsOptional()
   @IsEnum(Role, {
     message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
   })
-  role: Role;
+  role?: Role;
 
   @IsOptional()
   @IsEnum(Genre, {

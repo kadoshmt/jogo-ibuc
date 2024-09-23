@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PrismaProfileRepository } from '../profile/repositories/prisma-profile.repository';
 import { PrismaUserRepository } from '../users/repositories/prisma-user.repository';
-import { CheckUsernameIsAvaliableUseCase } from 'src/profile/use-cases/check-username-is-avaliable.usecase';
+import { CheckUsernameIsAvailableUseCase } from 'src/profile/use-cases/check-username-is-available.usecase';
 
 @Module({
   providers: [
@@ -13,12 +13,12 @@ import { CheckUsernameIsAvaliableUseCase } from 'src/profile/use-cases/check-use
       provide: 'IUserRepository',
       useClass: PrismaUserRepository,
     },
-    CheckUsernameIsAvaliableUseCase,
+    CheckUsernameIsAvailableUseCase,
   ],
   exports: [
     'IProfileRepository',
     'IUserRepository',
-    CheckUsernameIsAvaliableUseCase,
+    CheckUsernameIsAvailableUseCase,
   ],
 })
 export class SharedModule {}

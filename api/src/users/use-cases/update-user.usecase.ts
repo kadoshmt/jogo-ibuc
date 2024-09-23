@@ -2,7 +2,7 @@ import {
   Injectable,
   Inject,
   UnauthorizedException,
-  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
@@ -36,6 +36,14 @@ export class UpdateUserUseCase {
     }
 
     const userDB = await this.userRepository.findOneById(userId);
+    if (!userDB) {
+      throw new NotFoundException('User not found');
+    }
+
+    const profileDB = await this.profileRepository.findByUserId(userId);
+    if (!profileDB) {
+      throw new NotFoundException('Profile not found');
+    }
 
     // Verifica se o e-mail já está registrado
     if (email !== userDB?.email) {
@@ -47,7 +55,7 @@ export class UpdateUserUseCase {
 
     // Verifica se o username já está em uso
     let newUsername = null;
-    if (email !== userDB?.email) {
+    if (username && username !== profileDB.username) {
       const existingUsername =
         await this.profileRepository.findByUsername(username);
       if (existingUsername) {
@@ -82,10 +90,6 @@ export class UpdateUserUseCase {
         return [updatedUserDB, updatedProfileDB];
       },
     );
-
-    if (!updatedUser && !updatedProfile) {
-      throw new InternalServerErrorException('Unable to update user');
-    }
 
     // TO-DO: Enviar a senha por e-mail
 

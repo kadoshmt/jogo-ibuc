@@ -15,8 +15,8 @@ export interface IProfile {
   avatarUrl?: string | null;
   genre: IGenre | Genre;
   birthDate?: string | null;
-  country?: string;
-  region?: string;
-  city?: string;
+  country?: string | null;
+  region?: string | null;
+  city?: string | null;
   user?: IUsers | null;
 }
