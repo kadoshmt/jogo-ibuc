@@ -12,6 +12,7 @@ import { IUsers } from '../interfaces/users.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Role } from '@prisma/client';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -98,7 +99,7 @@ export class UpdateUserUseCase {
       email: updatedUser.email,
       name: updatedProfile.name,
       username: updatedProfile.username,
-      avatarUrl: updatedProfile.avatarUrl,
+      avatarUrl: updatedProfile.avatarUrl ?? getAvatarUrl(null),
       role: updatedUser.role,
       genre: updatedProfile.genre,
       birthDate: updatedProfile.birthDate,

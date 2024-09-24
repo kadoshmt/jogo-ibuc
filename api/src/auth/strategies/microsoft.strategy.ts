@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-microsoft';
 import { RegisterProviderUseCase } from '../use-cases/register-provider.usecase';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
@@ -32,7 +33,7 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
       email,
       username,
       name: displayName,
-      avatarUrl,
+      avatarUrl: avatarUrl ?? getAvatarUrl(null),
       provider: 'microsoft',
       providerId: id,
       newsletter: true,

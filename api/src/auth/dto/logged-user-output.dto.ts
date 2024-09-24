@@ -1,4 +1,5 @@
 import { Genre } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
 export class LoggedUserOutputDto {
   id: string;
@@ -7,7 +8,7 @@ export class LoggedUserOutputDto {
   name: string;
   avatarUrl?: string;
   role: string;
-  genre: Genre;
+  genre: Genre | IGenre;
   country?: string;
   region?: string;
   city?: string;

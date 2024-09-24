@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Genre, Role } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
 export class UpdateUserInputDto {
   @IsEmail()
@@ -37,7 +38,7 @@ export class UpdateUserInputDto {
   @IsEnum(Genre, {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
-  genre: Genre;
+  genre: Genre | IGenre;
 
   @IsOptional()
   @IsString()

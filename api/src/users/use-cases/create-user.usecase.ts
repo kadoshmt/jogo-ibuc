@@ -8,6 +8,7 @@ import { IUsers } from '../interfaces/users.interface';
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Role } from '@prisma/client';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -64,6 +65,7 @@ export class CreateUserUseCase {
           userId: createdUser.id,
           username: newUsername !== null ? newUsername : username,
           name,
+          avatarUrl: getAvatarUrl(null),
           country,
           region,
           city,

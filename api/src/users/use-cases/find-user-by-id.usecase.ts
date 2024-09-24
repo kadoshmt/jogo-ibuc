@@ -9,6 +9,7 @@ import { IProfileRepository } from 'src/profile/interfaces/profile-repository.in
 import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
 import { IUsers } from '../interfaces/users.interface';
 import { Role } from '@prisma/client';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class FindUserByIdUserCase {
@@ -46,7 +47,7 @@ export class FindUserByIdUserCase {
       email: user.email,
       name: profile.name,
       username: profile.name,
-      avatarUrl: profile.avatarUrl,
+      avatarUrl: profile.avatarUrl ?? getAvatarUrl(null),
       role: user.role,
       genre: profile.genre,
       birthDate: profile.birthDate,

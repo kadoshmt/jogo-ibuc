@@ -9,6 +9,7 @@ import { IFindUsersFilters } from '../interfaces/find-users-filters.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { createPaginator } from 'prisma-pagination';
 import { CreateUserInputDto } from '../dto/create-user-input.dto';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -85,7 +86,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: user.email,
         name: user.profile?.name || '',
         username: user.profile?.username || '',
-        avatarUrl: user.profile?.avatarUrl || null,
+        avatarUrl: user.profile?.avatarUrl ?? getAvatarUrl(null),
         role: user.role,
         genre: user.profile?.genre,
         birthDate: user.profile?.birthDate,

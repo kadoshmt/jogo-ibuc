@@ -3,6 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-facebook';
 import { RegisterProviderUseCase } from '../use-cases/register-provider.usecase';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
@@ -52,7 +53,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
       email,
       username,
       name: fullName,
-      avatarUrl: avatarUrl ?? '',
+      avatarUrl: avatarUrl ?? getAvatarUrl(null),
       provider: 'facebook',
       providerId: id,
       newsletter: true,

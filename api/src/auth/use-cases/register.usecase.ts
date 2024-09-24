@@ -5,8 +5,9 @@ import { RegisterInputDto } from '../dto/register-input.dto';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { getAvatarUrl } from 'src/common/utils/avatar.utils';
 import { PrismaService } from 'src/shared/database/prisma.service';
-import { Genre } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
 @Injectable()
 export class RegisterUseCase {
@@ -19,7 +20,7 @@ export class RegisterUseCase {
   ) {}
 
   async execute(userForm: RegisterInputDto): Promise<LoggedUserOutputDto> {
-    const { email, password, name, username, newsletter } = userForm;
+    const { email, password, name, username, newsletter, genre } = userForm;
 
     // Verifica se o e-mail já está registrado
     const existingEmail = await this.userRepository.findOneByEmail(email);
@@ -53,7 +54,8 @@ export class RegisterUseCase {
         userId: createdUser.id,
         username: newUsername !== null ? newUsername : username,
         name,
-        genre: userForm.genre || Genre.NAO_INFORMADO,
+        genre: genre || IGenre.NAO_INFORMADO,
+        avatarUrl: getAvatarUrl(genre || IGenre.NAO_INFORMADO),
       });
 
       return [createdUser, createdProfile];
