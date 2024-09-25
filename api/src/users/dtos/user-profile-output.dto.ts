@@ -1,4 +1,5 @@
 import { Genre, Role } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
 export class UserProfileOutputDto {
   id: string;
@@ -7,7 +8,7 @@ export class UserProfileOutputDto {
   username: string;
   avatarUrl?: string | null;
   role: Role;
-  genre: Genre;
+  genre: Genre | IGenre;
   birthDate?: string | null;
   country?: string | null;
   region?: string | null;

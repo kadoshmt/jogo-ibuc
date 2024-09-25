@@ -1,16 +1,26 @@
-import { Transform } from 'class-transformer';
 import {
-  IsString,
-  IsOptional,
-  IsNotEmpty,
-  Matches,
+  IsEmail,
   IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  MinLength,
 } from 'class-validator';
-import { Genre } from '@prisma/client';
+import { Transform } from 'class-transformer';
+import { Genre, Role } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
-export class CreateProfileInputDto {
+export class CreateUserInputDto {
+  @IsEmail()
+  @Transform(({ value }) => value.trim().toLowerCase())
+  email: string;
+
+  @IsNotEmpty()
   @IsString()
-  userId: string;
+  @MinLength(6)
+  @Transform(({ value }) => value.trim())
+  password: string;
 
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
@@ -18,7 +28,6 @@ export class CreateProfileInputDto {
 
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }) => value.trim())
   @Matches(/^[a-zA-Z0-9_]+$/, {
     message:
       'Username must contain only letters, numbers and underscores ("_")',
@@ -26,21 +35,22 @@ export class CreateProfileInputDto {
   @Transform(({ value }) => value.trim())
   username: string;
 
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  avatarUrl?: string;
+  @IsNotEmpty()
+  @IsEnum(Role, {
+    message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
+  })
+  role: Role;
 
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
-  birthDate?: string;
+  googleId?: string;
 
   @IsNotEmpty()
   @IsEnum(Genre, {
-    message: 'Genre must be one of: MASCULINO or FEMININO',
+    message: 'Genre must be one of: MASCULINO, FEMININO',
   })
-  genre: Genre;
+  genre: Genre | IGenre;
 
   @IsOptional()
   @IsString()

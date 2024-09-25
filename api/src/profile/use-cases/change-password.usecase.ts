@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, Inject } from '@nestjs/common';
-import { ChangePasswordInputDto } from '../dto/change-password-input.dto';
+import { ChangePasswordInputDto } from '../dtos/change-password-input.dto';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
 

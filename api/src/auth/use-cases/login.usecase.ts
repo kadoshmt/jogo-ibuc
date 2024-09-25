@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
+import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class LoginUseCase {
@@ -28,7 +29,7 @@ export class LoginUseCase {
             email: user.email,
             name: profile.name,
             username: profile.username,
-            avatarUrl: profile.avatarUrl ?? '',
+            avatarUrl: profile.avatarUrl ?? getAvatarUrl(null),
             role: user.role,
             createdAt: user.createdAt,
             genre: profile.genre,

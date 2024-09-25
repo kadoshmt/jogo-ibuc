@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { UnauthorizedException } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
-import { CreateUserInputDto } from '../dto/create-user-input.dto';
+import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { CreateUserUseCase } from './create-user.usecase';
 import { PrismaService } from 'src/shared/database/prisma.service';
@@ -37,7 +37,6 @@ describe('CreateUserUseCase', () => {
   });
 
   it('should create a new user and profile successfully', async () => {
-    // Arrange
     const userInput: CreateUserInputDto = {
       email: 'newuser@example.com',
       password: 'password123',
@@ -50,10 +49,8 @@ describe('CreateUserUseCase', () => {
       city: 'City',
     };
 
-    // Act
     const result = await createUserUseCase.execute(userInput, adminUser);
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.email).toBe(userInput.email);
     expect(result.name).toBe(userInput.name);
@@ -61,7 +58,6 @@ describe('CreateUserUseCase', () => {
   });
 
   it('should throw UnauthorizedException if logged user is not admin', async () => {
-    // Arrange
     const nonAdminUser = {
       ...adminUser,
       role: Role.JOGADOR,
@@ -79,14 +75,12 @@ describe('CreateUserUseCase', () => {
       city: 'City',
     };
 
-    // Act & Assert
     await expect(
       createUserUseCase.execute(userInput, nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should throw EmailConflictException if email already exists', async () => {
-    // Arrange
     const userInput: CreateUserInputDto = {
       email: 'existing@example.com',
       password: 'password123',
@@ -109,14 +103,12 @@ describe('CreateUserUseCase', () => {
       role: IRole.JOGADOR,
     });
 
-    // Act & Assert
     await expect(
       createUserUseCase.execute(userInput, adminUser),
     ).rejects.toThrow(EmailConflictException);
   });
 
   it('should assign a new username if the desired username is already taken', async () => {
-    // Arrange
     const existingUsername = 'existinguser';
     const userInput: CreateUserInputDto = {
       email: 'newuser@example.com',
@@ -138,10 +130,8 @@ describe('CreateUserUseCase', () => {
       genre: 'MASCULINO',
     });
 
-    // Act
     const result = await createUserUseCase.execute(userInput, adminUser);
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.email).toBe(userInput.email);
     expect(result.name).toBe(userInput.name);

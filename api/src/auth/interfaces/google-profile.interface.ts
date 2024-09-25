@@ -1,4 +1,4 @@
-export interface GoogleProfile {
+export interface IGoogleProfile {
   id: string;
   displayName: string;
   emails: Array<{ value: string; verified: boolean }>;

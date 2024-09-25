@@ -3,12 +3,13 @@ import { Prisma, PrismaClient, Users } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IUserRepository } from '../interfaces/user-repository.interface';
 
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
+import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
 import { IFindUsersFilters } from '../interfaces/find-users-filters.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { createPaginator } from 'prisma-pagination';
-import { CreateUserInputDto } from '../dto/create-user-input.dto';
+import { CreateUserInputDto } from '../dtos/create-user-input.dto';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -85,7 +86,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: user.email,
         name: user.profile?.name || '',
         username: user.profile?.username || '',
-        avatarUrl: user.profile?.avatarUrl || null,
+        avatarUrl: user.profile?.avatarUrl ?? getAvatarUrl(null),
         role: user.role,
         genre: user.profile?.genre,
         birthDate: user.profile?.birthDate,

@@ -1,18 +1,17 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Matches,
-} from 'class-validator';
 import { Transform } from 'class-transformer';
-import { Genre, Role } from '@prisma/client';
+import {
+  IsString,
+  IsOptional,
+  IsNotEmpty,
+  Matches,
+  IsEnum,
+} from 'class-validator';
+import { Genre } from '@prisma/client';
+import { IGenre } from '../interfaces/profile.interface';
 
-export class UpdateUserInputDto {
-  @IsEmail()
-  @Transform(({ value }) => value.trim().toLowerCase())
-  email: string;
+export class CreateProfileInputDto {
+  @IsString()
+  userId: string;
 
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
@@ -20,6 +19,7 @@ export class UpdateUserInputDto {
 
   @IsNotEmpty()
   @IsString()
+  @Transform(({ value }) => value.trim())
   @Matches(/^[a-zA-Z0-9_]+$/, {
     message:
       'Username must contain only letters, numbers and underscores ("_")',
@@ -27,17 +27,21 @@ export class UpdateUserInputDto {
   @Transform(({ value }) => value.trim())
   username: string;
 
-  @IsNotEmpty()
-  @IsEnum(Role, {
-    message: 'Role must be one of: ADMIN, COLABORADOR, JOGADOR, PROFESSOR',
-  })
-  role: Role;
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  birthDate?: string;
 
   @IsNotEmpty()
   @IsEnum(Genre, {
-    message: 'Genre must be one of: MASCULINO, FEMININO',
+    message: 'Genre must be one of: MASCULINO or FEMININO',
   })
-  genre: Genre;
+  genre: Genre | IGenre;
 
   @IsOptional()
   @IsString()

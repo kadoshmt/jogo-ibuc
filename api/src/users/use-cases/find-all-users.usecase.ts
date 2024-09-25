@@ -1,8 +1,8 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { IUserRepository } from '../interfaces/user-repository.interface';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
 import { IUsers } from '../interfaces/users.interface';
-import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
+import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
 import { Role } from '@prisma/client';
 
 @Injectable()

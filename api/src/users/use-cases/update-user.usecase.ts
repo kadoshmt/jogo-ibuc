@@ -6,12 +6,13 @@ import {
 } from '@nestjs/common';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { UpdateUserInputDto } from '../dto/update-user-input.dto';
+import { UpdateUserInputDto } from '../dtos/update-user-input.dto';
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
 import { IUsers } from '../interfaces/users.interface';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Role } from '@prisma/client';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -98,7 +99,7 @@ export class UpdateUserUseCase {
       email: updatedUser.email,
       name: updatedProfile.name,
       username: updatedProfile.username,
-      avatarUrl: updatedProfile.avatarUrl,
+      avatarUrl: updatedProfile.avatarUrl ?? getAvatarUrl(null),
       role: updatedUser.role,
       genre: updatedProfile.genre,
       birthDate: updatedProfile.birthDate,

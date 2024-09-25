@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Profile } from '@prisma/client';
 import { InMemoryProfileRepository } from '../repositories/in-memory-profile.repository';
 import { GetProfileUseCase } from './get-profile.usecase';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 describe('GetProfileUseCase', () => {
   let getProfileUseCase: GetProfileUseCase;
@@ -20,7 +21,7 @@ describe('GetProfileUseCase', () => {
       userId: 'user-1',
       name: 'John Doe',
       username: 'johndoe',
-      avatarUrl: null,
+      avatarUrl: getAvatarUrl(null),
       genre: 'MASCULINO',
       birthDate: null,
       country: null,

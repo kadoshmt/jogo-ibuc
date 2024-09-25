@@ -1,12 +1,13 @@
 import { Users } from '@prisma/client'; // Usando o tipo do Prisma para consistência nos testes
 import { IUserRepository } from '../interfaces/user-repository.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
+import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
 import { IFindUsersFilters } from '../interfaces/find-users-filters.interface';
-import { CreateUserInputDto } from '../dto/create-user-input.dto';
+import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { NotFoundException } from '@nestjs/common';
 import { IRole } from '../interfaces/users.interface';
+import { RegisterProviderDto } from 'src/auth/dtos/register-provider-input.dto';
 
 export class InMemoryUserRepository implements IUserRepository {
   private users: Users[] = [];
@@ -38,6 +39,26 @@ export class InMemoryUserRepository implements IUserRepository {
       microsoftId: null,
       facebookId: null,
       role: data.role || IRole.JOGADOR,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      newsletter: true,
+    };
+
+    this.users.push(newUser);
+    return { ...data, ...newUser };
+  }
+
+  // Utilizado apenas no teste de Registro usando um provider
+  async createProvider(data: RegisterProviderDto): Promise<Users> {
+    const newUser: Users = {
+      id: (this.users.length + 1).toString(),
+      email: data.email,
+      password: null,
+      googleId: null,
+      microsoftId: null,
+      facebookId: null,
+      [`${data.provider}Id`]: data.providerId,
+      role: IRole.JOGADOR,
       createdAt: new Date(),
       updatedAt: new Date(),
       newsletter: true,

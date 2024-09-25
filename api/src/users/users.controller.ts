@@ -16,18 +16,18 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { ApiPaginatedResponse } from 'src/common/decorators/api-paginated-response.decorator';
-import { CreateUserInputDto } from './dto/create-user-input.dto';
+import { CreateUserInputDto } from './dtos/create-user-input.dto';
 import { CreateUserUseCase } from './use-cases/create-user.usecase';
 import { UpdateUserUseCase } from './use-cases/update-user.usecase';
-import { UpdateUserInputDto } from './dto/update-user-input.dto';
+import { UpdateUserInputDto } from './dtos/update-user-input.dto';
 import { DeleteUserUseCase } from './use-cases/delete-user.usecase';
-import { DeleteUserInputDto } from './dto/delete-user-input.dto';
-import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
-import { UserProfileOutputDto } from './dto/user-profile-output.dto';
+import { DeleteUserInputDto } from './dtos/delete-user-input.dto';
+import { IAuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
+import { UserProfileOutputDto } from './dtos/user-profile-output.dto';
 import { FindUserByIdUserCase } from './use-cases/find-user-by-id.usecase';
-import { UsersFilterInputDto } from './dto/users-filter-input.dto';
+import { UsersFilterInputDto } from './dtos/users-filter-input.dto';
 import { FindAllUsersUserCase } from './use-cases/find-all-users.usecase';
-import { ListUsersInputDto } from './dto/list-users-input.dto';
+import { ListUsersInputDto } from './dtos/list-users-input.dto';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { FindAllUsersPaginatedUserCase } from './use-cases/find-all-users-paginated.usecase';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -49,7 +49,7 @@ export class UsersController {
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async createUser(
     @Body() body: CreateUserInputDto,
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ) {
     const user = await this.createUserUseCase.execute(body, req.user);
     return { message: 'Usuário criado com sucesso', user };
@@ -61,7 +61,7 @@ export class UsersController {
   async updateUser(
     @Param('id') id: string,
     @Body() body: UpdateUserInputDto,
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ) {
     const user = await this.updateUserUseCase.execute(id, body, req.user);
     return { message: 'Usuário atualizado com sucesso', user };
@@ -72,7 +72,7 @@ export class UsersController {
   @Roles('ADMIN')
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async deleteUser(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
     @Body() body: DeleteUserInputDto,
   ) {
     await this.deleteUserUseCase.execute(
@@ -87,7 +87,7 @@ export class UsersController {
   @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async findAllUsers(
     @Query() filterDto: UsersFilterInputDto,
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ) {
     return this.findAllUsersUserCase.execute(filterDto, req.user);
   }
@@ -98,7 +98,7 @@ export class UsersController {
   @ApiPaginatedResponse(UserProfileOutputDto)
   async findAllUsersPaginated(
     @Query() listUsersInputDto: ListUsersInputDto,
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>> {
     return await this.findAllUsersPaginatedUserCase.execute(
       listUsersInputDto,
@@ -111,7 +111,7 @@ export class UsersController {
   @UsePipes(new ValidationPipe({ whitelist: true }))
   async findUserById(
     @Param('id') id: string,
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ): Promise<UserProfileOutputDto> {
     return await this.findUserByIdUserCase.execute(id, req.user);
   }

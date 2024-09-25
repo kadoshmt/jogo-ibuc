@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { IUsers } from 'src/users/interfaces/users.interface';
 
-export interface AuthenticatedRequest extends Request {
+export interface IAuthenticatedRequest extends Request {
   user: IUsers;
 }

@@ -3,7 +3,7 @@ import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
-import { UpdateUserInputDto } from '../dto/update-user-input.dto';
+import { UpdateUserInputDto } from '../dtos/update-user-input.dto';
 import { UpdateUserUseCase } from './update-user.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
 import { IGenre } from 'src/profile/interfaces/profile.interface';
@@ -44,8 +44,6 @@ describe('UpdateUserUseCase', () => {
   });
 
   it('should update user and profile successfully', async () => {
-    // Arrange
-
     const existingUser = await userRepository.create({
       ...userInput,
       password: 'password',
@@ -69,14 +67,12 @@ describe('UpdateUserUseCase', () => {
       city: 'Updated City',
     };
 
-    // Act
     const result = await updateUserUseCase.execute(
       existingUser.id,
       userInputToUpdate,
       adminUser,
     );
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.email).toBe(userInputToUpdate.email);
     expect(result.name).toBe(userInputToUpdate.name);
@@ -89,25 +85,21 @@ describe('UpdateUserUseCase', () => {
   });
 
   it('should throw UnauthorizedException if logged user is not admin', async () => {
-    // Arrange
     const nonAdminUser = {
       ...adminUser,
       role: IRole.JOGADOR,
     };
 
-    // Act & Assert
     await expect(
       updateUserUseCase.execute('user-id', userInput, nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should throw NotFoundException if user does not exist', async () => {
-    // Arrange
     const userInputToUpdate: UpdateUserInputDto = {
       ...userInput,
     };
 
-    // Act & Assert
     await expect(
       updateUserUseCase.execute(
         'non-existent-id',
@@ -118,7 +110,6 @@ describe('UpdateUserUseCase', () => {
   });
 
   it('should throw EmailConflictException if new email is already in use', async () => {
-    // Arrange
     // Cria um usuário existente com o email 'existing@example.com'
     await userRepository.create({
       email: 'existing@example.com',
@@ -157,14 +148,12 @@ describe('UpdateUserUseCase', () => {
       city: 'Updated City',
     };
 
-    // Act & Assert
     await expect(
       updateUserUseCase.execute(userToUpdate.id, userInputToUpdate, adminUser),
     ).rejects.toThrow(EmailConflictException);
   });
 
   it('should throw NotFoundException if profile does not exist', async () => {
-    // Arrange
     // Cria um usuário sem criar o perfil correspondente
     const existingUser = await userRepository.create({
       email: 'user@example.com',
@@ -187,7 +176,6 @@ describe('UpdateUserUseCase', () => {
       city: 'Updated City',
     };
 
-    // Act & Assert
     await expect(
       updateUserUseCase.execute(existingUser.id, userInputToUpdate, adminUser),
     ).rejects.toThrow(NotFoundException);
@@ -239,14 +227,12 @@ describe('UpdateUserUseCase', () => {
       city: 'Updated City',
     };
 
-    // Act
     const result = await updateUserUseCase.execute(
       userToUpdate.id,
       userInputToUpdate,
       adminUser,
     );
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.username).not.toBe('existingusername');
     expect(result.username).toMatch(/^existingusername_\d+$/);

@@ -5,21 +5,15 @@ import {
   IsOptional,
   IsString,
   Matches,
-  MinLength,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { Genre, Role } from '@prisma/client';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 
-export class CreateUserInputDto {
+export class UpdateUserInputDto {
   @IsEmail()
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(6)
-  @Transform(({ value }) => value.trim())
-  password: string;
 
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
@@ -44,7 +38,7 @@ export class CreateUserInputDto {
   @IsEnum(Genre, {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
-  genre: Genre;
+  genre: Genre | IGenre;
 
   @IsOptional()
   @IsString()

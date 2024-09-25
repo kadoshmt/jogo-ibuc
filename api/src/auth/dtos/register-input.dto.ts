@@ -9,6 +9,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IGenre } from 'src/profile/interfaces/profile.interface';
 import { Genre } from '@prisma/client';
 
 export class RegisterInputDto {
@@ -36,10 +37,10 @@ export class RegisterInputDto {
   username: string;
 
   @IsNotEmpty()
-  @IsEnum(Genre, {
+  @IsEnum(IGenre, {
     message: 'Genre must be one of: MASCULINO, FEMININO',
   })
-  genre: Genre;
+  genre: Genre | IGenre;
 
   @IsOptional()
   @IsBoolean()
