@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { RegisterProviderDto } from '../dto/register-provider.dto';
-import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
+import { RegisterProviderDto } from '../dtos/register-provider-input.dto';
+import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
 import { ProviderConflictException } from 'src/common/exceptions/provider-conflict.exception';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Genre } from '@prisma/client';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class RegisterProviderUseCase {

@@ -34,7 +34,6 @@ describe('DeleteUserUseCase', () => {
   });
 
   it('should delete user and profile successfully', async () => {
-    // Arrange
     const userToDelete = await userRepository.create({
       email: 'newuser@example.com',
       password: 'password123',
@@ -65,14 +64,11 @@ describe('DeleteUserUseCase', () => {
 
     const transferibleUser = createdAdmin;
 
-    // Act
     await deleteUserUseCase.execute(
       userToDelete.id,
       transferibleUser.id,
       adminUser,
     );
-
-    // Assert
 
     const deletedProfile = await profileRepository.findByUserId(
       userToDelete.id,
@@ -84,34 +80,29 @@ describe('DeleteUserUseCase', () => {
   });
 
   it('should throw UnauthorizedException if logged user is not admin', async () => {
-    // Arrange
     const nonAdminUser = {
       ...adminUser,
       role: IRole.JOGADOR,
     };
 
-    // Act & Assert
     await expect(
       deleteUserUseCase.execute('user-id', 'transferible-id', nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should throw NotFoundException if user to be deleted does not exist', async () => {
-    // Act & Assert
     await expect(
       deleteUserUseCase.execute('non-existent-id', adminUser.id, adminUser),
     ).rejects.toThrow(NotFoundException);
   });
 
   it('should throw UnauthorizedException if transferible user is the same as user to be deleted', async () => {
-    // Act & Assert
     await expect(
       deleteUserUseCase.execute(adminUser.id, adminUser.id, adminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should throw UserProfileNotFoundException if transferible user does not exist', async () => {
-    // Arrange
     const userToDelete = await userRepository.create({
       email: 'user@example.com',
       password: 'password',
@@ -130,7 +121,6 @@ describe('DeleteUserUseCase', () => {
 
     const nonExistentTransferibleId = 'non-existent-transferible-id';
 
-    // Act & Assert
     await expect(
       deleteUserUseCase.execute(
         userToDelete.id,
@@ -141,7 +131,6 @@ describe('DeleteUserUseCase', () => {
   });
 
   it('should throw UnauthorizedException if transferible user is not admin', async () => {
-    // Arrange
     const userToDelete = await userRepository.create({
       email: 'user@example.com',
       password: 'password',
@@ -167,7 +156,6 @@ describe('DeleteUserUseCase', () => {
       role: IRole.JOGADOR, // Não é ADMIN
     });
 
-    // Act & Assert
     await expect(
       deleteUserUseCase.execute(
         userToDelete.id,

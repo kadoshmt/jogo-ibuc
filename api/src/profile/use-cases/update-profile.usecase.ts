@@ -1,8 +1,8 @@
 import { Injectable, BadRequestException, Inject } from '@nestjs/common';
-import { ProfileOutputDto } from '../dto/profile-output.dto';
-import { UpdateProfileInputDto } from '../dto/update-profile-input.dto';
+import { ProfileOutputDto } from '../dtos/profile-output.dto';
+import { UpdateProfileInputDto } from '../dtos/update-profile-input.dto';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class UpdateProfileUseCase {

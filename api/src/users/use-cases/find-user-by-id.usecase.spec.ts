@@ -32,7 +32,6 @@ describe('FindUserByIdUserCase', () => {
   });
 
   it('should return user profile successfully for an admin user', async () => {
-    // Arrange
     const createdUser = await userRepository.create({
       email: 'user@example.com',
       name: 'New User',
@@ -52,13 +51,11 @@ describe('FindUserByIdUserCase', () => {
       avatarUrl: 'https://example.com/avatar.png',
     });
 
-    // Act
     const result = await findUserByIdUserCase.execute(
       createdUser.id,
       adminUser,
     );
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.email).toBe('user@example.com');
     expect(result.name).toBe('User Name');
@@ -66,31 +63,26 @@ describe('FindUserByIdUserCase', () => {
   });
 
   it('should throw UnauthorizedException if logged user is not admin or colaborador', async () => {
-    // Arrange
     const nonAdminUser: IUsers = {
       ...adminUser,
       role: IRole.JOGADOR,
     };
     const userId = 'user-1';
 
-    // Act & Assert
     await expect(
       findUserByIdUserCase.execute(userId, nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should throw NotFoundException if user does not exist', async () => {
-    // Arrange
     const userId = 'non-existent-id';
 
-    // Act & Assert
     await expect(
       findUserByIdUserCase.execute(userId, adminUser),
     ).rejects.toThrow(NotFoundException);
   });
 
   it('should throw NotFoundException if profile does not exist', async () => {
-    // Arrange
     const userCreated = await userRepository.create({
       email: 'user@example.com',
       password: 'hashedpassword',
@@ -100,7 +92,6 @@ describe('FindUserByIdUserCase', () => {
       genre: IGenre.NAO_INFORMADO,
     });
 
-    // Act & Assert
     await expect(
       findUserByIdUserCase.execute(userCreated.id, adminUser),
     ).rejects.toThrow(NotFoundException);

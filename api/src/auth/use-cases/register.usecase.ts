@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
-import { RegisterInputDto } from '../dto/register-input.dto';
+import { RegisterInputDto } from '../dtos/register-input.dto';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
+import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IGenre } from 'src/profile/interfaces/profile.interface';
 

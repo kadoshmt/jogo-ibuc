@@ -10,18 +10,18 @@ import {
   Param,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
-import { ChangePasswordInputDto } from './dto/change-password-input.dto';
-import { UpdateProfileInputDto } from './dto/update-profile-input.dto';
+import { IAuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
+import { ChangePasswordInputDto } from './dtos/change-password-input.dto';
+import { UpdateProfileInputDto } from './dtos/update-profile-input.dto';
 import { ChangePasswordUseCase } from './use-cases/change-password.usecase';
 
 import { GetProfileUseCase } from './use-cases/get-profile.usecase';
 import { UpdateProfileUseCase } from './use-cases/update-profile.usecase';
-import { ProfileOutputDto } from './dto/profile-output.dto';
+import { ProfileOutputDto } from './dtos/profile-output.dto';
 import { DeleteAccountUseCase } from './use-cases/delete-account.usecase';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-available.usecase';
-import { CheckUsernameOutputDto } from './dto/check-username-output.dto';
+import { CheckUsernameOutputDto } from './dtos/check-username-output.dto';
 
 @Controller('profile')
 @UseGuards(JwtAuthGuard)
@@ -54,7 +54,7 @@ export class ProfileController {
   // Rota para buscar os dados do perfil
   @Get()
   async getProfile(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ): Promise<ProfileOutputDto> {
     const userId = req.user.id;
     return await this.getProfileUseCase.execute(userId);
@@ -63,7 +63,7 @@ export class ProfileController {
   // Rota para alteração dos dados do perfil
   @Put('edit')
   async updateProfile(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
     @Body() updateProfileDto: UpdateProfileInputDto,
   ): Promise<ProfileOutputDto> {
     const userId = req.user.id;
@@ -74,7 +74,7 @@ export class ProfileController {
   @Put('change-password')
   @HttpCode(204)
   async changePassword(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
     @Body() changePasswordDto: ChangePasswordInputDto,
   ) {
     await this.changePasswordUseCase.execute(req.user.id, changePasswordDto);
@@ -83,7 +83,7 @@ export class ProfileController {
   // Rota que permite ao usuário apagar sua própria conta (use Case do módulo Users)
   @Delete()
   @HttpCode(204)
-  async deleteAccount(@Request() req: AuthenticatedRequest) {
+  async deleteAccount(@Request() req: IAuthenticatedRequest) {
     const userId = req.user.id;
     await this.deleteAccountUseCase.execute(userId);
   }

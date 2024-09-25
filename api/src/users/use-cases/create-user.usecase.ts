@@ -3,12 +3,12 @@ import { IUserRepository } from 'src/users/interfaces/user-repository.interface'
 import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { CreateUserInputDto } from '../dto/create-user-input.dto';
+import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { IUsers } from '../interfaces/users.interface';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Role } from '@prisma/client';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class CreateUserUseCase {

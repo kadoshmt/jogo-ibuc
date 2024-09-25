@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
-import { ProfileOutputDto } from '../dto/profile-output.dto';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { ProfileOutputDto } from '../dtos/profile-output.dto';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class GetProfileUseCase {

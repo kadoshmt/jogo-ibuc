@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { LoggedUserOutputDto } from '../dto/logged-user-output.dto';
+import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
 import { IUsers } from 'src/users/interfaces/users.interface';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class ValidateUserUseCase {

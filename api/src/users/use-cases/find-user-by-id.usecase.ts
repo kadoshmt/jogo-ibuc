@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { IUserRepository } from '../interfaces/user-repository.interface';
 import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
 import { IUsers } from '../interfaces/users.interface';
 import { Role } from '@prisma/client';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class FindUserByIdUserCase {

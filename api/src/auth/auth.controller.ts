@@ -9,10 +9,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RegisterInputDto } from './dto/register-input.dto';
+import { RegisterInputDto } from './dtos/register-input.dto';
 import { Public } from './decorators/public.decorator';
 import { Throttle } from '@nestjs/throttler';
-import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
+import { IAuthenticatedRequest } from './interfaces/authenticated-request.interface';
 import { RegisterUseCase } from './use-cases/register.usecase';
 import { GenerateAccessTokenUseCase } from './use-cases/generate-access-token.usecase';
 import { ValidateUserUseCase } from './use-cases/validade-user.usecase';
@@ -45,7 +45,7 @@ export class AuthController {
   @Post('login')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   @UseGuards(LocalAuthGuard)
-  async login(@Request() req: AuthenticatedRequest): Promise<any> {
+  async login(@Request() req: IAuthenticatedRequest): Promise<any> {
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -68,7 +68,7 @@ export class AuthController {
   @Public()
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Request() req: AuthenticatedRequest): Promise<any> {
+  async googleAuthRedirect(@Request() req: IAuthenticatedRequest): Promise<any> {
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -90,7 +90,7 @@ export class AuthController {
   @Get('microsoft/redirect')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftAuthRedirect(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ): Promise<any> {
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
@@ -113,7 +113,7 @@ export class AuthController {
   @Get('facebook/redirect')
   @UseGuards(AuthGuard('facebook'))
   async facebookAuthRedirect(
-    @Request() req: AuthenticatedRequest,
+    @Request() req: IAuthenticatedRequest,
   ): Promise<any> {
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({

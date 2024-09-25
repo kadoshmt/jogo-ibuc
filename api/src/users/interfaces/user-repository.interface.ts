@@ -1,6 +1,6 @@
 import { Users } from '@prisma/client';
-import { UserProfileOutputDto } from '../dto/user-profile-output.dto';
-import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
+import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
+import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
 import { IFindUsersFilters } from './find-users-filters.interface';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 

@@ -5,7 +5,7 @@ import { InMemoryUserRepository } from '../repositories/in-memory-user.repositor
 import { FindAllUsersPaginatedUserCase } from './find-all-users-paginated.usecase';
 
 import { IUsers } from '../interfaces/users.interface';
-import { ListUsersInputDto } from '../dto/list-users-input.dto';
+import { ListUsersInputDto } from '../dtos/list-users-input.dto';
 
 describe('FindAllUsersPaginatedUserCase', () => {
   let findAllUsersPaginatedUserCase: FindAllUsersPaginatedUserCase;
@@ -29,7 +29,6 @@ describe('FindAllUsersPaginatedUserCase', () => {
   });
 
   it('should return paginated users when called by an admin user', async () => {
-    // Arrange
     // Add some users to the in-memory repository
     await userRepository.create({
       email: 'user1@example.com',
@@ -63,13 +62,11 @@ describe('FindAllUsersPaginatedUserCase', () => {
       perPage: 1,
     };
 
-    // Act
     const result = await findAllUsersPaginatedUserCase.execute(
       listUsersInputDto,
       adminUser,
     );
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.data.length).toBe(1); // should return one user based on pagination
     expect(result.meta.total).toBe(3); // total users should be 2
@@ -81,7 +78,6 @@ describe('FindAllUsersPaginatedUserCase', () => {
   });
 
   it('should throw UnauthorizedException if logged user is not admin or collaborator', async () => {
-    // Arrange
     const nonAdminUser = {
       ...adminUser,
       role: Role.JOGADOR,
@@ -92,34 +88,32 @@ describe('FindAllUsersPaginatedUserCase', () => {
       perPage: 10,
     };
 
-    // Act & Assert
     await expect(
       findAllUsersPaginatedUserCase.execute(listUsersInputDto, nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   // it('should return empty result when no users match the filter', async () => {
-  //   // Arrange
+  //
   //   const listUsersInputDto: ListUsersInputDto = {
   //     page: 1,
   //     perPage: 10,
   //     query: 'nonexistentuser',
   //   };
 
-  //   // Act
+  //
   //   const result = await findAllUsersPaginatedUserCase.execute(
   //     listUsersInputDto,
   //     adminUser,
   //   );
 
-  //   // Assert
+  //
   //   expect(result).toBeDefined();
   //   expect(result.data.length).toBe(0); // no users should match the query
   //   expect(result.meta.total).toBe(0);
   // });
 
   it('should return paginated users when filtered by role', async () => {
-    // Arrange
     // Add some users to the in-memory repository
     await userRepository.create({
       email: 'user1@example.com',
@@ -151,13 +145,11 @@ describe('FindAllUsersPaginatedUserCase', () => {
       role: Role.ADMIN,
     };
 
-    // Act
     const result = await findAllUsersPaginatedUserCase.execute(
       listUsersInputDto,
       adminUser,
     );
 
-    // Assert
     expect(result).toBeDefined();
     expect(result.data.length).toBe(1); // should return only one user with role ADMIN
     expect(result.data[0].role).toBe(Role.ADMIN);

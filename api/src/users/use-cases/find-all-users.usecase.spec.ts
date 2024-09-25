@@ -3,7 +3,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { FindAllUsersUserCase } from './find-all-users.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { UsersFilterInputDto } from '../dto/users-filter-input.dto';
+import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
 import { IGenre } from 'src/profile/interfaces/profile.interface';
 
 describe('FindAllUsersUserCase', () => {
@@ -26,7 +26,6 @@ describe('FindAllUsersUserCase', () => {
   });
 
   it('should return all users for an admin user', async () => {
-    // Arrange
     const filterDto: UsersFilterInputDto = {};
     await userRepository.create({
       email: 'user1@example.com',
@@ -46,10 +45,8 @@ describe('FindAllUsersUserCase', () => {
       genre: IGenre.MASCULINO,
     });
 
-    // Act
     const result = await findAllUsersUserCase.execute(filterDto, adminUser);
 
-    // Assert
     expect(result).toHaveLength(2);
     expect(result[0].email).toBe('user1@example.com');
     expect(result[1].email).toBe('user2@example.com');
@@ -57,7 +54,6 @@ describe('FindAllUsersUserCase', () => {
   });
 
   it('should return filtered users based on role', async () => {
-    // Arrange
     const filterDto: UsersFilterInputDto = {
       role: IRole.COLABORADOR,
     };
@@ -79,31 +75,27 @@ describe('FindAllUsersUserCase', () => {
       role: IRole.COLABORADOR,
       genre: IGenre.MASCULINO,
     });
-    // Act
+
     const result = await findAllUsersUserCase.execute(filterDto, adminUser);
 
-    // Assert
     expect(result).toHaveLength(1);
     expect(result[0].role).toBe(IRole.COLABORADOR);
     expect(result[0].email).toBe('user2@example.com');
   });
 
   it('should throw UnauthorizedException if logged user is not admin or colaborador', async () => {
-    // Arrange
     const nonAdminUser: IUsers = {
       ...adminUser,
       role: IRole.JOGADOR,
     };
     const filterDto: UsersFilterInputDto = {};
 
-    // Act & Assert
     await expect(
       findAllUsersUserCase.execute(filterDto, nonAdminUser),
     ).rejects.toThrow(UnauthorizedException);
   });
 
   it('should return empty list if no users match the filter', async () => {
-    // Arrange
     const filterDto: UsersFilterInputDto = {
       role: IRole.PROFESSOR,
     };
@@ -117,10 +109,8 @@ describe('FindAllUsersUserCase', () => {
       genre: IGenre.NAO_INFORMADO,
     });
 
-    // Act
     const result = await findAllUsersUserCase.execute(filterDto, adminUser);
 
-    // Assert
     expect(result).toHaveLength(0);
   });
 });
