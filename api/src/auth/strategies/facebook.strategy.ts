@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-facebook';
 import { RegisterProviderUseCase } from '../use-cases/register-provider.usecase';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
@@ -26,13 +26,13 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
   ): Promise<any> {
     const { id, emails, displayName, name, photos } = profile;
 
-    if (!emails || !emails[0].value) {
+    if (!emails || !emails[0]?.value) {
       throw new BadRequestException(
         'O Facebook não retornou nenhum e-mail válido.',
       );
     }
 
-    if (!displayName || !name || !name.givenName) {
+    if (!displayName && (!name || !name.givenName)) {
       throw new BadRequestException(
         'O Facebook não retornou nenhum nome ou sobrenome válidos.',
       );
@@ -41,7 +41,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     // Obter o nome completo
     const fullName =
       displayName ||
-      `${name.givenName} ${name.middleName || ''} ${name.familyName || ''}`.trim();
+      `${name?.givenName} ${name?.middleName || ''} ${name?.familyName || ''}`.trim();
 
     const email = emails[0].value;
     const username = email

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-microsoft';
 import { RegisterProviderUseCase } from '../use-cases/register-provider.usecase';
-import { getAvatarUrl } from 'src/common/utils/avatar.utils';
+import { getAvatarUrl } from 'src/common/utils/avatar.util';
 
 @Injectable()
 export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
@@ -25,7 +25,9 @@ export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
     done: Function,
   ): Promise<any> {
     const { id, displayName, userPrincipalName, emails, photos } = profile;
-    const email = emails && emails.length ? emails[0] : userPrincipalName;
+    // Garante que o email seja sempre uma string, usando userPrincipalName como fallback
+    const email =
+      emails && emails.length ? emails[0].value : userPrincipalName || '';
     const username = email.split('@')[0]; // Pega o que está antes do '@' no e-mail
     const avatarUrl = photos && photos.length ? photos[0] : null;
 
