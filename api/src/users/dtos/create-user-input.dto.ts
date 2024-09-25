@@ -41,6 +41,11 @@ export class CreateUserInputDto {
   })
   role: Role;
 
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  googleId?: string;
+
   @IsNotEmpty()
   @IsEnum(Genre, {
     message: 'Genre must be one of: MASCULINO, FEMININO',
