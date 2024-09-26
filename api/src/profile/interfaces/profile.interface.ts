@@ -18,5 +18,6 @@ export interface IProfile {
   country?: string | null;
   region?: string | null;
   city?: string | null;
+  phone?: string | null;
   user?: IUsers | null;
 }

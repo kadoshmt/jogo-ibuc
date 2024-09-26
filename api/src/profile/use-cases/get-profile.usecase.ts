@@ -25,6 +25,7 @@ export class GetProfileUseCase {
       country: profile.country,
       region: profile.region,
       city: profile.city,
+      phone: profile.phone,
     };
   }
 }

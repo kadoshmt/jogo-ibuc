@@ -12,5 +12,6 @@ export class LoggedUserOutputDto {
   country?: string;
   region?: string;
   city?: string;
+  phone?: string | null;
   createdAt?: Date;
 }

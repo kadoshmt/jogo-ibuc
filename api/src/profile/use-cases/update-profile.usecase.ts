@@ -40,6 +40,7 @@ export class UpdateProfileUseCase {
       country: updatedProfile.country,
       region: updatedProfile.region,
       city: updatedProfile.city,
+      phone: updatedProfile.phone,
     };
   }
 }

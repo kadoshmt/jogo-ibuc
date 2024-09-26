@@ -48,6 +48,7 @@ export class RegisterProviderUseCase {
           role: existingUser.role,
           createdAt: existingUser.createdAt,
           genre: profile?.genre ?? Genre.NAO_INFORMADO,
+          phone: profile?.phone,
         };
       } else {
         // Se o e-mail já estiver registrado por outro provedor, lança exceção de conflito de provedor

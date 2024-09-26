@@ -54,6 +54,7 @@ export class FindUserByIdUserCase {
       country: profile.country,
       region: profile.region,
       city: profile.city,
+      phone: profile.phone,
       createdAt: user.createdAt.toISOString(),
     };
   }

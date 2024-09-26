@@ -52,6 +52,7 @@ model Profile {
   country        String?   @db.VarChar(120)
   region         String?   @db.VarChar(120)
   city           String?   @db.VarChar(120)
+  phone          String?   @db.VarChar(22)
 
   user           Users      @relation(fields: [userId], references: [id])
 }
