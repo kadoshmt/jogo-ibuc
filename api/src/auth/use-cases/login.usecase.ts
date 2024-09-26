@@ -33,6 +33,7 @@ export class LoginUseCase {
             role: user.role,
             createdAt: user.createdAt,
             genre: profile.genre,
+            phone: profile.phone,
           };
         }
       }

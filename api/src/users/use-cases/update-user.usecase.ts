@@ -29,7 +29,8 @@ export class UpdateUserUseCase {
     userInput: UpdateUserInputDto,
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
-    const { email, name, username, role, country, region, city } = userInput;
+    const { email, name, username, role, country, region, city, phone } =
+      userInput;
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
     if (loggedUser.role !== Role.ADMIN) {
@@ -86,6 +87,7 @@ export class UpdateUserUseCase {
           country,
           region,
           city,
+          phone,
         });
 
         return [updatedUserDB, updatedProfileDB];

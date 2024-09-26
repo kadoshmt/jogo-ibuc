@@ -32,6 +32,7 @@ export class PrismaProfileRepository implements IProfileRepository {
         country: profileData.country,
         region: profileData.region,
         city: profileData.city,
+        phone: profileData.phone,
         user: {
           connect: { id: profileData.userId },
         },

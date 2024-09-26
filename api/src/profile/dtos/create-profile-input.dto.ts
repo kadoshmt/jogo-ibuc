@@ -57,4 +57,13 @@ export class CreateProfileInputDto {
   @IsString()
   @Transform(({ value }) => value.trim())
   city?: string;
+
+  @IsOptional()
+  @IsString()
+  @Matches(/^(?:\+\d{1,3}\s?)?\(\d{2}\)\s\d{4,5}-\d{4}$/, {
+    message:
+      'Phone number must be in one of the formats: (99) 9999-9999, (99) 99999-9999, +999 (99) 9999-9999, +999 (99) 99999-9999',
+  })
+  @Transform(({ value }) => value.trim())
+  phone?: string;
 }

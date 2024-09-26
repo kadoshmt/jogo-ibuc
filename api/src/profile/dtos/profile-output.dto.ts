@@ -11,4 +11,5 @@ export class ProfileOutputDto {
   country?: string | null;
   region?: string | null;
   city?: string | null;
+  phone?: string | null;
 }

@@ -93,6 +93,7 @@ export class PrismaUserRepository implements IUserRepository {
         country: user.profile?.country,
         region: user.profile?.region,
         city: user.profile?.city,
+        phone: user.profile?.phone,
         createdAt: user.createdAt.toISOString(),
       } as UserProfileOutputDto;
     });
@@ -126,6 +127,7 @@ export class PrismaUserRepository implements IUserRepository {
           country: true,
           region: true,
           city: true,
+          phone: true,
         },
       },
     };

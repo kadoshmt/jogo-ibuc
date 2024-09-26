@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -22,6 +23,10 @@ import { PrismaModule } from './shared/database/prisma.module';
           limit: 10, // Número máximo de requisições permitidas por cliente
         },
       ],
+    }),
+    CacheModule.register({
+      ttl: 120, // Tempo de expiração do cache em segundos (2 minutos)
+      isGlobal: true, // Opcional: torna o cache global para todos os módulos
     }),
     AuthModule,
     ProfileModule,

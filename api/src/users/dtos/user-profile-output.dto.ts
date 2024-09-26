@@ -13,5 +13,6 @@ export class UserProfileOutputDto {
   country?: string | null;
   region?: string | null;
   city?: string | null;
+  phone?: string | null;
   createdAt?: string;
 }
