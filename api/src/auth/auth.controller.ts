@@ -7,6 +7,10 @@ import {
   Request,
   UsePipes,
   ValidationPipe,
+  Inject,
+  Res,
+  Param,
+  NotFoundException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RegisterInputDto } from './dtos/register-input.dto';
@@ -17,6 +21,9 @@ import { RegisterUseCase } from './use-cases/register.usecase';
 import { GenerateAccessTokenUseCase } from './use-cases/generate-access-token.usecase';
 import { ValidateUserUseCase } from './use-cases/validade-user.usecase';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { v4 as uuidv4 } from 'uuid';
+import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +31,7 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
     private readonly generateAccessTokenUseCase: GenerateAccessTokenUseCase,
     private readonly validateUserUseCase: ValidateUserUseCase,
+    @Inject(CACHE_MANAGER) private cacheManager: CacheStore,
   ) {}
 
   // Rota para registro de novos usuários
@@ -68,7 +76,10 @@ export class AuthController {
   @Public()
   @Get('google/redirect')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@Request() req: IAuthenticatedRequest): Promise<any> {
+  async googleAuthRedirect(
+    @Request() req: IAuthenticatedRequest,
+    @Res() res: Response,
+  ): Promise<void> {
     const user = await this.validateUserUseCase.execute(req.user);
     const accessToken = await this.generateAccessTokenUseCase.execute({
       email: user.email,
@@ -76,7 +87,14 @@ export class AuthController {
       role: user.role,
     });
 
-    return { accessToken, user };
+    // Gerar um código único temporário (pode ser um UUID)
+    const uuid = uuidv4();
+
+    // Armazenar o código e o usuário em algum armazenamento temporário (por exemplo, Redis ou memória)
+    await this.cacheManager.set(uuid, { accessToken, user }, { ttl: 60 * 2 }); // TTL em segundos (2 minutos)
+
+    // Redirecionar para o front-end com o código
+    res.redirect(`http://localhost:3000/auth/exchange-code/${uuid}`);
   }
 
   // Rota para redirecionar o usuário para a Microsoft
@@ -123,5 +141,19 @@ export class AuthController {
     });
 
     return { accessToken, user };
+  }
+
+  // Rota para trocar o token UUID pelos dados de autenticação do usuário
+  @Public()
+  @Get('exchange_code/:code')
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  async exchangeCode(@Param('code') code: string): Promise<any> {
+    const cahedData = await this.cacheManager.get(code);
+
+    if (!cahedData) {
+      throw new NotFoundException('Code not found');
+    }
+
+    return cahedData;
   }
 }
