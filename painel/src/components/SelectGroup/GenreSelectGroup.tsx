@@ -1,17 +1,20 @@
 "use client";
+import { Genre } from "@/types/profile";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 
 interface GenreSelectGroupProps {
   customClasses?: string;
+  selectedOption?: string | Genre;
+  isOptionSelected?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
-const GenreSelectGroup: React.FC<GenreSelectGroupProps> = ({customClasses}) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
-  const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+const GenreSelectGroup: React.FC<GenreSelectGroupProps> = ({customClasses, selectedOption, isOptionSelected = false, onChange}) => {
+  const [isOptionSelectedState, setIsOptionSelectedState] = useState<boolean>(isOptionSelected);
 
   const changeTextColor = () => {
-    setIsOptionSelected(true);
+    setIsOptionSelectedState(true);
   };
 
   return (
@@ -27,12 +30,14 @@ const GenreSelectGroup: React.FC<GenreSelectGroupProps> = ({customClasses}) => {
         </span>
         <select
           value={selectedOption}
-          onChange={(e) => {
-            setSelectedOption(e.target.value);
-            changeTextColor();
-          }}
+          onChange={onChange}
+          onBlur={(e) => {changeTextColor(); }}
+          // onChange={(e) => {
+          //   setSelectedOptionState(e.target.value);
+          //   changeTextColor();
+          // }}
           className={`relative z-10 w-full appearance-none rounded-[7px] border border-stroke text-dark bg-white px-11.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 ${
-            isOptionSelected ? "text-dark dark:text-white" : ""
+            isOptionSelectedState ? "text-dark dark:text-white" : ""
           }`}
         >
           <option value="" disabled className="text-dark-6">

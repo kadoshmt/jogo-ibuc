@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import GenreSelectGroup from "@/components/SelectGroup/GenreSelectGroup";
 import { UserIcon } from "@heroicons/react/24/outline";
@@ -10,8 +10,61 @@ import { FingerPrintIcon } from "@heroicons/react/24/outline";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { MapIcon } from "@heroicons/react/24/outline";
 import { GlobeAmericasIcon } from "@heroicons/react/24/outline";
+import { useProfile, useUpdateUserProfile } from "@/hooks/useProfile";
+import { useAuthStore } from '@/stores/useAuthStore';
+import Loader from "@/components/common/Loader";
+import { Genre } from "@/types/profile";
 
 const ProfilePageComponent = () => {
+  const { data: userProfile, isLoading, isError } = useProfile();
+  const user = useAuthStore((state) => state.user);
+  const updateUserProfile = useUpdateUserProfile();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    genre: '',
+    username: '',
+    country: '',
+    region: '',
+    city: '',
+    phone: '',
+  });
+
+  // Atualizar o estado com os dados do perfil quando carregados
+  useEffect(() => {
+    if (userProfile) {
+      setFormData({
+        name: userProfile.name || '',
+        genre: userProfile.genre || Genre.NAO_INFORMADO,
+        username: userProfile.username || '',
+        country: userProfile.country || '',
+        region: userProfile.region || '',
+        city: userProfile.city || '',
+        phone: userProfile.phone || '',
+      });
+    }
+  }, [userProfile]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData);
+
+    try {
+      await updateUserProfile.mutateAsync(formData);
+      // Mostrar mensagem de sucesso, se necessário
+    } catch (error) {
+      // Tratar erros, se necessário
+    }
+  };
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (isError) {
+    return <div>Erro ao carregar o perfil do usuário</div>;
+  }
+
   return (
     <>
       <div className="grid grid-cols-5 gap-8">
@@ -23,7 +76,7 @@ const ProfilePageComponent = () => {
               </h3>
             </div>
             <div className="p-7">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
                 <InputGroup
@@ -31,13 +84,19 @@ const ProfilePageComponent = () => {
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Devid Jhon"
-                    defaultValue="Devid Jhon"
+                    placeholder="Informe seu nome completo"
+                    defaultValue={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     customClasses="w-full sm:w-1/2"
                     icon={<UserIcon className="size-5" />}
+
                   />
 
-                  <GenreSelectGroup customClasses="w-full sm:w-1/2" />
+                  <GenreSelectGroup
+                    customClasses="w-full sm:w-1/2"
+                    selectedOption={formData.genre}
+                    onChange={(e) => setFormData({ ...formData, genre: e.target.value })}
+                   />
 
                 </div>
 
@@ -46,10 +105,10 @@ const ProfilePageComponent = () => {
                 <InputGroup
                     label="E-mail"
                     type="email"
-                    name="emailAddress"
-                    id="emailAddress"
-                    placeholder="devidjond45@gmail.com"
-                    defaultValue="devidjond45@gmail.com"
+                    name="email"
+                    id="email"
+                    defaultValue={user?.email}
+                    disabled={true}
                     customClasses="w-full sm:w-1/2"
                     icon={<EnvelopeIcon className="size-5" />}
                   />
@@ -60,8 +119,9 @@ const ProfilePageComponent = () => {
                     type="text"
                     name="username"
                     id="username"
-                    placeholder="devidjhon24"
-                    defaultValue="devidjhon24"
+                    defaultValue={formData.username}
+                    disabled={true}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     customClasses="w-full sm:w-1/2"
                     icon={<FingerPrintIcon className="size-5" />}
                   />
@@ -75,8 +135,9 @@ const ProfilePageComponent = () => {
                     type="text"
                     name="country"
                     id="country"
-                    placeholder="Brasil"
-                    defaultValue="Brasil"
+                    placeholder="Informe seu país"
+                    defaultValue={formData.country}
+                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                     customClasses="w-full sm:w-1/2"
                     icon={<GlobeAmericasIcon className="size-5" />}
                   />
@@ -86,8 +147,9 @@ const ProfilePageComponent = () => {
                     type="text"
                     name="region"
                     id="region"
-                    placeholder="Mato Grosso"
-                    defaultValue="Mato Grosso"
+                    placeholder="Informe seu estado"
+                    defaultValue={formData.region}
+                    onChange={(e) => setFormData({ ...formData, region: e.target.value })}
                     customClasses="w-full sm:w-1/2"
                     icon={<MapIcon className="size-5" />}
                   />
@@ -100,8 +162,9 @@ const ProfilePageComponent = () => {
                       type="text"
                       name="city"
                       id="city"
-                      placeholder="Cuiabá"
-                      defaultValue="Cuiabá"
+                      placeholder="Informe sua cidade"
+                      defaultValue={formData.city}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       customClasses="w-full sm:w-1/2"
                       icon={<MapPinIcon className="size-5" />}
                     />
@@ -109,10 +172,11 @@ const ProfilePageComponent = () => {
                   <InputGroup
                       label="WhastApp"
                       type="text"
-                      name="whatsapp"
-                      id="whatsapp"
-                      placeholder="(65) 99967-7515"
-                      defaultValue="(65) 99967-7515"
+                      name="phone"
+                      id="phone"
+                      placeholder="Ex: (99) 99999-9999"
+                      defaultValue={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       customClasses="w-full sm:w-1/2"
                       icon={<PhoneIcon className="size-5" />}
                     />
@@ -127,12 +191,12 @@ const ProfilePageComponent = () => {
                 </div>
 
                 <div className="flex justify-end gap-3">
-                  <button
+                  {/* <button
                     className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
                     type="submit"
                   >
                     Cancelar
-                  </button>
+                  </button> */}
                   <button
                     className="flex justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
                     type="submit"
@@ -157,7 +221,7 @@ const ProfilePageComponent = () => {
                   <div className="h-14 w-14 rounded-full">
                     <>
                       <Image
-                        src="/images/user/user-03.png"
+                        src={user?.avatarUrl || '/images/user/user-03.png'}
                         width={55}
                         height={55}
                         alt="User"
