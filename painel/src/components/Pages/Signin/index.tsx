@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const loginSchema = z.object({
   email: z.string().email({ message: 'Por favor informe um e-mail válido' }).trim(),
@@ -14,8 +16,10 @@ export const loginSchema = z.object({
 })
 
 export default function SigninPageComponent() {
-
+  // const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
+  //const queryClient = useQueryClient();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [data, setData] = useState({
@@ -47,6 +51,13 @@ export default function SigninPageComponent() {
 
       if (res.ok) {
         const data = await res.json();
+        console.log(data);
+        // Atualizar o estado de autenticação
+        // setAuthenticated(true);
+        setUser(data.user)
+
+        // Refetch dos dados do usuário
+        //queryClient.invalidateQueries(['Profile']);
 
         // Redirecionar para o dashboard
         router.push('/dashboard/profile');
