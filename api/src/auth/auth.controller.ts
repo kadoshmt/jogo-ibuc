@@ -94,7 +94,7 @@ export class AuthController {
     await this.cacheManager.set(uuid, { accessToken, user }, { ttl: 60 * 2 }); // TTL em segundos (2 minutos)
 
     // Redirecionar para o front-end com o código
-    res.redirect(`http://localhost:3000/auth/exchange-code/${uuid}`);
+    res.redirect(`http://localhost:3000/auth/callback/${uuid}`);
   }
 
   // Rota para redirecionar o usuário para a Microsoft
@@ -145,7 +145,7 @@ export class AuthController {
 
   // Rota para trocar o token UUID pelos dados de autenticação do usuário
   @Public()
-  @Get('exchange_code/:code')
+  @Get('exchange-code/:code')
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   async exchangeCode(@Param('code') code: string): Promise<any> {
     const cahedData = await this.cacheManager.get(code);
