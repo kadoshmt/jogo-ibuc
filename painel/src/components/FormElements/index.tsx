@@ -1,9 +1,6 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import DatePickerTwo from "@/components/FormElements/DatePicker/DatePickerTwo";
-import DatePickerOne from "@/components/FormElements/DatePicker/DatePickerOne";
 
-import SelectGroupTwo from "@/components/FormElements/SelectGroup/SelectGroupTwo";
 import { useState } from "react";
 import CheckboxGroup from "./CheckboxGroup";
 import Checkbox from "./Checkbox";
@@ -18,8 +15,6 @@ import TimePicker from "./TimePicker";
 import InputFile from "./InputFile";
 import SelectGroup from "./SelectGroup";
 import MultiSelect from "./MultiSelect";
-import MultiSelectTemplate from "./MultiSelectTemplate";
-import MultiSelectFixedPosition from "./MultiSelect/fixedPosition";
 
 const FormElements = () => {
   const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
