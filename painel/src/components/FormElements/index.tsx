@@ -1,20 +1,94 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import CheckboxFive from "@/components/FormElements/Checkboxes/CheckboxFive";
-import CheckboxFour from "@/components/FormElements/Checkboxes/CheckboxFour";
-import CheckboxOne from "@/components/FormElements/Checkboxes/CheckboxOne";
-import CheckboxThree from "@/components/FormElements/Checkboxes/CheckboxThree";
-import CheckboxTwo from "@/components/FormElements/Checkboxes/CheckboxTwo";
-import SwitcherFour from "@/components/FormElements/Switchers/SwitcherFour";
-import SwitcherOne from "@/components/FormElements/Switchers/SwitcherOne";
-import SwitcherThree from "@/components/FormElements/Switchers/SwitcherThree";
-import SwitcherTwo from "@/components/FormElements/Switchers/SwitcherTwo";
 import DatePickerTwo from "@/components/FormElements/DatePicker/DatePickerTwo";
 import DatePickerOne from "@/components/FormElements/DatePicker/DatePickerOne";
-import MultiSelect from "@/components/FormElements/MultiSelect";
+
 import SelectGroupTwo from "@/components/FormElements/SelectGroup/SelectGroupTwo";
+import { useState } from "react";
+import CheckboxGroup from "./CheckboxGroup";
+import Checkbox from "./Checkbox";
+import Switcher from "./Switcher";
+import RadioGroup from "./RadioGroup";
+import { UserIcon, UsersIcon } from "@heroicons/react/24/outline";
+import InputGroup from "./InputGroup";
+import TextArea from "./TextArea";
+import DatePicker from "./DatePicker";
+import DateTimePicker from "./DateTimePicker";
+import TimePicker from "./TimePicker";
+import InputFile from "./InputFile";
+import SelectGroup from "./SelectGroup";
+import MultiSelect from "./MultiSelect";
+import MultiSelectTemplate from "./MultiSelectTemplate";
+import MultiSelectFixedPosition from "./MultiSelect/fixedPosition";
 
 const FormElements = () => {
+  const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
+  const [isEnabled, setIsEnabled] = useState<boolean>(false);
+  const [selectedFruitIds, setSelectedFruitIds] = useState<number[]>([]);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string>('Verde');
+  const [selectedGenre, setSelectedGenre] = useState<string>('MASCULINO');
+  const [selectedVehicleId, setSelectedVehicleId] = useState<number>(2);
+  const [selectedVegetables, setSelectedVegetables] = useState<string[]>([]);
+  const [selectedCityIds, setSelectedCityIds] = useState<number[]>([]);
+
+  const fruits = ['Maçã', 'Banana', 'Uva'];
+  const vegetables = ['Cenoura', 'Beringela', 'Batata', 'Cebola', 'Pimentão'];
+
+  const colors = ['Vermelho', 'Verde', 'Azul'];
+
+  interface Fruit {
+    id: number;
+    name: string;
+  }
+
+  const fruitOptions: Fruit[] = [
+    { id: 1, name: 'Maçã' },
+    { id: 2, name: 'Banana' },
+    { id: 3, name: 'Uva' },
+  ];
+
+  interface VehicleType {
+    id: number;
+    label: string;
+  }
+
+  const options: VehicleType[] = [
+    { id: 1, label: 'Aéreo' },
+    { id: 2, label: 'Terrestre' },
+    { id: 3, label: 'Marítimo' },
+  ];
+
+  interface Genre {
+    value: string;
+    name: string;
+  }
+
+  const genreOptions: Genre[] = [
+    { value: "MASCULINO", name: "Masculino" },
+    { value: "FEMININO", name: "Feminino" },
+    { value: "NAO_INFORMADO", name: "Não Informado" },
+  ];
+
+  interface City {
+    id: number;
+    name: string;
+  }
+
+  const cities: City[] = [
+    { id: 1, name: 'São Paulo' },
+    { id: 2, name: 'Rio de Janeiro' },
+    { id: 3, name: 'Belo Horizonte' },
+    { id: 4, name: 'Curitiba' },
+    { id: 5, name: 'Porto Alegre' },
+    { id: 6, name: 'Aracajú' },
+    { id: 7, name: 'Cuiabá' },
+    { id: 8, name: 'Florianópolis' },
+    { id: 9, name: 'Fortaleza' },
+    { id: 10, name: 'Manaus' },
+  ];
+
+
   return (
     <>
       <Breadcrumb pageName="FormElements" />
@@ -29,39 +103,44 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Default Input
-                </label>
-                <input
-                  type="text"
-                  placeholder="Default Input"
-                  className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                />
-              </div>
+                <InputGroup
+                    label="Default Input "
+                    type="text"
+                    name="default"
+                    id="default"
+                    placeholder="Informe o valor"
+                    customClasses="w-full"
+                  />
 
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Active Input
-                </label>
-                <input
-                  type="text"
-                  placeholder="Active Input"
-                  className="w-full rounded-[7px] border-[1.5px] border-primary bg-transparent px-5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:bg-dark-2 dark:text-white"
-                />
-              </div>
+                <InputGroup
+                    label="Default Input com ícone "
+                    type="text"
+                    name="defaultIcon"
+                    id="defaultIcon"
+                    placeholder="Informe o valor"
+                    customClasses="w-full"
+                    icon={<UserIcon className="size-5" />}
+                  />
 
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Disabled label
-                </label>
-                <input
-                  type="text"
-                  placeholder="Disabled label"
-                  disabled
-                  className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary dark:disabled:bg-dark"
-                />
-              </div>
+                <InputGroup
+                    label="Password Input "
+                    type="password"
+                    name="passwordField"
+                    id="passwordField"
+                    customClasses="w-full"
+                  />
+
+
+                <InputGroup
+                    label="Desabled Input com ícone "
+                    type="text"
+                    name="desabledIcon"
+                    id="desabledIcon"
+                    placeholder="Informe o valor"
+                    customClasses="w-full"
+                    icon={<UserIcon className="size-5" />}
+                    disabled
+                  />
             </div>
           </div>
 
@@ -73,10 +152,11 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <SwitcherOne />
-              <SwitcherTwo />
-              <SwitcherThree />
-              <SwitcherFour />
+            <Switcher
+                label="Ativar opção"
+                checked={isEnabled}
+                onChange={(checked) => setIsEnabled(checked)}
+              />
             </div>
           </div>
 
@@ -88,8 +168,31 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <DatePickerOne />
-              <DatePickerTwo />
+
+            <TimePicker
+                label="Default TimePicker"
+                placeholder="00:00"
+                name="time"
+                id="time"
+                required
+              />
+
+              <DatePicker
+                label="Default DatePicker"
+                placeholder="Selecione a data"
+                name="data1"
+                id="data1"
+                required
+              />
+
+            <DateTimePicker
+                label="Default DateTimePicker"
+                placeholder="Seleciona a data e hora"
+                name="data2"
+                id="data2"
+                altInput={false}
+                dateFormat="Y-m-d H:i"
+              />
             </div>
           </div>
 
@@ -101,25 +204,60 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Attach file
-                </label>
-                <input
-                  type="file"
-                  className="w-full cursor-pointer rounded-[7px] border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-[#E2E8F0] file:px-6.5 file:py-[13px] file:text-body-sm file:font-medium file:text-dark-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-dark dark:border-dark-3 dark:bg-dark-2 dark:file:border-dark-3 dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                />
-              </div>
 
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Attach file
-                </label>
-                <input
-                  type="file"
-                  className="w-full cursor-pointer rounded-[7px] border-[1.5px] border-stroke px-3 py-[9px] outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-stroke file:px-2.5 file:py-1 file:text-body-xs file:font-medium file:text-dark-5 focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-dark dark:border-dark-3 dark:bg-dark-2 dark:file:border-dark-3 dark:file:bg-white/30 dark:file:text-white"
-                />
-              </div>
+              <InputFile
+                name="file1"
+                id="file1"
+                label="Arquivo"
+              />
+
+
+            </div>
+          </div>
+          {/* <!-- Select input --> */}
+          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
+            <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
+              <h3 className="font-medium text-dark dark:text-white">
+                Select input
+              </h3>
+            </div>
+            <div className="flex flex-col gap-5.5 p-6.5">
+              {/* <MultiSelect id="multiSelect" /> */}
+              <SelectGroup
+                label="Sexo"
+                options={genreOptions}
+                value={selectedGenre}
+                onChange={(e) => setSelectedGenre(e.target.value)}
+                required
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.value}
+                icon={<UsersIcon className="size-5" />}
+              />
+              <p>Sexo selecionado: {selectedGenre}</p>
+
+              <MultiSelect<string, string>
+                options={vegetables}
+                value={selectedVegetables}
+                onChange={setSelectedVegetables}
+                label="Selecione as verduras"
+                placeholder="Escolha suas verduras favoritas"
+              />
+
+              <p>Verduras selecionadas: {selectedVegetables}</p>
+
+              <MultiSelect<City, number>
+                    options={cities}
+                    value={selectedCityIds}
+                    onChange={setSelectedCityIds}
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    label="Selecione as cidades"
+                    placeholder="Escolha suas cidades favoritas"
+                  />
+
+              <p>IDs das cidades selecionadas: {selectedCityIds}</p>
+
+
             </div>
           </div>
         </div>
@@ -133,39 +271,20 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-6 p-6.5">
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Default textarea
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder="Default textarea"
-                  className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                ></textarea>
-              </div>
+              <TextArea
+                label="Default TextArea"
+                required
+                rows={6}
+                placeholder="Default Text Area"
+              />
 
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Active textarea
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder="Active textarea"
-                  className="w-full rounded-[7px] border-[1.5px] border-primary bg-transparent px-5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:bg-dark-2 dark:text-white"
-                ></textarea>
-              </div>
+              <TextArea
+                label="Disabled TextArea"
+                rows={6}
+                placeholder="Disabled Text Area"
+                disabled
+              />
 
-              <div>
-                <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-                  Disabled textarea
-                </label>
-                <textarea
-                  rows={6}
-                  disabled
-                  placeholder="Disabled textarea"
-                  className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary dark:disabled:bg-dark"
-                ></textarea>
-              </div>
             </div>
           </div>
 
@@ -177,26 +296,61 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxOne />
-              <CheckboxTwo />
-              <CheckboxThree />
-              <CheckboxFour />
-              <CheckboxFive />
+              <CheckboxGroup<string, string>
+                options={fruits}
+                value={selectedFruits}
+                onChange={setSelectedFruits}
+                label="Selecione as frutas"
+                required
+              />
+              <p>Frutas selecionadas: {selectedFruits}</p>
+
+            <CheckboxGroup<Fruit, number>
+              options={fruitOptions}
+              value={selectedFruitIds}
+              onChange={setSelectedFruitIds}
+              getOptionLabel={(option) => option.name}
+              getOptionValue={(option) => option.id}
+              label="Selecione as frutas"
+              required
+              layout="block"
+            />
+            <p>Ids das frutas selecionadas: {selectedFruitIds}</p>
+
+            <Checkbox
+              label="Aceito os termos e condições"
+              checked={isAgreed}
+              onChange={(checked) => setIsAgreed(checked)}
+            />
+            <p>{isAgreed ? "Você aceitou os termos." : "Você não aceitou os termos."}</p>
+
+            <RadioGroup<string, string>
+              options={colors}
+              value={selectedColor}
+              onChange={setSelectedColor}
+              name="colors"
+              label="Selecione uma cor"
+              required
+            />
+
+            <p>Cor selecionada: {selectedColor}</p>
+
+            <RadioGroup<VehicleType, number>
+                  options={options}
+                  value={selectedVehicleId}
+                  onChange={setSelectedVehicleId}
+                  name="options"
+                  getOptionLabel={(option) => option.label}
+                  getOptionValue={(option) => option.id}
+                  label="Selecione uma opção"
+                  required
+                  layout="block"
+                />
+
+            <p>Id do tipo de Veículo selecionado: {selectedVehicleId}</p>
             </div>
           </div>
 
-          {/* <!-- Select input --> */}
-          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
-            <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
-              <h3 className="font-medium text-dark dark:text-white">
-                Select input
-              </h3>
-            </div>
-            <div className="flex flex-col gap-5.5 p-6.5">
-              <SelectGroupTwo />
-              <MultiSelect id="multiSelect" />
-            </div>
-          </div>
         </div>
       </div>
     </>
