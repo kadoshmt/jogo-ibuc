@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       const { accessToken, user } = data;
 
       // Criar a resposta e definir o cookie HTTP-only
-      const response = NextResponse.json({ success: true });
+      const response = NextResponse.json({ success: true, user });
       response.cookies.set('ibucgameadmin-token', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

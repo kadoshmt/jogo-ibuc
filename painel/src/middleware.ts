@@ -11,7 +11,6 @@ export async function middleware(req: NextRequest) {
   // Executar o middleware de autenticação
   const authResponse = await authMiddleware(req);
 
-  console.log("authResponse: ", authResponse);
   if (authResponse) return authResponse;
 
   // Se nenhum middleware retornar uma resposta, continuar para a rota solicitada

@@ -61,7 +61,7 @@ export class ProfileController {
   }
 
   // Rota para alteração dos dados do perfil
-  @Put('edit')
+  @Put()
   async updateProfile(
     @Request() req: IAuthenticatedRequest,
     @Body() updateProfileDto: UpdateProfileInputDto,

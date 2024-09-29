@@ -10,7 +10,6 @@ export async function authMiddleware(req: NextRequest) {
 
   const verifiedToken = await verifyJwt(token);
 
-  console.log("verifiedToken: ", verifiedToken);
 
   if (!verifiedToken) {
     // Se o usuário não estiver autenticado, redireciona para a página de login

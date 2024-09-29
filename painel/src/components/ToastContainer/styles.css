@@ -1,0 +1,203 @@
+/* Posições do Container */
+.toast-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-container.top-left {
+  top: 10px;
+  left: 10px;
+  align-items: flex-start;
+}
+
+.toast-container.top-right {
+  top: 10px;
+  right: 10px;
+  align-items: flex-end;
+}
+
+.toast-container.top-center {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.toast-container.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  align-items: flex-start;
+}
+
+.toast-container.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  align-items: flex-end;
+}
+
+.toast-container.bottom-center {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+/* Estilos do Toast */
+.toast {
+  min-width: 300px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  /* animation: fadeIn 0.5s forwards, fadeOut 0.5s forwards; */
+}
+
+/* Aplicar a animação de entrada */
+.toast.enter {
+  animation: fadeIn 0.5s forwards;
+}
+
+/* Aplicar a animação de saída */
+.toast.exit {
+  animation: fadeOut 0.5s forwards;
+}
+
+.toast.success {
+  border-left: 5px solid #28a745;
+  @apply bg-green-light-7 border-green dark:bg-[#1B1B24] dark:bg-opacity-30;
+}
+
+.toast.success .toast-title,
+.toast.success .toast-close {
+  @apply text-[#004434] dark:text-[#34D399];
+}
+
+.toast.success .toast-body {
+  @apply text-[#637381];
+}
+
+.toast.error {
+  border-left: 5px solid #28a745;
+  @apply border-red-light bg-red-light-5 dark:bg-[#1B1B24] dark:bg-opacity-30;
+}
+
+.toast.error .toast-title,
+.toast.error .toast-close {
+  @apply text-[#BC1C21];
+}
+
+.toast.error .toast-body {
+  @apply text-[#CD5D5D];
+}
+
+.toast.warning {
+  border-left: 5px solid #28a745;
+  @apply border-[#FFB800] bg-[#FEF5DE] dark:bg-[#1B1B24] dark:bg-opacity-30;
+}
+
+.toast.warning .toast-title,
+.toast.warning .toast-close {
+  @apply text-[#9D5425];
+}
+
+.toast.warning .toast-body {
+  @apply text-[#D0915C];
+}
+
+.toast.info {
+  border-left: 5px solid #17a2b8;
+  background-color: #d1ecf1; /* Azul claro */
+  @apply border-blue-600 text-blue-200 dark:bg-[#1B1B24] dark:bg-opacity-30;
+}
+
+.toast.info .toast-title,
+.toast.info .toast-close {
+  @apply text-blue-700;
+}
+
+.toast.info .toast-body {
+  @apply text-blue-900;
+}
+
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--enter-x, 0)) translateY(var(--enter-y, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(var(--exit-x, 0)) translateY(var(--exit-y, 0));
+  }
+}
+
+/* Custom Properties para Animações */
+.toast.enter-left {
+  --enter-x: -100%;
+}
+
+.toast.enter-right {
+  --enter-x: 100%;
+}
+
+.toast.enter-top {
+  --enter-y: -100%;
+}
+
+.toast.enter-bottom {
+  --enter-y: 100%;
+}
+
+.toast.exit-left {
+  --exit-x: -100%;
+}
+
+.toast.exit-right {
+  --exit-x: 100%;
+}
+
+.toast.exit-top {
+  --exit-y: -100%;
+}
+
+.toast.exit-bottom {
+  --exit-y: 100%;
+}
+
+/* Estilos do Header */
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toast-title {
+  font-weight: bold;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos do Corpo */
+.toast-body {
+  margin-top: 10px;
+}

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@tanstack/react-query": "^5.56.2",
     "apexcharts": "^3.45.2",
     "flatpickr": "^4.6.13",
     "jose": "^5.9.3",
@@ -22,7 +23,8 @@
     "react-quill": "^2.0.0",
     "react-select": "^5.8.0",
     "react-table": "^7.8.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "@types/node": "^20",
