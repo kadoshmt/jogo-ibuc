@@ -4,7 +4,7 @@ import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
 import React, { useEffect, useState } from "react";
-import Loader from "@/components/common/Loader";
+import LoaderFullPage from "@/components/common/LoaderFullPage";
 import { Providers } from "./providers";
 import ToastContainer from '@/components/ToastContainer';
 
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true}>
         <Providers>
-          {loading ? <Loader /> : (
+          {loading ? <LoaderFullPage /> : (
               <>
                 {children}
                 <ToastContainer />
