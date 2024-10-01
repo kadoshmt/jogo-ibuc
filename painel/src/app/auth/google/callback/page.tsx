@@ -1,7 +1,14 @@
 'use client';
 
+import { Metadata } from 'next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+
+export const metadata: Metadata = {
+  title: "Signin | IBUCGameAdmin",
+  description: "Gerenciador de Contéudos do Jogo IBUC",
+};
+
 
 export default function GoogleCallbackPage() {
   const router = useRouter();

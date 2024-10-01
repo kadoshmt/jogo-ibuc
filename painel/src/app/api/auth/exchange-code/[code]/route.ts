@@ -15,11 +15,12 @@ export async function GET(request: Request, { params }: { params: { code: string
 
     if (res.ok) {
       const data = await res.json();
+      console.log(data);
       const { accessToken, user } = data;
 
       // Definir o cookie HTTP-only com o JWT
-      const response = NextResponse.json({ success: true });
-      response.cookies.set('token', accessToken, {
+      const response = NextResponse.json({ success: true, user });
+      response.cookies.set('ibucgameadmin-token', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         //sameSite: 'lax',
