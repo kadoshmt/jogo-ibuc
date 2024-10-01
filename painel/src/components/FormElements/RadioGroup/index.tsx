@@ -1,13 +1,10 @@
-import React, { InputHTMLAttributes } from 'react';
+// RadioGroup.tsx
+import React from 'react';
 
-interface RadioGroupProps<T, V>
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'value' | 'defaultValue' | 'type' | 'onChange' | 'disabled' | 'name'
-  > {
+interface RadioGroupProps<T, V> {
   options: T[];
-  value?: V;
-  onChange?: (selectedValue: V) => void;
+  value: V;
+  onChange: (selectedValue: V) => void;
   name: string;
   layout?: 'inline' | 'block';
   label?: string;
@@ -16,6 +13,7 @@ interface RadioGroupProps<T, V>
   getOptionLabel?: (option: T) => string;
   getOptionValue?: (option: T) => V;
   customClasses?: string;
+  error?: string;
 }
 
 const RadioGroup = <T, V>({
@@ -30,8 +28,11 @@ const RadioGroup = <T, V>({
   getOptionLabel,
   getOptionValue,
   customClasses,
-  ...rest
+  error,
 }: RadioGroupProps<T, V>) => {
+  const getOptionValueFn = getOptionValue ?? ((option: T) => option as unknown as V);
+  const getOptionLabelFn = getOptionLabel ?? ((option: T) => String(option));
+
   const isOptionDisabled = (optionValue: V): boolean => {
     if (typeof disabled === 'boolean') {
       return disabled;
@@ -40,9 +41,7 @@ const RadioGroup = <T, V>({
   };
 
   const handleChange = (optionValue: V) => {
-    if (onChange) {
-      onChange(optionValue);
-    }
+    onChange(optionValue);
   };
 
   return (
@@ -55,8 +54,8 @@ const RadioGroup = <T, V>({
       )}
       <div className={`flex ${layout === 'block' ? 'flex-col' : 'flex-row flex-wrap'}`}>
         {options.map((option, index) => {
-          const optionValue = getOptionValue ? getOptionValue(option) : (option as unknown as V);
-          const optionLabel = getOptionLabel ? getOptionLabel(option) : String(option);
+          const optionValue = getOptionValueFn(option);
+          const optionLabel = getOptionLabelFn(option);
           const isChecked = value === optionValue;
           const isDisabled = isOptionDisabled(optionValue);
           const inputId = `radio-${name}-${String(optionValue)}-${index}`;
@@ -69,34 +68,32 @@ const RadioGroup = <T, V>({
                 layout === 'block' ? 'mb-2' : 'mb-0'
               } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <div className="relative">
-                <input
-                  type="radio"
-                  id={inputId}
-                  name={name}
-                  className="sr-only"
-                  checked={isChecked}
-                  onChange={() => handleChange(optionValue)}
-                  disabled={isDisabled}
-                  {...rest}
-                />
-                <div
-                  className={`mr-2 flex h-5 w-5 items-center justify-center rounded-full border ${
-                    isChecked
-                      ? 'border-primary bg-gray-2 dark:bg-transparent'
-                      : 'border-dark-5 dark:border-dark-6'
-                  } ${isDisabled ? 'bg-gray-200' : ''}`}
-                >
-                  {isChecked && (
-                    <div className="h-2.5 w-2.5 rounded-full bg-primary"></div>
-                  )}
-                </div>
+              <input
+                type="radio"
+                id={inputId}
+                name={name}
+                className="sr-only"
+                checked={isChecked}
+                onChange={() => handleChange(optionValue)}
+                disabled={isDisabled}
+              />
+              <div
+                className={`mr-2 flex h-5 w-5 items-center justify-center rounded-full border ${
+                  isChecked
+                    ? 'border-primary bg-gray-2 dark:bg-transparent'
+                    : 'border-dark-5 dark:border-dark-6'
+                } ${isDisabled ? 'bg-gray-200' : ''}`}
+              >
+                {isChecked && (
+                  <div className="h-2.5 w-2.5 rounded-full bg-primary"></div>
+                )}
               </div>
               {optionLabel}
             </label>
           );
         })}
       </div>
+      {error && <small className="mt-1 block text-sm text-red-500">{error}</small>}
     </div>
   );
 };

@@ -1,13 +1,9 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 
-interface CheckboxGroupProps<T, V>
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'value' | 'defaultValue' | 'type' | 'onChange' | 'disabled'
-  > {
+interface CheckboxGroupProps<T, V> {
   options: T[];
-  value?: V[];
-  onChange?: (selectedValues: V[]) => void;
+  value: V[];
+  onChange: (selectedValues: V[]) => void;
   layout?: 'inline' | 'block';
   label?: string;
   required?: boolean;
@@ -15,11 +11,12 @@ interface CheckboxGroupProps<T, V>
   getOptionLabel?: (option: T) => string;
   getOptionValue?: (option: T) => V;
   customClasses?: string;
+  error?: string;
 }
 
 const CheckboxGroup = <T, V>({
   options,
-  value = [],
+  value,
   onChange,
   layout = 'inline',
   label,
@@ -28,25 +25,19 @@ const CheckboxGroup = <T, V>({
   getOptionLabel,
   getOptionValue,
   customClasses,
-  ...rest
+  error,
 }: CheckboxGroupProps<T, V>) => {
-  // Função padrão para getOptionValue
   const getOptionValueFn = getOptionValue ?? ((option: T) => option as unknown as V);
   const getOptionLabelFn = getOptionLabel ?? ((option: T) => String(option));
 
-  const [selectedValues, setSelectedValues] = React.useState<V[]>(value);
-
   const handleChange = (optionValue: V) => {
     let newValues: V[];
-    if (selectedValues.includes(optionValue)) {
-      newValues = selectedValues.filter((v) => v !== optionValue);
+    if (value.includes(optionValue)) {
+      newValues = value.filter((v) => v !== optionValue);
     } else {
-      newValues = [...selectedValues, optionValue];
+      newValues = [...value, optionValue];
     }
-    setSelectedValues(newValues);
-    if (onChange) {
-      onChange(newValues);
-    }
+    onChange(newValues);
   };
 
   const isOptionDisabled = (optionValue: V): boolean => {
@@ -55,11 +46,6 @@ const CheckboxGroup = <T, V>({
     }
     return (disabled as V[]).includes(optionValue);
   };
-
-  // Sincronizar o estado interno com a prop 'value' se for um componente controlado
-  React.useEffect(() => {
-    setSelectedValues(value || []);
-  }, [value]);
 
   return (
     <div className={customClasses}>
@@ -73,7 +59,7 @@ const CheckboxGroup = <T, V>({
         {options.map((option, index) => {
           const optionValue = getOptionValueFn(option);
           const optionLabel = getOptionLabelFn(option);
-          const isChecked = selectedValues.includes(optionValue);
+          const isChecked = value.includes(optionValue);
           const isDisabled = isOptionDisabled(optionValue);
           const inputId = `checkbox-${String(optionValue)}-${index}`;
 
@@ -85,34 +71,32 @@ const CheckboxGroup = <T, V>({
                 layout === 'block' ? 'mb-2' : 'mb-0'
               } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  id={inputId}
-                  name={inputId}
-                  className="sr-only"
-                  checked={isChecked}
-                  onChange={() => handleChange(optionValue)}
-                  disabled={isDisabled}
-                  {...rest}
-                />
-                <div
-                  className={`mr-2 flex h-5 w-5 items-center justify-center rounded border ${
-                    isChecked
-                      ? 'border-primary bg-gray-2 dark:bg-transparent'
-                      : 'border-dark-5 dark:border-dark-6'
-                  } ${isDisabled ? 'bg-gray-200' : ''}`}
-                >
-                  {isChecked && (
-                    <span className="h-2.5 w-2.5 rounded-sm bg-primary"></span>
-                  )}
-                </div>
+              <input
+                type="checkbox"
+                id={inputId}
+                name={inputId}
+                className="sr-only"
+                checked={isChecked}
+                onChange={() => handleChange(optionValue)}
+                disabled={isDisabled}
+              />
+              <div
+                className={`mr-2 flex h-5 w-5 items-center justify-center rounded border ${
+                  isChecked
+                    ? 'border-primary bg-gray-2 dark:bg-transparent'
+                    : 'border-dark-5 dark:border-dark-6'
+                } ${isDisabled ? 'bg-gray-200' : ''}`}
+              >
+                {isChecked && (
+                  <span className="h-2.5 w-2.5 rounded-sm bg-primary"></span>
+                )}
               </div>
               {optionLabel}
             </label>
           );
         })}
       </div>
+      {error && <small className="mt-1 block text-sm text-red-500">{error}</small>}
     </div>
   );
 };

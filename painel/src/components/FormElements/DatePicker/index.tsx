@@ -12,7 +12,7 @@ interface DatePickerProps extends InputHTMLAttributes<HTMLInputElement>{
   maxDate?: string;
   altInput?: boolean;
   altFormat?: string;
-
+  error?: string;
 }
 
 const DatePicker : React.FC<DatePickerProps> = ({
@@ -23,6 +23,7 @@ const DatePicker : React.FC<DatePickerProps> = ({
   dateFormat = "d/m/Y",
   altInput = true,
   altFormat =  "j F, Y",
+  error,
   ...inputProps
 }) => {
   useEffect(() => {
@@ -98,6 +99,7 @@ const DatePicker : React.FC<DatePickerProps> = ({
         </div>
         )}
       </div>
+      {error && <small className="mt-1 block text-sm text-red-500">{error}</small>}
     </div>
   );
 };
