@@ -49,7 +49,7 @@ const menuGroups = [
         role: ["ADMIN", "COLABORADOR"],
         children: [
           { label: "Listar Usuários", route: "/dashboard/users" },
-          { label: "Adicionar usuário", route: "/dashboard/users/create", role: ["ADMIN"], },
+          { label: "Criar Usuário", route: "/dashboard/users/create", role: ["ADMIN"], },
         ],
       },
       {
