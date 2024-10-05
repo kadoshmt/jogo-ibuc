@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useQueryClient } from '@tanstack/react-query';
+//import { useQueryClient } from '@tanstack/react-query';
 
 export const loginSchema = z.object({
   email: z.string().email({ message: 'Por favor informe um e-mail válido' }).trim(),
@@ -19,7 +19,7 @@ export default function SigninPageComponent() {
   // const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
-  const queryClient = useQueryClient();
+  //const queryClient = useQueryClient();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [data, setData] = useState({
