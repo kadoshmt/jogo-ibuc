@@ -14,5 +14,5 @@ export const DEFAULT_AVATAR_URLS = {
     `${avatarUrl}female2.png`,
     `${avatarUrl}female3.png`,
   ],
-  DEFAULT: `${avatarUrl}default.png`,
+  DEFAULT: `${avatarUrl}default-avatar.png`,
 };
