@@ -15,7 +15,6 @@ export async function GET(request: Request, { params }: { params: { code: string
 
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
       const { accessToken, user } = data;
 
       // Definir o cookie HTTP-only com o JWT
