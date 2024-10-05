@@ -19,11 +19,11 @@ export class CreateUserInputDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   password: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   name: string;
 
   @IsNotEmpty()
@@ -32,7 +32,7 @@ export class CreateUserInputDto {
     message:
       'Username must contain only letters, numbers and underscores ("_")',
   })
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   username: string;
 
   @IsNotEmpty()
@@ -43,7 +43,7 @@ export class CreateUserInputDto {
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   googleId?: string;
 
   @IsNotEmpty()
@@ -54,17 +54,17 @@ export class CreateUserInputDto {
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   country?: string;
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   region?: string;
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : undefined))
   city?: string;
 
   @IsOptional()
@@ -73,6 +73,8 @@ export class CreateUserInputDto {
     message:
       'Phone number must be in one of the formats: (99) 9999-9999, (99) 99999-9999, +999 (99) 9999-9999, +999 (99) 99999-9999',
   })
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) =>
+    value && value.trim() !== '' ? value.trim() : undefined,
+  )
   phone?: string;
 }
