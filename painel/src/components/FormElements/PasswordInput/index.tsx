@@ -25,7 +25,7 @@ const PasswordInputGroup = React.forwardRef<HTMLInputElement, PasswordInputGroup
               {icon}
             </span>
           )}
-          <button className="absolute inset-0 left-auto right-5 flex items-center" onClick={() => setShowPassword(!showPassword)}>
+          <button className="absolute inset-0 left-auto right-5 flex items-center" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
             {showPassword ? <EyeIcon className="size-5" /> : <EyeSlashIcon className="size-5" />}
           </button>
           <input
