@@ -24,7 +24,7 @@
 
 ## Description
 
-Jogo [IBUC](https://ibuc.online) é um jogo de perguntas e respostas que tem o intuito de ensinar a Bíblia Sagrada para o publico infantojuvenil. Esta é a API para gerenciar as perguntas do jogo e os placares dos jogadores.
+Jogo [IBUC](https://ibuc.online) é um jogo de perguntas e respostas que tem o intuito de ensinar a Bíblia Sagrada para o público infanto-juvenil. Esta é a API para gerenciar as perguntas do jogo e os placares dos jogadores.
 
 ## Project setup
 
@@ -72,26 +72,28 @@ $ npm run test:cov
   - [ ] Criar uma rota que envia uma uma url de reset de senha
   - [ ] Implementar mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
   - [x] Criar um utilitário para lidar com a criptografia (brcrypt)
-  - [ ] Criar os testes unitários das estratégias
+  - [x] Criar os testes unitários das estratégias
   - [ ] Criar os testes de integração das estratégias
 
 - Profile
   - [x] Criar uma rota para que o usuário veja obtenha seus dados (/profile)
   - [x] Criar uma rota para que o usuário edite seus dados (/profile/edit)
   - [x] Criar uma rota para que o usuário redefina sua senha (/profile/change-password)
-  - [ ] Criar uma rota para o usuário alterar sua foto de perfil (profile/change-avatar)
-  - [x] Criar rota para usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
-  - [ ] Criar rota para usuário se cadastrar em newsletter
-  - [ ] Criar testes unitários
+  - [ ] Criar uma rota para que o usuário alterar sua foto de perfil (profile/change-avatar)
+  - [x] Criar uma rota para que o usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
+  - [ ] Criar uma rota para que o usuário se cadastrar em newsletter
+  - [ ] criar uma rota para que o usuário possa alterar o seu username
+  - [ ] Criar todos os testes unitários
   - [ ] Criar testes de integração
 
 - Usuários
-  - [ ] Criar o módulo de usuários do Painel Administrativo
+  - [x] Criar o módulo de usuários do Painel Administrativo
     - [X] Criar o CRUD básico
       - [x] Somente Administradores podem gerenciar usuários
-      - [ ] Criar rota com paginação de usuários
-    - [ ] Criar testes unitários
+      - [x] Criar rota com paginação de usuários
+    - [ ] Criar todos os testes unitários
     - [ ] Criar testes de integração
+    - [ ] Corrigir testes de usuário, que não estão criando o perfil e o teste de findAllAdmin está falhando
 
 - Categorias:
   - [ ] Criar o múdulo de Categorias (Lições e Módulos)
