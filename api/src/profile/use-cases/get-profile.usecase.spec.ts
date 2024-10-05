@@ -27,6 +27,7 @@ describe('GetProfileUseCase', () => {
       country: null,
       region: null,
       city: null,
+      phone: null,
     };
 
     await profileRepository.create(profile);
@@ -43,6 +44,7 @@ describe('GetProfileUseCase', () => {
       country: profile.country,
       region: profile.region,
       city: profile.city,
+      phone: profile.phone,
     });
   });
 

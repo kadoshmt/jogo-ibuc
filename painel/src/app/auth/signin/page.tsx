@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import SigninPageComponent from "@/components/Pages/Signin";
 
 export const metadata: Metadata = {
-  title: "Página de Login | IBUCGameAdmin",
+  title: "Login | IBUCGameAdmin",
   description: "Página de autenticação para o Painel Administrativo do Jogo do IBUC",
 };
 

@@ -4,9 +4,10 @@ import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
 import React, { useEffect, useState } from "react";
-import Loader from "@/components/common/Loader";
+import LoaderFullPage from "@/components/common/LoaderFullPage";
 import { Providers } from "./providers";
 import ToastContainer from '@/components/ToastContainer';
+import ModalManager from "@/components/Modal/ModalManager";
 
 export default function RootLayout({
   children,
@@ -19,17 +20,18 @@ export default function RootLayout({
   // const pathname = usePathname();
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 500);
   }, []);
 
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body suppressHydrationWarning={true}>
         <Providers>
-          {loading ? <Loader /> : (
+          {loading ? <LoaderFullPage /> : (
               <>
                 {children}
                 <ToastContainer />
+                <ModalManager />
               </>
             )}
         </Providers>

@@ -31,6 +31,8 @@ import { ListUsersInputDto } from './dtos/list-users-input.dto';
 import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { FindAllUsersPaginatedUserCase } from './use-cases/find-all-users-paginated.usecase';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { FindAllAdminUsersUserCase } from './use-cases/find-all-admin-users.usecase';
+import { UserAdminOutputDto } from './dtos/users-admin-output.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -41,6 +43,7 @@ export class UsersController {
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly findUserByIdUserCase: FindUserByIdUserCase,
     private readonly findAllUsersUserCase: FindAllUsersUserCase,
+    private readonly findAllAdminUsersUserCase: FindAllAdminUsersUserCase,
     private readonly findAllUsersPaginatedUserCase: FindAllUsersPaginatedUserCase,
   ) {}
 
@@ -104,6 +107,14 @@ export class UsersController {
       listUsersInputDto,
       req.user,
     );
+  }
+
+  @Get('admin')
+  @Roles('ADMIN')
+  async findAllAdminUsers(
+    @Request() req: IAuthenticatedRequest,
+  ): Promise<UserAdminOutputDto[]> {
+    return await this.findAllAdminUsersUserCase.execute(req.user);
   }
 
   @Get(':id')

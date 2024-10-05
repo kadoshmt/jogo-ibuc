@@ -1,12 +1,11 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import ProfileEditBoxes from "@/components/Pages/ProfileEditBoxes";
 import ProfilePageComponent from "@/components/Pages/Profile";
 
 export const metadata: Metadata = {
-  title: "Next.js Profile Page | NextAdmin - Next.js Dashboard Kit",
-  description: "This is Next.js Profile page for NextAdmin Dashboard Kit",
+  title: "Meu Perfil | IbUCGameAdmin",
+  description: "Gerenciador de Contéudos do Jogo IBUC",
 };
 
 const Profile = () => {

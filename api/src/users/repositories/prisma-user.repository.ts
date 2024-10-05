@@ -10,6 +10,7 @@ import { PaginatedOutputDto } from 'src/common/dtos/paginated-output.dto';
 import { createPaginator } from 'prisma-pagination';
 import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { getAvatarUrl } from 'src/common/utils/avatar.util';
+import { UserAdminOutputDto } from '../dtos/users-admin-output.dto';
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -99,6 +100,25 @@ export class PrismaUserRepository implements IUserRepository {
     });
   }
 
+  async findAllAdmin(): Promise<UserAdminOutputDto[]> {
+    const users = await this.prisma.users.findMany({
+      where: {
+        role: 'ADMIN',
+      },
+      include: {
+        profile: true,
+      },
+    });
+
+    // Mapeia os dados retornados para o formato do DTO
+    return users.map((user) => {
+      return {
+        id: user.id,
+        name: user.profile?.name || '',
+      } as UserAdminOutputDto;
+    });
+  }
+
   async findAllPaginated(
     filters: IFindUsersFilters,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>> {
@@ -140,7 +160,9 @@ export class PrismaUserRepository implements IUserRepository {
         where,
         select,
         orderBy: {
-          createdAt: 'desc',
+          profile: {
+            name: 'asc',
+          },
         },
       },
       {

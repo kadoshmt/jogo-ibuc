@@ -1,13 +1,28 @@
 import React from "react";
 import Link from "next/link";
 import SidebarDropdown from "@/components/Sidebar/SidebarDropdown";
+import { useAuthStore } from "@/stores/useAuthStore";
 
-const SidebarItem = ({ item, pageName, setPageName }: any) => {
+interface SidebarItemProps {
+  item: any;
+  pageName: string;
+  setPageName: any,
+  role?: string[]
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({ item, pageName, setPageName }: any) => {
   const handleClick = () => {
     const updatedPageName =
       pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : "";
     return setPageName(updatedPageName);
   };
+
+  const user = useAuthStore((state) => state.user);
+
+  // Verifica se o item possui uma propriedade 'role' e se o role do usuário está incluído
+  if (item.role && (!user || !item.role.includes(user.role))) {
+    return null; // Não renderiza este item
+  }
 
   return (
     <>
@@ -56,7 +71,7 @@ const SidebarItem = ({ item, pageName, setPageName }: any) => {
               pageName !== item.label.toLowerCase() && "hidden"
             }`}
           >
-            <SidebarDropdown item={item.children} />
+            <SidebarDropdown items={item.children} />
           </div>
         )}
       </li>

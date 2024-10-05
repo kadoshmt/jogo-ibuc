@@ -46,7 +46,7 @@ export class FindUserByIdUserCase {
       id: user.id,
       email: user.email,
       name: profile.name,
-      username: profile.name,
+      username: profile.username,
       avatarUrl: profile.avatarUrl ?? getAvatarUrl(null),
       role: user.role,
       genre: profile.genre,

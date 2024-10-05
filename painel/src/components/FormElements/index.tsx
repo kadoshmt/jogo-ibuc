@@ -15,6 +15,9 @@ import TimePicker from "./TimePicker";
 import InputFile from "./InputFile";
 import SelectGroup from "./SelectGroup";
 import MultiSelect from "./MultiSelect";
+import { Controller, useForm } from "react-hook-form";
+import PasswordInputGroup from "./PasswordInput";
+import { KeyIcon } from "@heroicons/react/24/outline";
 
 const FormElements = () => {
   const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
@@ -26,6 +29,7 @@ const FormElements = () => {
   const [selectedVehicleId, setSelectedVehicleId] = useState<number>(2);
   const [selectedVegetables, setSelectedVegetables] = useState<string[]>([]);
   const [selectedCityIds, setSelectedCityIds] = useState<number[]>([]);
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   const fruits = ['Maçã', 'Banana', 'Uva'];
   const vegetables = ['Cenoura', 'Beringela', 'Batata', 'Cebola', 'Pimentão'];
@@ -83,6 +87,40 @@ const FormElements = () => {
     { id: 10, name: 'Manaus' },
   ];
 
+  interface Interests {
+    value: string;
+    name: string;
+  }
+
+  const interests: Interests[] = [
+    { value: 'technology', name: 'Tecnologia' },
+    { value: 'sports', name: 'Esportes' },
+    { value: 'music', name: 'Música' },
+  ];
+
+  interface Subscription {
+    value: string;
+    name: string;
+  }
+
+  const subscription: Subscription[] =[
+    { value: 'free', name: 'Gratuito' },
+    { value: 'premium', name: 'Premium' },
+    { value: 'enterprise', name: 'Enterprise' },
+  ];
+
+  const {
+    control,
+    formState: { errors },
+
+  } = useForm<any>({
+    defaultValues: {
+      interests: ['technology'],
+      subscription: ['premium'],
+    },
+  });
+
+
 
   return (
     <>
@@ -135,6 +173,15 @@ const FormElements = () => {
                     customClasses="w-full"
                     icon={<UserIcon className="size-5" />}
                     disabled
+                  />
+
+                <PasswordInputGroup
+                    label="Input de senha"
+                    name="desabledIcon"
+                    id="desabledIcon"
+                    placeholder="Informe sua senha"
+                    customClasses="w-full"
+                    icon={<KeyIcon className="size-5" />}
                   />
             </div>
           </div>
@@ -312,6 +359,29 @@ const FormElements = () => {
             />
             <p>Ids das frutas selecionadas: {selectedFruitIds}</p>
 
+
+
+            {/* Exemplo de CheckboxGroup com React Hook Form */}
+            <Controller
+              name="interests"
+              control={control}
+              render={({ field }) => (
+                <CheckboxGroup<Interests, string>
+                  options={interests}
+                  value={selectedInterests}
+                  onChange={field.onChange}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.value}
+                  label="Interesses"
+                  required
+                  customClasses="w-full sm:w-1/2"
+                  error={"teste de mensagem de erro"}
+                />
+              )}
+            />
+
+            <p>Interesses selecionados: {selectedInterests}</p>
+
             <Checkbox
               label="Aceito os termos e condições"
               checked={isAgreed}
@@ -343,6 +413,24 @@ const FormElements = () => {
                 />
 
             <p>Id do tipo de Veículo selecionado: {selectedVehicleId}</p>
+
+            {/* Exemplo de RadioGroup com React Hook Form */}
+            <Controller
+              name="subscriptionController"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup<Subscription, number>
+                  options={subscription}
+                  value={field.value}
+                  onChange={field.onChange}
+                  name="subscription"
+                  label="Selecione uma opção"
+                  required
+                  customClasses="w-full sm:w-1/2"
+                  error={"teste"}
+                />
+              )}
+            />
             </div>
           </div>
 

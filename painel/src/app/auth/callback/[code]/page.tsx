@@ -1,6 +1,7 @@
 'use client';
 
-import Loader from '@/components/common/Loader';
+import LoaderFullPage from '@/components/common/LoaderFullPage';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -8,6 +9,7 @@ export default function GoogleCallbackPage() {
   const router = useRouter();
   const params = useParams();
   const code = params?.code;
+  const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
     if (code) {
@@ -18,6 +20,14 @@ export default function GoogleCallbackPage() {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
+            // Atualizar o estado de autenticação
+            // setAuthenticated(true);
+            setUser(data.user)
+
+            // Refetch dos dados do usuário
+            //queryClient.invalidateQueries(['Profile']);
+
+            // Redirecionar para o dashboard
             router.push('/dashboard'); // Redireciona para o dashboard
           } else {
             router.push('/auth/signin'); // Redireciona para a página de login
@@ -31,5 +41,5 @@ export default function GoogleCallbackPage() {
     }
   }, [code, router]);
 
-  return Loader;
+  return <LoaderFullPage />;
 }

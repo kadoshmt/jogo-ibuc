@@ -16,7 +16,7 @@ export class FindAllUsersUserCase {
     filterDto: UsersFilterInputDto,
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto[]> {
-    // Verifica se o usuário que está tentando executar a ação é um ADMIN
+    // Verifica se o usuário que está tentando executar a ação é um ADMIN ou COLABORADOR
     if (
       loggedUser.role !== Role.ADMIN &&
       loggedUser.role !== Role.COLABORADOR

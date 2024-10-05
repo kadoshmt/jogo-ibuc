@@ -8,6 +8,7 @@ import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { NotFoundException } from '@nestjs/common';
 import { IRole } from '../interfaces/users.interface';
 import { RegisterProviderDto } from 'src/auth/dtos/register-provider-input.dto';
+import { UserAdminOutputDto } from '../dtos/users-admin-output.dto';
 
 export class InMemoryUserRepository implements IUserRepository {
   private users: Users[] = [];
@@ -130,6 +131,17 @@ export class InMemoryUserRepository implements IUserRepository {
       region: (user as any).profile?.region,
       city: (user as any).profile?.city,
       createdAt: user.createdAt.toISOString(),
+    }));
+  }
+
+  async findAllAdmin(): Promise<UserAdminOutputDto[]> {
+    // Filtra os usuários com base nos critérios fornecidos
+    const filteredUsers = this.users.filter((user) => user.role === 'ADMIN');
+
+    // Mapeia os dados retornados para o formato do DTO
+    return filteredUsers.map((user) => ({
+      id: user.id,
+      name: (user as any).profile?.name || '',
     }));
   }
 

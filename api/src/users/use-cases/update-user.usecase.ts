@@ -29,7 +29,7 @@ export class UpdateUserUseCase {
     userInput: UpdateUserInputDto,
     loggedUser: IUsers,
   ): Promise<UserProfileOutputDto> {
-    const { email, name, username, role, country, region, city, phone } =
+    const { email, name, username, role, genre, country, region, city, phone } =
       userInput;
 
     // Verifica se o usuário que está tentando executar a ação é um ADMIN
@@ -84,6 +84,7 @@ export class UpdateUserUseCase {
           ...profileDB,
           username: newUsername !== null ? newUsername : username,
           name,
+          genre,
           country,
           region,
           city,
