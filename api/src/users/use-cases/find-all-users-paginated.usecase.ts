@@ -17,7 +17,7 @@ export class FindAllUsersPaginatedUserCase {
     listUsersInputDto: ListUsersInputDto,
     loggedUser: IUsers,
   ): Promise<PaginatedOutputDto<UserProfileOutputDto>> {
-    // Verifica se o usuário que está tentando executar a ação é um ADMIN
+    // Verifica se o usuário que está tentando executar a ação é um ADMIN ou COLABORADOR
     if (
       loggedUser.role !== Role.ADMIN &&
       loggedUser.role !== Role.COLABORADOR
