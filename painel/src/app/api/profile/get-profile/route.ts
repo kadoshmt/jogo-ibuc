@@ -1,4 +1,3 @@
-import { Profile } from '@/types/profile';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -16,6 +15,7 @@ export async function GET(request: NextRequest) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+      credentials: "include",
     });
 
     const data = await apiRes.json();
@@ -27,38 +27,6 @@ export async function GET(request: NextRequest) {
     }
   } catch (error) {
     console.error('Erro ao obter o perfil do usuário:', error);
-    return NextResponse.json({ message: 'Erro interno do servidor' }, { status: 500 });
-  }
-}
-
-export async function PUT(request: NextRequest) {
-  try {
-    const token = request.cookies.get('ibucgameadmin-token')?.value;
-
-    if (!token) {
-      return NextResponse.json({ message: 'Não autenticado' }, { status: 401 });
-    }
-
-    const body = await request.json();
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      return NextResponse.json(data);
-    } else {
-      return NextResponse.json({ message: data.message }, { status: res.status });
-    }
-  } catch (error) {
-    console.error('Erro ao atualizar o perfil do usuário:', error);
     return NextResponse.json({ message: 'Erro interno do servidor' }, { status: 500 });
   }
 }
