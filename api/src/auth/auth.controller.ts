@@ -11,6 +11,8 @@ import {
   Res,
   Param,
   NotFoundException,
+  Redirect,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RegisterInputDto } from './dtos/register-input.dto';
@@ -24,6 +26,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { v4 as uuidv4 } from 'uuid';
 import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager';
 import { Response } from 'express';
+import { EmailService } from 'src/shared/email/email.service';
+import { GoogleAuthService } from 'src/shared/google-auth/google-auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +35,8 @@ export class AuthController {
     private readonly registerUseCase: RegisterUseCase,
     private readonly generateAccessTokenUseCase: GenerateAccessTokenUseCase,
     private readonly validateUserUseCase: ValidateUserUseCase,
+    private readonly emailService: EmailService,
+    private readonly googleAuthService: GoogleAuthService,
     @Inject(CACHE_MANAGER) private cacheManager: CacheStore,
   ) {}
 
@@ -155,5 +161,46 @@ export class AuthController {
     }
 
     return cahedData;
+  }
+
+  // Rota para obter o refresh token, necessário para envio de e-mails
+  @Get('gmail')
+  @Redirect()
+  async gmailAuth() {
+    const url = this.googleAuthService.generateAuthUrl();
+    return { url };
+  }
+
+  @Get('gmail/redirect')
+  async googleAuthCallback(@Query('code') code: string, @Res() res: Response) {
+    if (!code) {
+      return res.status(400).send('Código de autorização não fornecido');
+    }
+
+    try {
+      const tokens = await this.googleAuthService.getTokens(code);
+
+      // Armazena os tokens usando o GoogleAuthService
+      await this.googleAuthService.storeTokens(tokens);
+
+      // Redireciona ou responde adequadamente
+      return res.send('Autenticação concluída com sucesso!');
+    } catch (error) {
+      console.error('Erro ao obter tokens:', error);
+      return res.status(500).send('Erro ao obter tokens');
+    }
+  }
+
+  @Public()
+  @Get('send')
+  async getHello(): Promise<void> {
+    await this.emailService.sendMail({
+      to: '0xjrccrypt0@gmail.com',
+      subject: '🎉 Bem-vindo ao Jogo do IBUC, Ibucano! 🌟',
+      template: 'new-register',
+      context: {
+        name: 'Janes Roberto',
+      },
+    });
   }
 }

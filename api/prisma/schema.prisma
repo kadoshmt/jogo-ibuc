@@ -56,3 +56,15 @@ model Profile {
 
   user           Users      @relation(fields: [userId], references: [id])
 }
+
+
+model OAuthToken {
+  id           Int      @id @default(autoincrement())
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("oauth-token")
+}

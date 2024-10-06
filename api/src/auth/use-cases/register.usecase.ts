@@ -8,6 +8,7 @@ import { EncryptionUtil } from 'src/common/utils/encryption.util';
 import { getAvatarUrl } from 'src/common/utils/avatar.util';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { IGenre } from 'src/profile/interfaces/profile.interface';
+import { EmailService } from 'src/shared/email/email.service';
 
 @Injectable()
 export class RegisterUseCase {
@@ -17,6 +18,7 @@ export class RegisterUseCase {
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
     private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
   ) {}
 
   async execute(userForm: RegisterInputDto): Promise<LoggedUserOutputDto> {
@@ -62,6 +64,16 @@ export class RegisterUseCase {
     });
 
     // TO-DO: Pegar ao menos o pais via https://ipinfo.io/pricing
+
+    // Envia o e-mail de boas-vindas
+    await this.emailService.sendMail({
+      to: user.email,
+      subject: `🎉 Bem-vindo ao Jogo do IBUC, ${profile.name}! 🌟`,
+      template: 'new-register',
+      context: {
+        name: profile.name,
+      },
+    });
 
     // Retorna o objeto transformado para o DTO de resposta
     return {
