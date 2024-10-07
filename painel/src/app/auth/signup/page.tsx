@@ -2,14 +2,14 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
-import SigninPageComponent from "@/components/Pages/Signin";
+import SignupPageComponent from "@/components/Pages/Signup";
 
 export const metadata: Metadata = {
-  title: "Login | IBUCGameAdmin",
-  description: "Página de autenticação para o Painel Administrativo do Jogo do IBUC",
+  title: "Cadastre-se | IBUCGameAdmin",
+  description: "Página de registro para o Painel Administrativo do Jogo do IBUC",
 };
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   return (
     <>
       <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
@@ -17,8 +17,8 @@ const SignIn: React.FC = () => {
             <div className="flex flex-wrap items-center">
               <div className="w-full xl:w-1/2">
                 <div className="w-full p-4 sm:p-12.5 xl:p-15">
-                <Link className="flex justify-center md:hidden my-12" href="/">
-                  <Image
+                <Link className="flex justify-center md:hidden mt-2 mb-8" href="/">
+                    <Image
                       className="hidden dark:block"
                       src={"/images/logo/logo-ibuc.png"}
                       alt="Logo IBUC"
@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
                       style={{ width: "auto", height: "auto" }}
                     />
                   </Link>
-                  <SigninPageComponent />
+                  <SignupPageComponent />
                 </div>
               </div>
 
@@ -64,7 +64,7 @@ const SignIn: React.FC = () => {
                     />
                   </Link>
                   <p className="mb-3 text-xl font-medium text-dark dark:text-white">
-                    Entre na sua conta
+                    Registre-se agora!
                   </p>
 
                   <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
@@ -72,7 +72,7 @@ const SignIn: React.FC = () => {
                   </h1>
 
                   <p className="w-full max-w-[375px] font-medium text-dark-4 dark:text-dark-6">
-                    Por favor, faça login na sua conta preenchendo os campos necessários
+                    Por favor, crie sua conta preenchendo os campos necessários
                   </p>
 
                   <div className="mt-31">
@@ -95,4 +95,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

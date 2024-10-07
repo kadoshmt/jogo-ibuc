@@ -35,8 +35,8 @@ model Users {
   password       String?   @db.VarChar(80)
   role           Role      @default(JOGADOR)
   newsletter     Boolean   @default(false)
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   profile        Profile?
 }
@@ -55,4 +55,16 @@ model Profile {
   phone          String?   @db.VarChar(22)
 
   user           Users      @relation(fields: [userId], references: [id])
+}
+
+
+model OAuthToken {
+  id           Int      @id @default(autoincrement())
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("oauth-token")
 }

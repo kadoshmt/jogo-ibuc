@@ -23,7 +23,7 @@ export const ProfileChangePasswordForm = () => {
     reset,
   } = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<ChangePasswordFormData> = async (data) => {

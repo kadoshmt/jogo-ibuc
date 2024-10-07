@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 export const CreateUserSchema = z.object({
   email: z.string()
-    .email({ message: 'E-mail inválido' })
+    .email({ message: 'Por favor informe um e-mail válido' })
     .transform((val) => val.trim().toLowerCase()),
 
   password: z.string()

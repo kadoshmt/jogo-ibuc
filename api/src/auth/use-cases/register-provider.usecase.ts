@@ -7,6 +7,7 @@ import { ProviderConflictException } from 'src/common/exceptions/provider-confli
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { Genre } from '@prisma/client';
 import { getAvatarUrl } from 'src/common/utils/avatar.util';
+import { EmailService } from 'src/shared/email/email.service';
 
 @Injectable()
 export class RegisterProviderUseCase {
@@ -16,6 +17,7 @@ export class RegisterProviderUseCase {
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
     private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
   ) {}
 
   async execute(register: RegisterProviderDto): Promise<LoggedUserOutputDto> {
@@ -83,6 +85,15 @@ export class RegisterProviderUseCase {
       });
 
       return [createdUser, createdProfile];
+    });
+
+    await this.emailService.sendMail({
+      to: email,
+      subject: `🎉 Bem-vindo ao Jogo do IBUC, ${name}! 🌟`,
+      template: 'new-register',
+      context: {
+        name,
+      },
     });
 
     // Retorna o objeto transformado para o DTO de resposta
