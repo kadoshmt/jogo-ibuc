@@ -17,6 +17,26 @@ const SignIn: React.FC = () => {
             <div className="flex flex-wrap items-center">
               <div className="w-full xl:w-1/2">
                 <div className="w-full p-4 sm:p-12.5 xl:p-15">
+                <Link className="flex justify-center md:hidden my-12" href="/">
+                  <Image
+                      className="hidden dark:block"
+                      src={"/images/logo/logo-ibuc.png"}
+                      alt="Logo IBUC"
+                      width={168}
+                      height={100}
+                      priority={true}
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                    <Image
+                      className="dark:hidden"
+                      src={"/images/logo/logo-ibuc.png"}
+                      alt="Logo IBUC"
+                      width={168}
+                      height={100}
+                      priority={true}
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  </Link>
                   <SigninPageComponent />
                 </div>
               </div>
@@ -26,17 +46,21 @@ const SignIn: React.FC = () => {
                   <Link className="mb-10 inline-block" href="/">
                     <Image
                       className="hidden dark:block"
-                      src={"/images/logo/logo.svg"}
-                      alt="Logo"
-                      width={176}
-                      height={32}
+                      src={"/images/logo/logo-ibuc.png"}
+                      alt="Logo IBUC"
+                      width={168}
+                      height={100}
+                      priority={true}
+                      style={{ width: "auto", height: "auto" }}
                     />
                     <Image
                       className="dark:hidden"
-                      src={"/images/logo/logo-dark.svg"}
-                      alt="Logo"
-                      width={176}
-                      height={32}
+                      src={"/images/logo/logo-ibuc.png"}
+                      alt="Logo IBUC"
+                      width={168}
+                      height={100}
+                      priority={true}
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </Link>
                   <p className="mb-3 text-xl font-medium text-dark dark:text-white">
@@ -58,6 +82,8 @@ const SignIn: React.FC = () => {
                       width={405}
                       height={325}
                       className="mx-auto dark:opacity-30"
+                      priority={false}
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </div>
                 </div>
