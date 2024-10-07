@@ -48,11 +48,12 @@ And voila! You're now ready to start developing. **Happy coding**!
 
 - Autenticação:
   - [x] Criar página de Login por e-mail e senha
-  - [ ] Criar página de registro (Sign-up)
+  - [x] Criar página de registro (Sign-up)
   - [x] Configurar a estratégia de login social do Google do Passaport
   - [ ] Configurar a estratégia de login social da Microsoft do Passaport
   - [ ] Configurar a estratégia de login social do Facebook Passaport
-  - [ ] Form de login e senha deve mostrar mensagem de usuário ou senha incorretos
+  - [x] Form de login e senha deve mostrar mensagem de usuário ou senha incorretos
+  - [ ] Verificar motivo da app redirecionar p/ dashboard quando acessa a home (/), mesmo sem estar logado
   - [ ] Criar os testes de navegação
 
 - Profile
