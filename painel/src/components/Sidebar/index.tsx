@@ -103,21 +103,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 xl:py-10">
           <Link href="/">
             <Image
-              width={176}
-              height={32}
-              src={"/images/logo/logo-dark.svg"}
-              alt="Logo"
+              className="hidden dark:block"
+              src={"/images/logo/logo-ibuc.png"}
+              alt="Logo IBUC"
+              width={168}
+              height={100}
               priority
-              className="dark:hidden"
               style={{ width: "auto", height: "auto" }}
             />
             <Image
-              width={176}
-              height={32}
-              src={"/images/logo/logo.svg"}
-              alt="Logo"
+              className="dark:hidden"
+              src={"/images/logo/logo-ibuc.png"}
+              alt="Logo IBUC"
+              width={168}
+              height={100}
               priority
-              className="hidden dark:block"
               style={{ width: "auto", height: "auto" }}
             />
           </Link>
