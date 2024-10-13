@@ -73,7 +73,7 @@
 				"cweijan.vscode-postgresql-client2",
 				"bradlc.vscode-tailwindcss",
 				"redhat.vscode-yaml",
-				"eamodio.gitlens"
+				"eamodio.gitlens"				
 			]
 		}
 	}

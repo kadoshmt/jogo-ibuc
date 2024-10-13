@@ -70,7 +70,7 @@ $ npm run test:cov
   - [x] Não permitir que um usuário se cadastre por mais de 1 método
   - [ ] Quando logado, permitir que o usuário vincule um outro método de login
   - [ ] Criar uma rota que envia uma uma url de reset de senha
-  - [ ] Implementar mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
+  - [ ] Ver necessidade de mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
   - [x] Criar um utilitário para lidar com a criptografia (brcrypt)
   - [x] Criar os testes unitários das estratégias
   - [ ] Criar os testes de integração das estratégias
@@ -79,10 +79,13 @@ $ npm run test:cov
   - [x] Criar uma rota para que o usuário veja obtenha seus dados (/profile)
   - [x] Criar uma rota para que o usuário edite seus dados (/profile/edit)
   - [x] Criar uma rota para que o usuário redefina sua senha (/profile/change-password)
-  - [ ] Criar uma rota para que o usuário alterar sua foto de perfil (profile/change-avatar)
+  - [x] Criar uma rota para que o usuário crie uma senha se nula (/profile/create-password)
+  - [x] Criar uma rota para que o usuário alterar sua foto de perfil (profile/upload-avatar)
+    - [ ] Ao alterar o avatar, apagar o anterior no R2 storage
+  - [ ] Criar uma rota para que o usuário remova sua foto de perfil (substitua por uma padrão) (profile/delete-avatar)
   - [x] Criar uma rota para que o usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
   - [ ] Criar uma rota para que o usuário se cadastrar em newsletter
-  - [ ] criar uma rota para que o usuário possa alterar o seu username
+  - [x] criar uma rota para que o usuário possa alterar o seu username
   - [ ] Criar todos os testes unitários
   - [ ] Criar testes de integração
 
@@ -131,6 +134,7 @@ $ npm run test:cov
 
 - Segurança
   - [ ] Não exponha o ID do usuário em respostas públicas da API ou logs
+  - [ ] Alterar o dockerfile para pegar variáveis do ambiente
   - [ ] Configurar HTTPS no ambiente de produção
   - [ ] Usar o pacote helmet para configurar cabeçalhos HTTP de segurança.
   - [x] Implementar rate limiting para proteger contra ataques de força bruta
