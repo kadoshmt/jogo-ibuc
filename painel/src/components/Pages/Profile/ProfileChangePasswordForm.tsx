@@ -8,6 +8,7 @@ import { useToastStore } from "@/stores/toastStore";
 import { useChangePassword } from "@/hooks/useProfile";
 import PasswordInputGroup from "@/components/FormElements/PasswordInput";
 import { KeyIcon } from "@heroicons/react/24/outline";
+import Button from "@/components/Buttons/Button";
 
 type ChangePasswordFormData  = z.infer<typeof changePasswordSchema>;
 
@@ -104,13 +105,7 @@ export const ProfileChangePasswordForm = () => {
 
 
           <div className="flex justify-end gap-3">
-            <button
-              className="flex items-center justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Salvando..." : "Alterar Senha"}
-            </button>
+            <Button buttonText={isSubmitting ? "Alterando..." : "Alterar Senha"} isLoading={isSubmitting}  />
           </div>
         </form>
       </div>
