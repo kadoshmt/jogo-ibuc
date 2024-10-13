@@ -7,6 +7,9 @@ import { ChangePasswordUseCase } from './use-cases/change-password.usecase';
 import { SharedModule } from 'src/shared/shared.module';
 import { DeleteAccountUseCase } from './use-cases/delete-account.usecase';
 import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-available.usecase';
+import { CreatePasswordUseCase } from './use-cases/create-password.usecase';
+import { CheckPasswordWasProvidedUseCase } from './use-cases/check-password-was-provided.usecase';
+import { UploadAndCreateAvatarUseCase } from './use-cases/upload-and-create-avatar.usecase';
 
 @Module({
   imports: [SharedModule],
@@ -17,6 +20,9 @@ import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-a
     ChangePasswordUseCase,
     DeleteAccountUseCase,
     CheckUsernameIsAvailableUseCase,
+    CheckPasswordWasProvidedUseCase,
+    CreatePasswordUseCase,
+    UploadAndCreateAvatarUseCase,
   ],
 })
 export class ProfileModule {}
