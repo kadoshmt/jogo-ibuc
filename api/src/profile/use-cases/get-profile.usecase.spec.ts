@@ -23,11 +23,11 @@ describe('GetProfileUseCase', () => {
       username: 'johndoe',
       avatarUrl: getAvatarUrl(null),
       genre: 'MASCULINO',
-      birthDate: null,
-      country: null,
-      region: null,
-      city: null,
-      phone: null,
+      birthDate: '10/05/2000',
+      country: 'country',
+      region: 'region',
+      city: 'city',
+      phone: '(99) 99999-9999',
     };
 
     await profileRepository.create(profile);

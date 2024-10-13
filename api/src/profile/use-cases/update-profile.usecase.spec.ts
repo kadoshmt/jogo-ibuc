@@ -26,6 +26,7 @@ describe('UpdateProfileUseCase', () => {
       country: null,
       region: null,
       city: null,
+      phone: null,
     };
 
     await profileRepository.create(profile);
