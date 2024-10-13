@@ -7,6 +7,7 @@ import { useDeleteAccount } from "@/hooks/useProfile";
 import { useToastStore } from "@/stores/toastStore";
 import InputGroup from "@/components/FormElements/InputGroup";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import Button from "@/components/Buttons/Button";
 
 export const ProfileDeleteAccountForm = () => {
 
@@ -72,13 +73,7 @@ export const ProfileDeleteAccountForm = () => {
 
 
         <div className="flex justify-end gap-3">
-          <button
-            className="flex items-center justify-center rounded-[7px] bg-red px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Excluindo..." : "Excluir minha Conta"}
-          </button>
+          <Button buttonText={isSubmitting ? "Excluindo..." : "Excluir minha Conta"} isLoading={isSubmitting} color="red" />
         </div>
 
       </div>

@@ -1,4 +1,3 @@
-// components/EditUserForm.tsx
 'use client';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,35 +5,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UpdateUserSchema, UpdateUserInput } from '@/validations/users/updateUserSchema';
 import { useUpdateUser, useUserById } from '@/hooks/useUsers';
 import { useToastStore } from '@/stores/toastStore';
-import { useRouter, useParams  } from 'next/navigation';
+import { useRouter  } from 'next/navigation';
 import InputGroup from '@/components/FormElements/InputGroup';
 import SelectGroup from '@/components/FormElements/SelectGroup';
-import Loader from '@/components/common/Loader';
 import { Genre, genreOptions } from '@/types/profile';
 import { Role, roleOptions } from '@/types/user';
-import loaderStore from '@/stores/loaderStore';
 import { ChatBubbleOvalLeftEllipsisIcon, FingerPrintIcon, GlobeAmericasIcon, MapIcon, MapPinIcon, PhoneIcon, UserGroupIcon, UserIcon, UsersIcon } from '@heroicons/react/24/outline';
+import Button from '@/components/Buttons/Button';
+import Loader from '@/components/common/Loader';
 
 type EditUserFormProps = {
   userId: string;
 };
 
-
 export const EditUserForm: React.FC<EditUserFormProps> = ({ userId }) => {
   const router = useRouter();
-  const { mutate: updateUser, isPending } = useUpdateUser();
+  const { mutateAsync: updateUser } = useUpdateUser();
   const addToast = useToastStore((state) => state.addToast);
-
-  const { setLoader, isLoaderActive } = loaderStore();
-  useEffect(() => { setLoader(false); }, [setLoader]);
-
-
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UpdateUserInput>({
     resolver: zodResolver(UpdateUserSchema),
     defaultValues: {},
@@ -62,50 +55,36 @@ export const EditUserForm: React.FC<EditUserFormProps> = ({ userId }) => {
     }
   }, [reset, userData]);
 
-  const onSubmit = (data: UpdateUserInput) => {
-    setLoader(true);
-    updateUser(
-      { id: userId, data },
-      {
-        onSuccess: () => {
-          addToast({
-            type: 'success',
-            title: `Usuário Atualizado com Sucesso!`,
-            message: `O usuário ${data.name || userData?.name} foi atualizado com sucesso!`,
-          });
-          router.push('/dashboard/users'); // Redireciona para a lista de usuários
-        },
-        onError: (err: Error) => {
-          console.error(err);
-          addToast({
-            type: 'error',
-            title: `Erro ao Atualizar Usuário`,
-            message: `Erro ao tentar atualizar o usuário ${data.name || userData?.name}: ${err.message}`,
-          });
-          setLoader(false);
-        },
-      }
-    );
+  const onSubmit = async (data: UpdateUserInput) => {
+    try {
+      await updateUser( { id: userId, data });
+      addToast({
+        type: 'success',
+        title: `Usuário Atualizado com Sucesso!`,
+        message: `O usuário ${data.name || userData?.name} foi atualizado com sucesso!`,
+      });
+      router.push('/dashboard/users'); // Redireciona para a lista de usuários
+    } catch (err: any) {
+      console.error(err);
+      addToast({
+        type: 'error',
+        title: `Erro ao Atualizar Usuário`,
+        message: `Erro ao tentar atualizar o usuário ${data.name || userData?.name}: ${err.message}`,
+      });
+    }
   };
-
-  if (isUserLoading || isLoaderActive()) {
-    return <Loader />;
-  }
 
   if (isUserError) {
     return <div className="text-red-500">Erro ao carregar usuário: {userError.message}</div>;
   }
 
-
+  if (isUserLoading) {
+    return <Loader />;
+  }
 
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
-      {/* <div className="relative z-30 mx-auto h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-[176px] sm:p-3">
-        <div className="relative drop-shadow-2">
-          <Image alt={"profile"} loading="lazy" width={"160"} height={"160"} decoding="async" data-nimg="1" className="overflow-hidden rounded-full" src={userData?.avatarUrl || "/images/default-avatar.png"} />
-        </div>
-      </div> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
           <h3 className="font-medium text-dark dark:text-white">Dados do Usuário</h3>
@@ -155,8 +134,6 @@ export const EditUserForm: React.FC<EditUserFormProps> = ({ userId }) => {
               icon={<FingerPrintIcon className="size-5" />}
               error={errors.username?.message}
             />
-
-
 
           <SelectGroup
               label="Perfil"
@@ -220,20 +197,8 @@ export const EditUserForm: React.FC<EditUserFormProps> = ({ userId }) => {
           </div>
 
           <div className="flex justify-end gap-3">
-            <button
-              className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
-              type="button"
-              onClick={() => router.back()}
-            >
-              Cancelar
-            </button>
-            <button
-              className="flex justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
-              type="submit"
-              disabled={isPending}
-            >
-              {isPending ? 'Salvando...' : 'Salvar'}
-            </button>
+            <Button buttonText="Cancelar" type="button" color="white" onClick={() => router.back()} />
+            <Button buttonText={isSubmitting ? "Salvando..." : "Salvar"} isLoading={isSubmitting}  />
           </div>
         </div>
       </form>

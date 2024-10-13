@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastStore } from "@/stores/toastStore";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/outline";
+import Button from "@/components/Buttons/Button";
 
 
 
@@ -20,12 +21,12 @@ export default function SigninPageComponent() {
   const [remember, setRemember] = useState<boolean>(false);
 
   const addToast = useToastStore((state) => state.addToast);
-  const {mutate: signIn, isPending } = useSignin();
+  const {mutateAsync: signIn } = useSignin();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SigninInput>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -34,23 +35,40 @@ export default function SigninPageComponent() {
     },
   });
 
-  const onSubmit = (data: SigninInput) => {
-    signIn(data, {
-      onSuccess: (result) => {
-        const {id, email, username, name, avatarUrl:avatar, role } = result.user;
-        const avatarUrl = avatar ?? '/images/default-avatar.png';
-        setUser({ id,email,username, name, avatarUrl, role })
-        router.push('/dashboard/');
-      },
-      onError: (err: Error) => {
-        console.error(err);
-        addToast({
-          type: 'error',
-          title: `Erro ao Realizar o Login`,
-          message: `Houve um erro ao tentar realizar o login: ${err.message}`,
-        });
-      },
-    });
+  // const onSubmit = async (data: SigninInput) => {
+  //   signIn(data, {
+  //     onSuccess: (result) => {
+  //       const {id, email, username, name, avatarUrl:avatar, role } = result.user;
+  //       const avatarUrl = avatar ?? '/images/default-avatar.png';
+  //       setUser({ id,email,username, name, avatarUrl, role })
+  //       router.push('/dashboard/');
+  //     },
+  //     onError: (err: Error) => {
+  //       console.error(err);
+  //       addToast({
+  //         type: 'error',
+  //         title: `Erro ao Realizar o Login`,
+  //         message: `Houve um erro ao tentar realizar o login: ${err.message}`,
+  //       });
+  //     },
+  //   });
+  // };
+
+  const onSubmit = async (data: SigninInput) => {
+    try {
+      const result = await signIn(data);
+      const { id, email, username, name, avatarUrl: avatar, role } = result.user;
+      const avatarUrl = avatar ?? '/images/default-avatar.png';
+      setUser({ id, email, username, name, avatarUrl, role });
+      router.push('/dashboard/');
+    } catch (err: any) {
+      console.error(err);
+      addToast({
+        type: 'error',
+        title: `Erro ao Realizar o Login`,
+        message: `Houve um erro ao tentar realizar o login: ${err.message}`,
+      });
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -85,7 +103,7 @@ export default function SigninPageComponent() {
             type="email"
             placeholder="Informe seu e-mail"
             {...register("email")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -109,7 +127,7 @@ export default function SigninPageComponent() {
             placeholder="Informe sua senha"
             autoComplete="password"
             {...register("password")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -132,7 +150,7 @@ export default function SigninPageComponent() {
             className="peer sr-only"
             onChange={() => setRemember(!remember)}
             checked={remember}
-            disabled={isPending}
+            disabled={isSubmitting}
           />
           <span
             className={`mr-2.5 inline-flex h-5.5 w-5.5 items-center justify-center rounded-md border border-stroke bg-white text-white text-opacity-0 peer-checked:border-primary peer-checked:bg-primary peer-checked:text-opacity-100 dark:border-stroke-dark dark:bg-white/5 ${
@@ -153,13 +171,7 @@ export default function SigninPageComponent() {
       </div>
 
       <div className="mb-4.5">
-        <button
-          type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
-          disabled={isPending}
-        >
-         {isPending ? "Entrando..." : "Entrar"}
-        </button>
+        <Button buttonText={ isSubmitting ? "Entrando..." : "Entrar" } isLoading={isSubmitting} customClasses="w-full transition py-[14px]" />
       </div>
     </form>
       </div>

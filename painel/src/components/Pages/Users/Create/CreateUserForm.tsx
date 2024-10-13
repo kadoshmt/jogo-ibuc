@@ -23,12 +23,13 @@ import { Genre, genreOptions } from '@/types/profile';
 import { useRouter } from 'next/navigation';
 import PasswordInputGroup from '@/components/FormElements/PasswordInput';
 import loaderStore from '@/stores/loaderStore';
+import Button from '@/components/Buttons/Button';
 
 type CreateUserFormData = z.infer<typeof CreateUserSchema>;
 
 export const CreateUserForm = () => {
   const router = useRouter();
-  const { mutate: createUser, isPending, isError, error } = useCreateUser();
+  const { mutateAsync: createUser, isError, error } = useCreateUser();
   const addToast = useToastStore((state) => state.addToast);
 
   const { setLoader, isLoaderActive } = loaderStore();
@@ -38,7 +39,7 @@ export const CreateUserForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting  },
     setValue,
     control,
   } = useForm<CreateUserFormData>({
@@ -79,33 +80,24 @@ export const CreateUserForm = () => {
     }
   }, [emailValue, setValue]);
 
-  const onSubmit = (data: CreateUserInput) => {
-    createUser(data, {
-      onSuccess: () => {
-        addToast({
-          type: 'success',
-          title: `Usuário Cadastrado com Sucesso!`,
-          message: `O usuário ${data.name} foi cadastrado com Sucesso!`,
-        });
-        router.push('/dashboard/users'); // Redireciona para a lista de usuários
-      },
-      onError: (err: Error) => {
-        console.error(err);
-        addToast({
-          type: 'error',
-          title: `Erro ao Cadastrar Usuário`,
-          message: `Erro ao tentar cadastrar o usuário ${data.name}: ${err.message}`,
-        });
-      },
-    });
+  const onSubmit = async (data: CreateUserInput) => {
+    try {
+      await createUser(data);
+      addToast({
+        type: 'success',
+        title: `Usuário Cadastrado com Sucesso!`,
+        message: `O usuário ${data.name} foi cadastrado com sucesso!`,
+      });
+      router.push('/dashboard/users'); // Redireciona para a lista de usuários
+    } catch (err: any) {
+      console.error(err);
+      addToast({
+        type: 'error',
+        title: `Erro ao Cadastrar Usuário`,
+        message: `Erro ao tentar cadastrar o usuário ${data.name}: ${err.message}`,
+      });
+    }
   };
-
-  // if (isLoaderActive()) {
-  //   return <Loader />;
-  // }
-
-
-
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
@@ -124,10 +116,10 @@ export const CreateUserForm = () => {
               placeholder="Informe seu nome completo"
               {...register('name')}
               required
-              //onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               customClasses="w-full sm:w-1/2"
               icon={<UserIcon className="size-5" />}
               error={errors.name?.message}
+              disabled={isSubmitting}
             />
 
             <SelectGroup
@@ -140,6 +132,7 @@ export const CreateUserForm = () => {
               icon={<UsersIcon className="size-5" />}
               error={errors.genre?.message}
               customClasses="w-full sm:w-1/2"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -154,6 +147,7 @@ export const CreateUserForm = () => {
               customClasses="w-full sm:w-1/2"
               icon={<EnvelopeIcon className="size-5" />}
               error={errors.email?.message}
+              disabled={isSubmitting}
             />
 
 
@@ -166,6 +160,7 @@ export const CreateUserForm = () => {
               customClasses="w-full sm:w-1/2"
               icon={<KeyIcon className="size-5" />}
               error={errors.password?.message}
+              disabled={isSubmitting}
             />
 
           </div>
@@ -182,6 +177,7 @@ export const CreateUserForm = () => {
                 customClasses="w-full sm:w-1/2"
                 icon={<FingerPrintIcon className="size-5" />}
                 error={errors.username?.message}
+                disabled={isSubmitting}
             />
 
             <SelectGroup
@@ -194,6 +190,7 @@ export const CreateUserForm = () => {
               icon={<UserGroupIcon className="size-5" />}
               error={errors.role?.message}
               customClasses="w-full sm:w-1/2"
+              disabled={isSubmitting}
             />
 
           </div>
@@ -209,6 +206,7 @@ export const CreateUserForm = () => {
               customClasses="w-full sm:w-1/2"
               icon={<MapPinIcon className="size-5" />}
               error={errors.city?.message}
+              disabled={isSubmitting}
             />
 
           <InputGroup
@@ -217,10 +215,10 @@ export const CreateUserForm = () => {
               id="region"
               placeholder="Informe seu estado"
               {...register('region')}
-              //onChange={(e) => setFormData({ ...formData, region: e.target.value })}
               customClasses="w-full sm:w-1/2"
               icon={<MapIcon className="size-5" />}
               error={errors.region?.message}
+              disabled={isSubmitting}
             />
 
           </div>
@@ -233,10 +231,10 @@ export const CreateUserForm = () => {
               id="country"
               placeholder="Informe seu país"
               {...register('country')}
-              //onChange={(e) => setFormData({ ...formData, country: e.target.value })}
               customClasses="w-full sm:w-1/2"
               icon={<GlobeAmericasIcon className="size-5" />}
               error={errors.country?.message}
+              disabled={isSubmitting}
             />
 
           <InputGroup
@@ -245,10 +243,10 @@ export const CreateUserForm = () => {
               id="phone"
               placeholder="Ex: (99) 99999-9999"
               {...register("phone")}
-              //onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               customClasses="w-full sm:w-1/2"
               icon={<PhoneIcon className="size-5" />}
               error={errors.phone?.message}
+              disabled={isSubmitting}
             />
           </div>
 
@@ -256,7 +254,7 @@ export const CreateUserForm = () => {
           <div className="mb-5.5"></div>
 
           <div className="flex justify-end gap-3">
-            <button
+            {/* <button
               className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
               type="button"
               onClick={() => router.back()}
@@ -269,7 +267,9 @@ export const CreateUserForm = () => {
               disabled={isPending}
             >
               {isPending ? "Salvando..." : "Salvar"}
-            </button>
+            </button> */}
+            <Button buttonText="Cancelar" type="button" color="white" onClick={() => router.back()} />
+            <Button buttonText={isSubmitting ? "Criando..." : "Criar"} isLoading={isSubmitting}  />
           </div>
         </div>
       </form>
