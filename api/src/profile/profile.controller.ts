@@ -8,6 +8,14 @@ import {
   Request,
   HttpCode,
   Param,
+  UsePipes,
+  ValidationPipe,
+  Patch,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { IAuthenticatedRequest } from 'src/auth/interfaces/authenticated-request.interface';
@@ -22,6 +30,12 @@ import { DeleteAccountUseCase } from './use-cases/delete-account.usecase';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { CheckUsernameIsAvailableUseCase } from './use-cases/check-username-is-available.usecase';
 import { CheckUsernameOutputDto } from './dtos/check-username-output.dto';
+import { CheckPasswordWasProvidedUseCase } from './use-cases/check-password-was-provided.usecase';
+import { CheckPasswordOutputDto } from './dtos/check-password-output.dto';
+import { CreatePasswordInputDto } from './dtos/create-password-input.dto';
+import { CreatePasswordUseCase } from './use-cases/create-password.usecase';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadAndCreateAvatarUseCase } from './use-cases/upload-and-create-avatar.usecase';
 
 @Controller('profile')
 @UseGuards(JwtAuthGuard)
@@ -32,6 +46,9 @@ export class ProfileController {
     private readonly changePasswordUseCase: ChangePasswordUseCase,
     private readonly deleteAccountUseCase: DeleteAccountUseCase,
     private readonly checkUsernameIsAvaliableUseCase: CheckUsernameIsAvailableUseCase,
+    private readonly checkPasswordWasProvidedUseCase: CheckPasswordWasProvidedUseCase,
+    private readonly createPasswordUseCase: CreatePasswordUseCase,
+    private readonly uploadAndCreateAvatarUseCase: UploadAndCreateAvatarUseCase,
   ) {}
 
   // Rota para verificar a disponibilidade do username
@@ -46,9 +63,36 @@ export class ProfileController {
     return {
       isAvaliable: isAvailable,
       message: isAvailable
-        ? 'Username is available'
-        : 'Username is already taken',
+        ? 'Username está disponível'
+        : 'Username não está disponível',
     };
+  }
+
+  // Rota para verificar se o usuário tem uma senha
+  @Get('check-password')
+  async checkPassword(
+    @Request() req: IAuthenticatedRequest,
+  ): Promise<CheckPasswordOutputDto> {
+    const wasProvided = await this.checkPasswordWasProvidedUseCase.execute(
+      req.user.id,
+    );
+
+    return {
+      wasProvided,
+      message: wasProvided
+        ? 'Usuário possui password'
+        : 'Usuário ainda não possui password',
+    };
+  }
+
+  @Patch('create-password')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  async createPassword(
+    @Body() body: CreatePasswordInputDto,
+    @Request() req: IAuthenticatedRequest,
+  ): Promise<{ message: string }> {
+    await this.createPasswordUseCase.execute(req.user.id, body.password);
+    return { message: 'Senha criada com sucesso' };
   }
 
   // Rota para buscar os dados do perfil
@@ -86,5 +130,37 @@ export class ProfileController {
   async deleteAccount(@Request() req: IAuthenticatedRequest) {
     const userId = req.user.id;
     await this.deleteAccountUseCase.execute(userId);
+  }
+
+  @Patch('upload-avatar')
+  @UseInterceptors(FileInterceptor('profileAvatar'))
+  async uploadAvatar(
+    @Request() req: IAuthenticatedRequest,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 1024 * 1024 * 5, // 5mb
+          }),
+          new FileTypeValidator({
+            fileType: '.(png|jpg|jpeg|webp)',
+          }),
+        ],
+      }),
+    )
+    profileAvatar: Express.Multer.File,
+  ) {
+    const result = await this.uploadAndCreateAvatarUseCase.execute({
+      userId: req.user.id,
+      fileName: profileAvatar.originalname,
+      fileType: profileAvatar.mimetype,
+      body: profileAvatar.buffer,
+    });
+
+    const { avatarUrl } = result;
+
+    return {
+      avatarUrl,
+    };
   }
 }

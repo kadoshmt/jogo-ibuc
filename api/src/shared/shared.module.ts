@@ -6,6 +6,8 @@ import { EmailModule } from './email/email.module';
 import { EmailService } from './email/email.service';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
 import { GoogleAuthService } from './google-auth/google-auth.service';
+import { Uploader } from './storage/interfaces/uploader.interface';
+import { R2Storage } from './storage/r2-storage';
 
 @Module({
   providers: [
@@ -17,6 +19,10 @@ import { GoogleAuthService } from './google-auth/google-auth.service';
       provide: 'IUserRepository',
       useClass: PrismaUserRepository,
     },
+    {
+      provide: Uploader,
+      useClass: R2Storage,
+    },
     CheckUsernameIsAvailableUseCase,
     EmailService,
     GoogleAuthService,
@@ -27,6 +33,7 @@ import { GoogleAuthService } from './google-auth/google-auth.service';
     CheckUsernameIsAvailableUseCase,
     EmailService,
     GoogleAuthService,
+    Uploader,
   ],
   imports: [EmailModule, GoogleAuthModule],
 })

@@ -1,0 +1,195 @@
+// instalar a extensão Rest Client
+@baseUrl = http://localhost:3030
+@authToken = {{auth_login_email.response.body.accessToken}}
+
+
+// -------------- MÓDULO AUTH ----------------------------------------
+# @name auth_registro_com_email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+	"username": "user1",
+  "password": "12345678",
+  "name": "Jonh Doe",
+	"genre": "MASCULINO",
+	"newsletter": false
+}
+
+
+###
+
+# @name auth_login_email
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "0xjrccrypt0@gmail.com",
+  "password": "12345678"
+}
+
+###
+
+# @name auth_trocar_codigo
+GET {{baseUrl}}/auth/exchange_code/ddad43f3-4204-4552-aa29-e5c45e8cd7ca
+Content-Type: application/json
+
+###
+
+
+
+// -------------- MÓDULO PROFILE ----------------------------------------
+
+# @name profile_get_profile
+GET {{baseUrl}}/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name profile_edit_profile
+PUT {{baseUrl}}/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+ "name": "Jurubeba Salgado",
+	"username": "Jurubeba123",
+	"birthDate": "06/01/1983",
+	"country": "Brasil",
+	"region": "Mato Grosso",
+	"city": "Cuiabá",
+	"role": "ADMIN"
+}
+
+###
+
+# @name profile_check_username
+GET {{baseUrl}}/profile/check-username/user1234
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name profile_check_password
+GET {{baseUrl}}/profile/check-password
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name profile_create_password
+PATCH  {{baseUrl}}/profile/create-password
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "password": "12345678",
+}
+
+###
+
+# @name profile_change_password
+PUT {{baseUrl}}/profile/change-password
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "currentPassword": "12345678",
+  "newPassword": "123456789"
+}
+
+###
+
+# @name profile_delete_account
+DELETE {{baseUrl}}/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+PATCH  {{baseUrl}}/profile/upload-avatar
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{authToken}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="profileAvatar"; filename="1.png"
+Content-Type: image/png
+
+< ../painel/public/images/male1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+// -------------- MÓDULO USERS ----------------------------------------
+
+# @name users_create_user
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "email": "user1234@gmail.com",
+	"username": "user1231321",
+  "password": "12345678",
+  "name": "Fulano de Tal",
+	"role": "JOGADOR",
+	"genre": "NAO_INFORMADO"
+}
+
+###
+
+# @name users_get_user_by_id
+GET {{baseUrl}}/users/accbebbc-e348-4d08-99b3-59b42fa440e9
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name users_edit_user
+PUT {{baseUrl}}/users/75854741-1e6e-4693-9523-ef2bd2773976
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "email": "user12@gmail.com",
+	"username": "kadoshmt2",
+	"name": "Jurubeba Salgado",
+	"role": "PROFESSOR",
+	"genre": "MASCULINO",
+	"city": "Cuiabá"
+}
+
+###
+
+# @name users_delete_user
+DELETE {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "userId": "75854741-1e6e-4693-9523-ef2bd2773976",
+	"transferUserId": "e60faccc-7124-4b53-b44c-264899120f86"
+}
+
+###
+
+# @name users_list_all
+GET {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name users_list_all_admins
+GET {{baseUrl}}/users/admin
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name users_list_all_paginated
+GET {{baseUrl}}/users/paginated?perPage=3&page=2
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

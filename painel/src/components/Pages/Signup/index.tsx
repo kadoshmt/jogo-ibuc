@@ -11,19 +11,20 @@ import { useSignUp } from "@/hooks/useSign";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Genre } from "@/types/profile";
+import Button from "@/components/Buttons/Button";
 
 
 
 export default function SignupPageComponent() {
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
-  const {mutate: signUp, isPending } = useSignUp();
+  const {mutateAsync: signUp, isPending } = useSignUp();
   const addToast = useToastStore((state) => state.addToast);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
     control,
   } = useForm<SignupInput>({
@@ -59,30 +60,26 @@ export default function SignupPageComponent() {
     }
   }, [emailValue, setValue]);
 
-
-  const onSubmit = (data: SignupInput) => {
-    signUp(data, {
-      onSuccess: (result) => {
-        addToast({
-          type: 'success',
-          title: `Registro Realizado com Sucesso!`,
-//         message: `Seus dados foram registrado com sucesso. Agora você já pode entrar com seu login e senha.`,
-        });
-        const {id, email, username, name, avatarUrl:avatar, role } = result.user;
-        const avatarUrl = avatar ?? '/images/default-avatar.png';
-        setUser({ id,email,username, name, avatarUrl, role })
-        router.push('/dashboard/profile'); // Redireciona para a página do perfil
-      },
-      onError: (err: Error) => {
-        console.error(err);
-        addToast({
-          type: 'error',
-          title: `Erro ao Registrar-se`,
-          message: `Houve um erro ao tentar tentar registrar-se. Tente novamente`,
-        });
-        console.log(err);
-      },
-    });
+  const onSubmit = async (data: SignupInput) => {
+    try {
+      const result = await signUp(data);
+      addToast({
+        type: 'success',
+        title: `Registro Realizado com Sucesso!`,
+        message: `Seus dados foram registrado com sucesso. Seja bem-vindo ibucano!.`,
+      });
+      const {id, email, username, name, avatarUrl:avatar, role } = result.user;
+      const avatarUrl = avatar ?? '/images/default-avatar.png';
+      setUser({ id,email,username, name, avatarUrl, role })
+      router.push('/dashboard/profile'); // Redireciona para a página do perfil
+    } catch (err: any) {
+      addToast({
+        type: 'error',
+        title: `Erro ao tentar Registrar-se`,
+        message: `${err.message}`,
+      });
+      console.log(err);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -106,8 +103,8 @@ export default function SignupPageComponent() {
       <div>
       <form onSubmit={handleSubmit(onSubmit)}>
 
-      <input type="hidden" {...register("username")} disabled={isPending} className="hidden" readOnly />
-      <input type="hidden" {...register("genre")} disabled={isPending} className="hidden" readOnly />
+      <input type="hidden" {...register("username")} disabled={isSubmitting} className="hidden" readOnly />
+      <input type="hidden" {...register("genre")} disabled={isSubmitting} className="hidden" readOnly />
 
       <div className="mb-4">
         <label
@@ -121,7 +118,7 @@ export default function SignupPageComponent() {
             type="name"
             placeholder="Informe seu nome completo"
             {...register("name")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -145,7 +142,7 @@ export default function SignupPageComponent() {
             type="email"
             placeholder="Informe seu e-mail"
             {...register("email")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -169,7 +166,7 @@ export default function SignupPageComponent() {
             autoComplete="password"
             placeholder="Informe sua senha"
             {...register("password")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -193,7 +190,7 @@ export default function SignupPageComponent() {
             placeholder="Repita sua senha"
             autoComplete="repeatPassword"
             {...register("repeatPassword")}
-            disabled={isPending}
+            disabled={isSubmitting}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -205,13 +202,7 @@ export default function SignupPageComponent() {
       {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword?.message}</p>}
 
       <div className="mb-4.5">
-        <button
-          type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
-          disabled={isPending}
-        >
-          {isPending ? "Criando..." : "Criar minha conta"}
-        </button>
+        <Button buttonText={ isSubmitting ? "Criando..." : "Criar minha conta" } isLoading={isSubmitting} customClasses="w-full transition py-[14px]" />
       </div>
     </form>
       </div>

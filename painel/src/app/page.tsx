@@ -1,20 +1,21 @@
-import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import React from "react";
-import ECommerce from "@/components/Dashboard/E-commerce";
+"use client";
 
-export const metadata: Metadata = {
-  title:
-    "Dashboard Page | IbUCGameAdmin",
-  description: "Gerenciador de Contéudos do Jogo IBUC",
-};
+import React, { useEffect } from 'react';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useRouter } from 'next/navigation';
+import LoaderFullPage from '@/components/common/LoaderFullPage';
 
 export default function Home() {
-  return (
-    <>
-      <DefaultLayout>
-        <ECommerce />
-      </DefaultLayout>
-    </>
-  );
+  const router = useRouter();
+  const loggedUser = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    if (!loggedUser) {
+      router.push('/auth/signin');
+    } else {
+      router.push('/dashboard');
+    }
+  }, [loggedUser, router]);
+
+  return <LoaderFullPage/>
 }

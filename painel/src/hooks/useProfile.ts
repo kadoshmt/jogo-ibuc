@@ -1,3 +1,5 @@
+import { useAuthStore } from '@/stores/useAuthStore';
+import { LoggedUser } from '@/types/loggedUser';
 import { Profile } from '@/types/profile';
 import { useQuery, useMutation, useQueryClient, UseQueryResult, UseMutationResult  } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -7,12 +9,21 @@ interface ChangePasswordInput {
   newPassword: string;
 }
 
+interface CreatePasswordInput {
+  password: string;
+}
+
 interface CheckUsernameInput {
   username: string;
 }
 
 interface CheckUsernameOutput {
   isAvailable: boolean;
+  message: string;
+}
+
+interface CheckPasswordOutput {
+  wasProvided: boolean;
   message: string;
 }
 
@@ -31,6 +42,13 @@ interface DeleteAccountInput {
 interface ApiResponse {
   message: string;
 }
+interface UpdateAvatarResponse {
+  avatarUrl: string;
+  message?: string;
+}
+
+
+
 
 
 
@@ -77,8 +95,6 @@ export function useUpdateUserProfile() {
 }
 
 export function useChangePassword(): UseMutationResult<ApiResponse, Error, ChangePasswordInput> {
-  const queryClient = useQueryClient();
-
   return useMutation<ApiResponse, Error, ChangePasswordInput>({
     mutationFn: async (data: ChangePasswordInput) => {
       const res = await fetch("/api/profile/change-password", {
@@ -96,18 +112,65 @@ export function useChangePassword(): UseMutationResult<ApiResponse, Error, Chang
 
       return responseData;
     },
-    onSuccess: () => {
-      // Opcional: Invalide ou atualize quaisquer queries relacionadas, se necessário
-      // Por exemplo, se a alteração de senha afetar dados de autenticação
-    },
+    onSuccess: () => { },
   });
 }
 
-export function useCheckUsername(): UseMutationResult<CheckUsernameOutput, Error, CheckUsernameInput> {
-  return useMutation<CheckUsernameOutput, Error, CheckUsernameInput>({
-    mutationFn: async (data: CheckUsernameInput) => {
-      const res = await fetch("/api/profile/check-username", {
+// export function useCheckUsername(): UseQueryResult<CheckUsernameOutput, Error> {
+//   return useQuery<CheckUsernameOutput, Error, CheckUsernameOutput, [string]>({
+//     queryKey: ['userCheckUsername'],
+//     queryFn: async (data: CheckUsernameInput) => {
+//       const res = await fetch("/api/profile/check-username", {
+//         method: "GET",
+//         headers: { "Content-Type": "application/json" },
+//         credentials: "include",
+//         body: JSON.stringify(data),
+//       });
+
+//       const responseData = await res.json();
+
+//       if (!res.ok) {
+//         throw new Error(responseData.message || "Erro ao verificar o username");
+//       }
+
+//       return responseData;
+//     },
+//     staleTime: 1000 * 60 * 5, // 5 minutos
+//     gcTime: 1000 * 60 * 10, // 10 minutos
+//   });
+// }
+
+export function useCheckPassword(): UseQueryResult<CheckPasswordOutput, Error> {
+  return useQuery<CheckPasswordOutput, Error, CheckPasswordOutput, [string]>({
+    queryKey: ['userCheckPassword'],
+    queryFn: async () => {
+      const res = await fetch("/api/profile/check-password", {
         method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        //body: JSON.stringify(),
+      });
+
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        throw new Error(responseData.message || "Erro ao verificar a senha");
+      }
+
+      return responseData;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutos
+    gcTime: 1000 * 60 * 10, // 10 minutos
+  });
+}
+
+export function useCreatePassword(): UseMutationResult<ApiResponse, Error, CreatePasswordInput> {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse, Error, CreatePasswordInput>({
+    mutationFn: async (data: CreatePasswordInput) => {
+      const res = await fetch("/api/profile/create-password", {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(data),
@@ -116,10 +179,13 @@ export function useCheckUsername(): UseMutationResult<CheckUsernameOutput, Error
       const responseData = await res.json();
 
       if (!res.ok) {
-        throw new Error(responseData.message || "Erro ao verificar o username");
+        throw new Error(responseData.message || "Erro ao criar a senha");
       }
 
       return responseData;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userCheckPassword'] });
     },
   });
 }
@@ -178,6 +244,40 @@ export function useDeleteAccount(): UseMutationResult<ApiResponse, Error, Delete
       // Por exemplo, redirecionar para a página de login
       //window.location.href = "/auth/signin";
       router.push('/auth/signin'); // Redireciona para a página de login
+    },
+  });
+}
+
+export function useUpdateAvatar(): UseMutationResult<UpdateAvatarResponse, Error, FormData> {
+  const queryClient = useQueryClient();
+  const setUser = useAuthStore((state) => state.setUser);
+  const user = useAuthStore.getState().user;
+
+  return useMutation<UpdateAvatarResponse, Error, FormData>({
+    mutationFn: async (data: FormData) => {
+      const res = await fetch("/api/profile/update-avatar", {
+        method: "PATCH",
+        credentials: "include",
+        body: data, // Enviamos o FormData com o arquivo
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Erro ao atualizar o avatar");
+      }
+      return res.json(); // Supondo que retorna { avatarUrl: string }
+    },
+    onSuccess: (data: UpdateAvatarResponse) => {
+      // Atualizar o usuário no estado global
+      if(user) {
+        const updatedUser = { ...user, avatarUrl: data.avatarUrl };
+        setUser(updatedUser);
+      }
+
+      // Atualizar o cache do perfil do usuário
+      queryClient.setQueryData(["profileAvatar"], (oldData: any) => ({
+        ...oldData,
+        avatarUrl: data.avatarUrl,
+      }));
     },
   });
 }

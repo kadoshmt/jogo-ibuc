@@ -19,5 +19,9 @@ declare namespace NodeJS {
     FACEBOOK_APP_ID?: string;
     FACEBOOK_APP_SECRET?: string;
     FACEBOOK_REDIRECT_URI?: string;
+    CLOUDFLARE_ACCOUNT_ID: string;
+    R2_ACCESS_KEY_ID: string;
+    R2_SECRET_ACCESS_KEY: string;
+    R2_R2_PUBLIC_URL: string;
   }
 }

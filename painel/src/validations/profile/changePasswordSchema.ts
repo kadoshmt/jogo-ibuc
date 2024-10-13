@@ -4,15 +4,15 @@ export const changePasswordSchema = z
   .object({
     currentPassword: z
       .string()
-      .min(6, { message: "A senha atual deve ter pelo menos 6 caracteres" })
+      .min(8, { message: "A senha atual deve ter pelo menos 8 caracteres" })
       .trim(),
     newPassword: z
       .string()
-      .min(6, { message: "A nova senha deve ter pelo menos 6 caracteres" })
+      .min(8, { message: "A nova senha deve ter pelo menos 8 caracteres" })
       .trim(),
     repeatNewPassword: z
       .string()
-      .min(6, { message: "A repetição da nova senha deve ter pelo menos 6 caracteres" })
+      .min(8, { message: "A repetição da nova senha deve ter pelo menos 8 caracteres" })
       .trim(),
   })
   .superRefine((data, ctx) => {

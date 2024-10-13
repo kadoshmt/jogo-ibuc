@@ -1,7 +1,9 @@
-import { Injectable, BadRequestException, Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ChangePasswordInputDto } from '../dtos/change-password-input.dto';
 import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
 import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { UserProfileWrongPasswordException } from 'src/common/exceptions/user-profile-wrong-password.exception';
+import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
 
 @Injectable()
 export class ChangePasswordUseCase {
@@ -17,9 +19,14 @@ export class ChangePasswordUseCase {
     const { currentPassword, newPassword } = changePasswordDto;
 
     const user = await this.userRepository.findOneById(userId);
-    if (!user || !user.password) {
-      throw new BadRequestException(
-        'Usuário não encontrado ou sem senha definida',
+
+    if (!user) {
+      throw new UserProfileNotFoundException('Usuário não encontrado.');
+    }
+
+    if (!user.password) {
+      throw new UserProfileWrongPasswordException(
+        'Usuário sem senha definida.',
       );
     }
 
@@ -28,7 +35,9 @@ export class ChangePasswordUseCase {
       user.password,
     );
     if (!isMatch) {
-      throw new BadRequestException('Senha atual incorreta');
+      throw new UserProfileWrongPasswordException(
+        'A senha atual fornecida está incorreta.',
+      );
     }
 
     const hashedPassword = await EncryptionUtil.hashPassword(newPassword);

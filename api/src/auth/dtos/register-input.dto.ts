@@ -19,7 +19,7 @@ export class RegisterInputDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
   @Transform(({ value }) => value.trim())
   password: string;
 

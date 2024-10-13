@@ -32,7 +32,7 @@ export class InMemoryProfileRepository implements IProfileRepository {
       country: profileData.country ?? null,
       region: profileData.region ?? null,
       city: profileData.city ?? null,
-      phone: profileData.city ?? null,
+      phone: profileData.phone ?? null,
     };
 
     this.profiles.push(newProfile);

@@ -227,7 +227,7 @@ const handleDeleteUser = (user: User) => {
       <table role="table" className="datatable-table datatable-one w-full table-auto !border-collapse overflow-hidden break-words px-4 md:table-fixed md:overflow-auto md:px-8">
          <thead className="border-separate px-4">
             <tr className="border-t border-stroke dark:border-dark-3" role="row">
-               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer">
+               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer w-1/4">
                   <div className="flex items-center">
                      <span> Nome</span>
                      <div className="ml-2 inline-flex flex-col space-y-[2px]">
@@ -262,7 +262,7 @@ const handleDeleteUser = (user: User) => {
                   </div>
 
                </th>
-               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer hidden sm:table-cell">
+               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer hidden sm:table-cell w-1/6">
                   <div className="flex items-center justify-center">
                      <span> Perfil</span>
                      <div className="ml-2 inline-flex flex-col space-y-[2px]">
@@ -280,7 +280,7 @@ const handleDeleteUser = (user: User) => {
                   </div>
 
                </th>
-               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer hidden lg:table-cell">
+               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer hidden lg:table-cell w-1/6">
                   <div className="flex items-center justify-center">
                      <span> Criado Em</span>
                      <div className="ml-2 inline-flex flex-col space-y-[2px]">
@@ -298,7 +298,7 @@ const handleDeleteUser = (user: User) => {
                   </div>
 
                </th>
-               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer ">
+               <th colSpan={1} role="columnheader" title="Toggle SortBy" className="cursor-pointer w-1/5">
                   <div className="flex items-center justify-center">
                      <span> Ações</span>
                      <div className="ml-2 inline-flex flex-col space-y-[2px]">
@@ -320,7 +320,7 @@ const handleDeleteUser = (user: User) => {
          <tbody role="rowgroup">
           {data?.data.map((user) => (
             <tr key={user.id} className="border-t border-stroke dark:border-dark-3" role="row">
-               <td role="cell">
+               <td role="cell" className=''>
                   <div className="flex items-center justify-start space-x-2">
                   <span className="inline-block">
                      <Image alt={`Imagem de ${user.profile.name}`} loading="lazy" width={"36"} height={"36"} decoding="async"  className="overflow-hidden rounded-full border-2 border-primary" src={user?.profile.avatarUrl || "/images/default-avatar.png"} />
@@ -331,7 +331,7 @@ const handleDeleteUser = (user: User) => {
                <td role="cell" className='text-center hidden md:table-cell'>{user.email}</td>
                <td role="cell" className='text-center hidden sm:table-cell'>{handleRole(user.role)}</td>
                {/* <td role="cell">{user.genre}</td> */}
-               <td role="cell" className='text-center hidden lg:table-cell'>{user.createdAt ? new Date(user.createdAt).toLocaleString("pt-BR",  { dateStyle: 'medium' }) : "N/A"}</td>
+               <td role="cell" className='text-center hidden lg:table-cell'>{user.createdAt ? new Date(user.createdAt).toLocaleString("pt-BR",  { dateStyle: 'short' }) : "N/A"}</td>
                <td role="cell" className='text-center'>
                 <div className="flex items-center justify-center space-x-4">
                     <button className="hover:text-primary" onClick={() => handleViewUser(user)}>

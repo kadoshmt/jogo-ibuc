@@ -5,8 +5,11 @@ import { ProfileDataForm } from "./ProfileDataForm";
 import { ProfileAvatarForm } from "./ProfileAvatarForm";
 import { ProfileChangePasswordForm } from "./ProfileChangePasswordForm";
 import { ProfileDeleteAccountForm } from "./ProfileDeleteAccountForm";
+import { useCheckPassword } from "@/hooks/useProfile";
+import { ProfileCreatePasswordForm } from "./ProfileCreatePasswordForm";
 
 const ProfilePageComponent = () => {
+  const {data: userCheckPassword} = useCheckPassword();
 
   return (
     <>
@@ -20,7 +23,8 @@ const ProfilePageComponent = () => {
         {/* Container sua foto */}
         <div className="col-span-5 xl:col-span-2 space-y-8 ">
 
-          <ProfileChangePasswordForm />
+          {userCheckPassword?.wasProvided &&(<ProfileChangePasswordForm />)}
+          {!userCheckPassword?.wasProvided &&(<ProfileCreatePasswordForm />)}
           <ProfileDeleteAccountForm />
         </div>
 

@@ -49,17 +49,19 @@ And voila! You're now ready to start developing. **Happy coding**!
 - Autenticação:
   - [x] Criar página de Login por e-mail e senha
   - [x] Criar página de registro (Sign-up)
+  - [ ] Criar páginas de reset de senha (forgot-password e reset-password)
   - [x] Configurar a estratégia de login social do Google do Passaport
   - [ ] Configurar a estratégia de login social da Microsoft do Passaport
   - [ ] Configurar a estratégia de login social do Facebook Passaport
   - [x] Form de login e senha deve mostrar mensagem de usuário ou senha incorretos
-  - [ ] Verificar motivo da app redirecionar p/ dashboard quando acessa a home (/), mesmo sem estar logado
+  - [x] Verificar motivo da app redirecionar p/ dashboard quando acessa a home (/), mesmo sem estar logado
   - [ ] Criar os testes de navegação
 
 - Profile
   - [x] Criar uma rota para que o usuárioobtenha seus dados e os edite
   - [x] Criar uma rota para que o usuário redefina sua senha
-  - [ ] Criar uma rota para que o usuário alterar sua foto de perfil
+  - [x] Criar uma rota para que o usuário alterar sua foto de perfil
+  - [ ] Criar uma rota para que o usuário apagar sua foto de perfil
   - [x] Criar uma rota para que o usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
   - [ ] criar uma rota para que o usuário possa alterar o seu username
   - [ ] Verificar erro visual ao excluir conta, onde o usuário digite qq variação diferente de "EXCLUIR"
@@ -67,8 +69,8 @@ And voila! You're now ready to start developing. **Happy coding**!
   - [ ] Criar os testes de navegação
 
 - Usuários
-  - [ ] Criar o módulo de usuários do Painel Administrativo
-    - [ ] Criar o CRUD básico
+  - [x] Criar o módulo de usuários do Painel Administrativo
+    - [x] Criar o CRUD básico
       - [x] Somente Administradores podem gerenciar usuários
       - [x] Criar rota com paginação de usuários
     - [ ] Rever as regras do campo WhatsApp
@@ -96,6 +98,9 @@ And voila! You're now ready to start developing. **Happy coding**!
 
 - Placar:
   - [ ] Criar um Dashboard com o placar dos jogadores
+
+- Configuração:
+  - [ ] Criar rora para revalidar o gmail.
 
 
 - Segurança
