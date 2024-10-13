@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useEffect } from "react";
 import { CakeIcon, UserIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { PhoneIcon } from "@heroicons/react/24/outline";
@@ -13,11 +12,12 @@ import InputGroup from "@/components/FormElements/InputGroup";
 import { useToastStore } from "@/stores/toastStore";
 import SelectGroup from "@/components/FormElements/SelectGroup";
 import Loader from "@/components/common/Loader";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema } from "@/validations/profile/profileSchema";
 import { z } from "zod";
 import { genreOptions } from "@/types/profile";
+import Button from "@/components/Buttons/Button";
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
@@ -26,7 +26,6 @@ export const ProfileDataForm = () => {
   const { data: userProfile, isLoading, isError } = useProfile();
   const loggedUser = useAuthStore((state) => state.user);
   const updateUserProfile = useUpdateUserProfile();
-  const { isPending } = useUpdateUserProfile();
   const addToast = useToastStore((state) => state.addToast);
 
 
@@ -34,7 +33,7 @@ export const ProfileDataForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -249,13 +248,7 @@ export const ProfileDataForm = () => {
             </div>
 
             <div className="flex justify-end gap-3">
-              <button
-                className="flex justify-center rounded-[7px] bg-primary px-6 py-[7px] font-medium text-gray-2 hover:bg-opacity-90"
-                type="submit"
-                disabled={isPending}
-              >
-                {isPending ? 'Salvando...' : 'Salvar'}
-              </button>
+              <Button buttonText={isSubmitting ? "Salvando..." : "Salvar"} isLoading={isSubmitting}  />
             </div>
         </div>
       </form>
