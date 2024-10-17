@@ -9,7 +9,6 @@ import { GlobeAmericasIcon } from '@heroicons/react/24/outline';
 import InputGroup from '@/components/FormElements/InputGroup';
 import { useToastStore } from '@/stores/toastStore';
 import SelectGroup from '@/components/FormElements/SelectGroup';
-import Loader from '@/components/common/Loader';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -29,7 +28,7 @@ type CreateUserFormData = z.infer<typeof CreateUserSchema>;
 
 export const CreateUserForm = () => {
   const router = useRouter();
-  const { mutateAsync: createUser, isError, error } = useCreateUser();
+  const { mutateAsync: createUser } = useCreateUser();
   const addToast = useToastStore((state) => state.addToast);
 
   const { setLoader, isLoaderActive } = loaderStore();
@@ -101,7 +100,7 @@ export const CreateUserForm = () => {
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
           <h3 className="font-medium text-dark dark:text-white">
             Informações do usuário
