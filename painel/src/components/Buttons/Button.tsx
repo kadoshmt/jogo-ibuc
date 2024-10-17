@@ -86,7 +86,7 @@ const Button : React.FC<ButtonProps> = ({
   return (
     <>
       <button
-        className={`flex items-center  justify-center  rounded-[7px] px-6 py-[7px] font-medium ${colors.textColor} ${colors.bgColor} ${colors.textDarkColor} ${colors.bgDarkColor}
+        className={`flex items-center  justify-center  rounded-lg px-6 py-2 font-medium ${colors.textColor} ${colors.bgColor} ${colors.textDarkColor} ${colors.bgDarkColor}
         ${isLoading ? 'cursor-not-allowed bg-opacity-70 hover:bg-opacity-70' : ''}
         ${color === 'white' ? 'border border-stroke hover:shadow-1 dark:border-dark-3' : 'hover:bg-opacity-90'}
         ${customClasses}
