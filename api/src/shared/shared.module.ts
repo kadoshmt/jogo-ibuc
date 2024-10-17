@@ -7,7 +7,8 @@ import { EmailService } from './email/email.service';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
 import { GoogleAuthService } from './google-auth/google-auth.service';
 import { Uploader } from './storage/interfaces/uploader.interface';
-import { R2Storage } from './storage/r2-storage';
+// import { R2Storage } from './storage/r2-storage';
+import { R2StorageService } from './storage/r2-storage.service';
 
 @Module({
   providers: [
@@ -21,7 +22,7 @@ import { R2Storage } from './storage/r2-storage';
     },
     {
       provide: Uploader,
-      useClass: R2Storage,
+      useClass: R2StorageService,
     },
     CheckUsernameIsAvailableUseCase,
     EmailService,
