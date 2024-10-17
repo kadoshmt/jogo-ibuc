@@ -1,5 +1,7 @@
 import { Genre, Profile } from '@/types/profile';
 import { UserProfile } from '@/types/userProfile';
+import { ForgetPasswordInput, forgetPasswordSchema } from '@/validations/auth/forgetPasswordSchema';
+import { ResetPasswordInput, resetPasswordSchema } from '@/validations/auth/resetPasswordSchema';
 import { SigninInput, signinSchema } from '@/validations/auth/signinSchema';
 import { SignupInput } from '@/validations/auth/signupSchema';
 import { useQuery, useMutation, useQueryClient, UseQueryResult, UseMutationResult  } from '@tanstack/react-query';
@@ -77,5 +79,61 @@ export function useSignUp(): UseMutationResult<SignupResponse, Error, Register> 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
+  });
+}
+
+export function useForgetPassword(): UseMutationResult<void, Error, ForgetPasswordInput> {
+
+  return useMutation<void, Error, ForgetPasswordInput>({
+
+    mutationFn: async (data: ForgetPasswordInput) => {
+
+       // Validar os dados com Zod antes de enviar
+       const parsed = forgetPasswordSchema.safeParse(data);
+       if (!parsed.success) {
+         throw new Error(parsed.error.errors.map(e => e.message).join(', '));
+       }
+
+      const res = await fetch('/api/auth/forget-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      // if (!res.ok) {
+      //   const errorData = await res.json();
+      //   throw new Error(errorData.message || 'Erro ao solicitar o link de redefinição de senha');
+      // }
+      // return res.json();
+    },
+    onSuccess: () => { },
+  });
+}
+
+export function useResetPassword(): UseMutationResult<void, Error, ResetPasswordInput> {
+
+  return useMutation<void, Error, ResetPasswordInput>({
+
+    mutationFn: async (data: ResetPasswordInput) => {
+
+       // Validar os dados com Zod antes de enviar
+       const parsed = resetPasswordSchema.safeParse(data);
+       if (!parsed.success) {
+         throw new Error(parsed.error.errors.map(e => e.message).join(', '));
+       }
+
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Erro ao solicitar o link de redefinição de senha');
+      }
+      return res.json();
+    },
+    onSuccess: () => { },
   });
 }

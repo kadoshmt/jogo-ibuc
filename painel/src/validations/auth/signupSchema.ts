@@ -14,7 +14,7 @@ export const signupSchema = z.object({
     .trim(),
   repeatPassword: z
     .string()
-    .min(8, { message: "A repetição dasenha deve ter pelo menos 8 caracteres" })
+    .min(8, { message: "A repetição da senha deve ter pelo menos 8 caracteres" })
     .trim(),
   username: z.string()
     .min(1, { message: 'O nome de usuário é obrigatório' })
