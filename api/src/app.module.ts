@@ -12,6 +12,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/exceptions/throttler-limit.exception';
 import { ProfileModule } from './profile/profile.module';
 import { PrismaModule } from './shared/database/prisma.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PrismaModule } from './shared/database/prisma.module';
     AuthModule,
     ProfileModule,
     UsersModule,
+    ResetPasswordModule,
   ],
   controllers: [AppController, TestRolesController],
   providers: [
