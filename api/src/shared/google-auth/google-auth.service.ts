@@ -97,10 +97,6 @@ export class GoogleAuthService {
     // Verifica se o access token expirou
     const isAccessTokenExpired = tokenRecord.expiresAt < new Date();
 
-    console.log('Token expirado? ', isAccessTokenExpired);
-    console.log('Token guardado: ', tokenRecord.expiresAt);
-    console.log('data atual: ', new Date());
-
     if (isAccessTokenExpired) {
       // Obtém um novo access token usando o refresh token
       try {
