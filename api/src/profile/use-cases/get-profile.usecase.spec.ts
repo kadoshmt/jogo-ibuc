@@ -4,7 +4,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Profile } from '@prisma/client';
 import { InMemoryProfileRepository } from '../repositories/in-memory-profile.repository';
 import { GetProfileUseCase } from './get-profile.usecase';
-import { getAvatarUrl } from 'src/common/utils/avatar.util';
+import { getAvatarUrl } from '@src/common/utils/avatar.util';
 
 describe('GetProfileUseCase', () => {
   let getProfileUseCase: GetProfileUseCase;

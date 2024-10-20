@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 
 @Injectable()
 export class DeleteAccountUseCase {

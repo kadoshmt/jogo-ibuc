@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
 
 @Injectable()
 export class CheckPasswordWasProvidedUseCase {

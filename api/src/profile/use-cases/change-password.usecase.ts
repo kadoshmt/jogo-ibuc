@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ChangePasswordInputDto } from '../dtos/change-password-input.dto';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { UserProfileWrongPasswordException } from 'src/common/exceptions/user-profile-wrong-password.exception';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
+import { UserProfileWrongPasswordException } from '@src/common/exceptions/user-profile-wrong-password.exception';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
 
 @Injectable()
 export class ChangePasswordUseCase {

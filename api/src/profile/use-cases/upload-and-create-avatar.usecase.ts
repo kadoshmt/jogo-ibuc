@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
-import { Uploader } from 'src/shared/storage/interfaces/uploader.interface';
-import { InvalidType } from 'src/common/exceptions/invalid-type.exception';
+import { Uploader } from '@shared/storage/interfaces/uploader.interface';
+import { InvalidType } from '@src/common/exceptions/invalid-type.exception';
 
 interface UploadAndCreateAvatarRequest {
   userId: string;
@@ -19,8 +19,7 @@ export class UploadAndCreateAvatarUseCase {
   constructor(
     @Inject('IProfileRepository')
     private readonly profileRepository: IProfileRepository,
-    //private uploader: Uploader,
-    @Inject(Uploader) // Usamos a classe abstrata como token
+    @Inject(Uploader)
     private readonly uploaderService: Uploader,
   ) {}
 

@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
 import { ChangePasswordUseCase } from './change-password.usecase';
-import { UserProfileWrongPasswordException } from 'src/common/exceptions/user-profile-wrong-password.exception';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
+import { UserProfileWrongPasswordException } from '@src/common/exceptions/user-profile-wrong-password.exception';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
 
 describe('ChangePasswordUseCase', () => {
   let changePasswordUseCase: ChangePasswordUseCase;

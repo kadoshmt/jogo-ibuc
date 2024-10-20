@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { UploadAndCreateAvatarUseCase } from './upload-and-create-avatar.usecase';
 import { InMemoryProfileRepository } from '../repositories/in-memory-profile.repository';
-import { FakeUploaderService } from 'src/shared/storage/fake-uploader.service';
+import { FakeUploaderService } from '@shared/storage/fake-uploader.service';
 import { Profile } from '@prisma/client';
-import { InvalidType } from 'src/common/exceptions/invalid-type.exception';
+import { InvalidType } from '@src/common/exceptions/invalid-type.exception';
 import { IGenre } from '../interfaces/profile.interface';
 import { NotFoundException } from '@nestjs/common';
 

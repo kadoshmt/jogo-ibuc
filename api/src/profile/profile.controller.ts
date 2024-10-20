@@ -36,6 +36,7 @@ import { CreatePasswordInputDto } from './dtos/create-password-input.dto';
 import { CreatePasswordUseCase } from './use-cases/create-password.usecase';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadAndCreateAvatarUseCase } from './use-cases/upload-and-create-avatar.usecase';
+import { DeleteAvatarUseCase } from './use-cases/delete-avatar.usecase';
 
 @Controller('profile')
 @UseGuards(JwtAuthGuard)
@@ -49,6 +50,7 @@ export class ProfileController {
     private readonly checkPasswordWasProvidedUseCase: CheckPasswordWasProvidedUseCase,
     private readonly createPasswordUseCase: CreatePasswordUseCase,
     private readonly uploadAndCreateAvatarUseCase: UploadAndCreateAvatarUseCase,
+    private readonly deleteAvatarUseCase: DeleteAvatarUseCase,
   ) {}
 
   // Rota para verificar a disponibilidade do username
@@ -162,5 +164,13 @@ export class ProfileController {
     return {
       avatarUrl,
     };
+  }
+
+  // Rota que permite ao usuário apagar seu avatar
+  @Delete('delete-avatar')
+  @HttpCode(204)
+  async deleteAvatar(@Request() req: IAuthenticatedRequest) {
+    const userId = req.user.id;
+    await this.deleteAvatarUseCase.execute(userId);
   }
 }

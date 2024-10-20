@@ -2,10 +2,10 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { NotFoundException } from '@nestjs/common';
 import { InMemoryProfileRepository } from '../repositories/in-memory-profile.repository';
 import { DeleteAccountUseCase } from './delete-account.usecase';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
+import { PrismaService } from '@shared/database/prisma.service';
 import { IGenre } from '../interfaces/profile.interface';
-import { IRole } from 'src/users/interfaces/users.interface';
+import { IRole } from '@src/users/interfaces/users.interface';
 
 describe('DeleteAccountUseCase', () => {
   let deleteAccountUseCase: DeleteAccountUseCase;
