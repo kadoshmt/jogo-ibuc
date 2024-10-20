@@ -80,15 +80,18 @@ $ npm run test:cov
   - [x] Criar uma rota para que o usuário veja obtenha seus dados (/profile)
   - [x] Criar uma rota para que o usuário edite seus dados (/profile/edit)
   - [x] Criar uma rota para que o usuário redefina sua senha (/profile/change-password)
+    - [ ] Alterar a método HTTP de PUT para PATCH (alterar também no painel)
   - [x] Criar uma rota para que o usuário crie uma senha se nula (/profile/create-password)
   - [x] Criar uma rota para que o usuário alterar sua foto de perfil (profile/upload-avatar)
     - [x] Ao alterar o avatar, apagar o anterior no R2 storage
   - [ ] Criar uma rota para que o usuário remova sua foto de perfil (substitua por uma padrão) (profile/delete-avatar)
+  - [ ] Alterar a forma como a imagem é gravada, salvar apena so filename, e não a url inteira
   - [x] Criar uma rota para que o usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
   - [ ] Criar uma rota para que o usuário se cadastrar em newsletter
   - [x] criar uma rota para que o usuário possa alterar o seu username
-  - [ ] Criar todos os testes unitários
-  - [ ] Criar testes de integração
+  - [x] Criar todos os testes unitários
+  - [x] Criar testes de integração
+    - [ ] Verificar teste e2e change-password (usuário não encontrado)
 
 - Usuários
   - [x] Criar o módulo de usuários do Painel Administrativo
@@ -97,7 +100,7 @@ $ npm run test:cov
       - [x] Criar rota com paginação de usuários
     - [x] Criar todos os testes unitários
     - [ ] Corrigir testes de usuário, que não estão criando o perfil e o teste de findAllAdmin está falhando
-    - [ ] Criar testes de integração
+    - [x] Criar testes de integração
 
 - Categorias:
   - [ ] Criar o múdulo de Categorias (Lições e Módulos)
