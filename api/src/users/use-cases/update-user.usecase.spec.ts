@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { PrismaService } from '@shared/database/prisma.service';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { UpdateUserInputDto } from '../dtos/update-user-input.dto';
 import { UpdateUserUseCase } from './update-user.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
-import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
+import { EmailConflictException } from '@src/common/exceptions/email-conflict.exception';
 
 describe('UpdateUserUseCase', () => {
   let updateUserUseCase: UpdateUserUseCase;

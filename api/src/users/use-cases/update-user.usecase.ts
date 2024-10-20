@@ -4,15 +4,15 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { IProfileRepository } from '@src/profile/interfaces/profile-repository.interface';
 import { UpdateUserInputDto } from '../dtos/update-user-input.dto';
-import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
+import { EmailConflictException } from '@src/common/exceptions/email-conflict.exception';
 import { IUsers } from '../interfaces/users.interface';
 import { UserProfileOutputDto } from '../dtos/user-profile-output.dto';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 import { Role } from '@prisma/client';
-import { getAvatarUrl } from 'src/common/utils/avatar.util';
+import { getAvatarUrl } from '@src/common/utils/avatar.util';
 
 @Injectable()
 export class UpdateUserUseCase {

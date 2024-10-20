@@ -4,7 +4,7 @@ import { InMemoryUserRepository } from '../repositories/in-memory-user.repositor
 import { FindAllUsersUserCase } from './find-all-users.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
 import { UsersFilterInputDto } from '../dtos/users-filter-input.dto';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
 
 describe('FindAllUsersUserCase', () => {
   let findAllUsersUserCase: FindAllUsersUserCase;

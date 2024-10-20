@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { FindUserByIdUserCase } from './find-user-by-id.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
 
 describe('FindUserByIdUserCase', () => {
   let findUserByIdUserCase: FindUserByIdUserCase;

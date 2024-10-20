@@ -33,15 +33,15 @@ export class ListUsersInputDto {
 
   @IsOptional()
   @IsUUID(4)
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(({ value }) => (value ? value.trim().toLowerCase() : value))
   id?: string;
 
   @IsOptional()
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(({ value }) => (value ? value.trim().toLowerCase() : value))
   email?: string;
 
   @IsOptional()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   name?: string;
 
   @IsOptional()
@@ -50,7 +50,7 @@ export class ListUsersInputDto {
     message:
       'Username must contain only letters, numbers and underscores ("_")',
   })
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   username?: string;
 
   @IsOptional()
@@ -67,16 +67,16 @@ export class ListUsersInputDto {
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   country?: string;
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   region?: string;
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   city?: string;
 }
