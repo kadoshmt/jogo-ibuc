@@ -3,6 +3,6 @@ import { Transform } from 'class-transformer';
 
 export class RequestPasswordResetInputDto {
   @IsEmail()
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(({ value }) => (value ? value.trim().toLowerCase() : value))
   email: string;
 }

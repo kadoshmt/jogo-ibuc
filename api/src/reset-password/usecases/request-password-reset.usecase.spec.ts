@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { RequestPasswordResetUseCase } from './request-password-reset.usecase';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { InMemoryPasswordResetRepository } from '../repositories/in-memory-password-reset.repository';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
-import { EmailService } from 'src/shared/email/email.service';
-import { IRole, IUsers } from 'src/users/interfaces/users.interface';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
+import { EmailService } from '@shared/email/email.service';
+import { IRole, IUsers } from '@src/users/interfaces/users.interface';
 
 describe('RequestPasswordResetUseCase', () => {
   let requestPasswordResetUseCase: RequestPasswordResetUseCase;

@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ResetPasswordUseCase } from './reset-password.usecase';
 import { InMemoryPasswordResetRepository } from '../repositories/in-memory-password-reset.repository';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
 import { IPasswordReset } from '../interfaces/password-reset.interface';
 import { BadRequestException } from '@nestjs/common';
-import { IRole, IUsers } from 'src/users/interfaces/users.interface';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { IRole, IUsers } from '@src/users/interfaces/users.interface';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
 
 describe('ResetPasswordUseCase', () => {
   let resetPasswordUseCase: ResetPasswordUseCase;

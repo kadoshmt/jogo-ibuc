@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, Inject } from '@nestjs/common';
 import { IPasswordResetRepository } from '../interfaces/password-reset-repository.interface';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
 
 @Injectable()
 export class ResetPasswordUseCase {

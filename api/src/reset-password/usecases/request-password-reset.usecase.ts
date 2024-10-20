@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { EmailService } from 'src/shared/email/email.service';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { EmailService } from '@shared/email/email.service';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
 import { IPasswordResetRepository } from '../interfaces/password-reset-repository.interface';
 import { randomBytes } from 'crypto';
-import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
+import { IProfileRepository } from '@src/profile/interfaces/profile-repository.interface';
 
 @Injectable()
 export class RequestPasswordResetUseCase {

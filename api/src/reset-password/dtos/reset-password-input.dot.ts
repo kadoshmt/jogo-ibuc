@@ -3,12 +3,12 @@ import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 
 export class ResetPasswordInputDTO {
   @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim().toLowerCase() : value))
   token: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => (value ? value.trim() : value))
   password: string;
 }

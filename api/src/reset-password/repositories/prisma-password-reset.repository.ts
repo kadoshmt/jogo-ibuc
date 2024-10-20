@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { ResetPasswordTokens } from '@prisma/client';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 import { IPasswordResetRepository } from '../interfaces/password-reset-repository.interface';
 import { IPasswordReset } from '../interfaces/password-reset.interface';
 import { CreatePasswordResetTokenDTO } from '../dtos/create-password-reset-token.dto';
