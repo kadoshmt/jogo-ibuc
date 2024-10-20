@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { UnauthorizedException, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { PrismaService } from '@shared/database/prisma.service';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { DeleteUserUseCase } from './delete-user.usecase';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
 
 describe('DeleteUserUseCase', () => {
   let deleteUserUseCase: DeleteUserUseCase;

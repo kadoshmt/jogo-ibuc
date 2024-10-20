@@ -1,5 +1,6 @@
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 
 export default defineConfig({
   test: {
@@ -9,7 +10,13 @@ export default defineConfig({
     include: ['**/*.spec.ts'],
     root: './',
   },
-
+  resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, 'src'),
+      '@shared': path.resolve(__dirname, 'src', 'shared'),
+      '@test': path.resolve(__dirname, 'test'),
+    },
+  },
   plugins: [
     // This is required to build the test files with SWC
     swc.vite({

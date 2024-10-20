@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import GoogleSigninButton from "@/components/Buttons/GoogleSigninButton";
 import { useAuthStore } from '@/stores/useAuthStore';
 import { SigninInput, signinSchema } from "@/validations/auth/signinSchema";
-import { useSignin } from "@/hooks/useSign";
+import { useSignin } from "@/hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToastStore } from "@/stores/toastStore";
@@ -35,24 +35,6 @@ export default function SigninPageComponent() {
     },
   });
 
-  // const onSubmit = async (data: SigninInput) => {
-  //   signIn(data, {
-  //     onSuccess: (result) => {
-  //       const {id, email, username, name, avatarUrl:avatar, role } = result.user;
-  //       const avatarUrl = avatar ?? '/images/default-avatar.png';
-  //       setUser({ id,email,username, name, avatarUrl, role })
-  //       router.push('/dashboard/');
-  //     },
-  //     onError: (err: Error) => {
-  //       console.error(err);
-  //       addToast({
-  //         type: 'error',
-  //         title: `Erro ao Realizar o Login`,
-  //         message: `Houve um erro ao tentar realizar o login: ${err.message}`,
-  //       });
-  //     },
-  //   });
-  // };
 
   const onSubmit = async (data: SigninInput) => {
     try {
@@ -90,7 +72,7 @@ export default function SigninPageComponent() {
       </div>
 
       <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="mb-4">
         <label
           htmlFor="email"
@@ -163,15 +145,15 @@ export default function SigninPageComponent() {
         </label>
 
         <Link
-          href="/auth/forgot-password"
-          className="select-none font-satoshi text-base font-medium text-dark underline duration-300 hover:text-primary dark:text-white dark:hover:text-primary"
+          href="/auth/forget-password"
+          className="select-none font-satoshi text-base font-medium  underline duration-300 hover:text-primary dark:text-white dark:hover:text-primary"
         >
           Esqueceu sua senha?
         </Link>
       </div>
 
       <div className="mb-4.5">
-        <Button buttonText={ isSubmitting ? "Entrando..." : "Entrar" } isLoading={isSubmitting} customClasses="w-full transition py-[14px]" />
+        <Button buttonText={ isSubmitting ? "Entrando..." : "Entrar" } isLoading={isSubmitting} customClasses="w-full transition py-4" />
       </div>
     </form>
       </div>

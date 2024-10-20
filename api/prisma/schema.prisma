@@ -68,3 +68,14 @@ model OAuthToken {
 
   @@map("oauth-token")
 }
+
+model ResetPasswordTokens {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  token          String
+  expiresAt      DateTime  @map("expires_at")
+  used           Boolean   @default(false)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("reset_password_tokens")
+}

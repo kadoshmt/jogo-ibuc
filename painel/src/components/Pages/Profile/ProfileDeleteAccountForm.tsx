@@ -47,7 +47,7 @@ export const ProfileDeleteAccountForm = () => {
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card ">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="border-b border-stroke px-7 py-4 dark:border-dark-3">
           <h3 className="font-medium text-red dark:text-red-700">
             Apagar sua conta

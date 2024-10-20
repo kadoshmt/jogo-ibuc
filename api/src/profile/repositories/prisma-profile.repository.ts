@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Profile } from '@prisma/client';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 import { IProfileRepository } from '../interfaces/profile-repository.interface';
 import { CreateProfileInputDto } from '../dtos/create-profile-input.dto';
 import { Prisma } from '@prisma/client';

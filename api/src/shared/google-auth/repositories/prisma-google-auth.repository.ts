@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OAuthToken } from '@prisma/client';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 
 import { IGoogleAuthRepository } from '../interfaces/google-auth-repository.interface';
 import { GoogleToken } from '../interfaces/google-token.interface';

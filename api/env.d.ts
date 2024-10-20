@@ -3,6 +3,8 @@ declare namespace NodeJS {
     NODE_ENV: 'development' | 'production' | 'test';
     PORT?: string;
     ENCRYPTION_KEY: string;
+    PAINEL_URL: string;
+    GAME_WEB_URL: string;
     DEFAULT_AVATAR_URL: string;
     DATABASE_URL: string;
     JWT_SECRET_KEY: string;

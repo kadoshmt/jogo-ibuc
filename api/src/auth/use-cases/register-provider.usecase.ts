@@ -1,13 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { IProfileRepository } from '@src/profile/interfaces/profile-repository.interface';
 import { RegisterProviderDto } from '../dtos/register-provider-input.dto';
 import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
-import { ProviderConflictException } from 'src/common/exceptions/provider-conflict.exception';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { ProviderConflictException } from '@src/common/exceptions/provider-conflict.exception';
+import { PrismaService } from '@shared/database/prisma.service';
 import { Genre } from '@prisma/client';
-import { getAvatarUrl } from 'src/common/utils/avatar.util';
-import { EmailService } from 'src/shared/email/email.service';
+import { getAvatarUrl } from '@src/common/utils/avatar.util';
+import { EmailService } from '@shared/email/email.service';
 
 @Injectable()
 export class RegisterProviderUseCase {

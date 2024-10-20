@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
-import { UserProfileWrongPasswordException } from 'src/common/exceptions/user-profile-wrong-password.exception';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
+import { UserProfileWrongPasswordException } from '@src/common/exceptions/user-profile-wrong-password.exception';
 
 @Injectable()
 export class CreatePasswordUseCase {

@@ -120,6 +120,38 @@ Content-Type: image/png
 < ../painel/public/images/male1.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+###
+
+# @name profile_delete_account
+DELETE {{baseUrl}}/profile/delete-avatar
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+// -------------- MÓDULO RESET PASSWORD ----------------------------------------
+
+
+# @name request_reset_password
+POST {{baseUrl}}/reset-password/request
+Content-Type: application/json
+
+{
+  "email": "0xjrccrypt0@gmail.com"
+}
+
+###
+
+# @name reset_password
+POST {{baseUrl}}/reset-password
+Content-Type: application/json
+
+{
+  "token": "4750c88ab426419a774aafb7c82d147dc35447b6189b3e42294dac64695e24a3",
+	"password": "11223344"
+}
+
+###
 
 
 // -------------- MÓDULO USERS ----------------------------------------

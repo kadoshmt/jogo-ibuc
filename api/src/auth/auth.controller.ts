@@ -26,8 +26,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { v4 as uuidv4 } from 'uuid';
 import { CACHE_MANAGER, CacheStore } from '@nestjs/cache-manager';
 import { Response } from 'express';
-import { EmailService } from 'src/shared/email/email.service';
-import { GoogleAuthService } from 'src/shared/google-auth/google-auth.service';
+import { EmailService } from '@shared/email/email.service';
+import { GoogleAuthService } from '@shared/google-auth/google-auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -100,7 +100,7 @@ export class AuthController {
     await this.cacheManager.set(uuid, { accessToken, user }, { ttl: 60 * 2 }); // TTL em segundos (2 minutos)
 
     // Redirecionar para o front-end com o código
-    res.redirect(`http://localhost:3000/auth/callback/${uuid}`);
+    res.redirect(`${process.env.PAINEL_URL}/auth/callback/${uuid}`);
   }
 
   // Rota para redirecionar o usuário para a Microsoft

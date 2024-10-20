@@ -61,7 +61,7 @@ export const ProfileAvatarForm = () => {
         <h3 className="font-medium text-dark dark:text-white">Sua Foto</h3>
       </div>
       <div className="p-7">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="mb-4 flex items-center gap-3">
             <div className="h-14 w-14 rounded-full">
               <Image

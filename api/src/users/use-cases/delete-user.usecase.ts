@@ -4,11 +4,11 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
-import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
+import { IProfileRepository } from '@src/profile/interfaces/profile-repository.interface';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
 import { IUsers } from '../interfaces/users.interface';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@shared/database/prisma.service';
 import { Role } from '@prisma/client';
 
 @Injectable()

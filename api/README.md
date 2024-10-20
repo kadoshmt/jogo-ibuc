@@ -66,37 +66,41 @@ $ npm run test:cov
   - [x] Configurar a estratégia de login social do Google do Passaport
   - [ ] Configurar a estratégia de login social da Microsoft do Passaport
   - [ ] Configurar a estratégia de login social do Facebook Passaport
-  - [x] Alterar o campo de firstname e lastname do banco para apenas name
-  - [x] Não permitir que um usuário se cadastre por mais de 1 método
   - [ ] Quando logado, permitir que o usuário vincule um outro método de login
-  - [ ] Criar uma rota que envia uma uma url de reset de senha
+  - [x] Alterar o campo de firstname e lastname do banco para apenas name
+  - [x] Não permitir que um usuário se cadastre por mais de 1 método (deve atualizar o cadastro existente)
+  - [x] Criar uma rota que envia uma uma url de reset de senha
   - [ ] Ver necessidade de mecanismo de logout via API usando uma blacklist de tokens JWT no REDIS
   - [x] Criar um utilitário para lidar com a criptografia (brcrypt)
-  - [x] Criar os testes unitários das estratégias
+  - [x] Criar os testes unitários
+  - [ ] Criar os testes unitários das estratégias
   - [ ] Criar os testes de integração das estratégias
 
 - Profile
   - [x] Criar uma rota para que o usuário veja obtenha seus dados (/profile)
   - [x] Criar uma rota para que o usuário edite seus dados (/profile/edit)
   - [x] Criar uma rota para que o usuário redefina sua senha (/profile/change-password)
+    - [ ] Alterar a método HTTP de PUT para PATCH (alterar também no painel)
   - [x] Criar uma rota para que o usuário crie uma senha se nula (/profile/create-password)
   - [x] Criar uma rota para que o usuário alterar sua foto de perfil (profile/upload-avatar)
-    - [ ] Ao alterar o avatar, apagar o anterior no R2 storage
+    - [x] Ao alterar o avatar, apagar o anterior no R2 storage
   - [ ] Criar uma rota para que o usuário remova sua foto de perfil (substitua por uma padrão) (profile/delete-avatar)
+  - [ ] Alterar a forma como a imagem é gravada, salvar apena so filename, e não a url inteira
   - [x] Criar uma rota para que o usuário possa deletar sua conta e tudo relacionada a ela (usuario, rankings, etc)...
   - [ ] Criar uma rota para que o usuário se cadastrar em newsletter
   - [x] criar uma rota para que o usuário possa alterar o seu username
-  - [ ] Criar todos os testes unitários
-  - [ ] Criar testes de integração
+  - [x] Criar todos os testes unitários
+  - [x] Criar testes de integração
+    - [ ] Verificar teste e2e change-password (usuário não encontrado)
 
 - Usuários
   - [x] Criar o módulo de usuários do Painel Administrativo
     - [X] Criar o CRUD básico
       - [x] Somente Administradores podem gerenciar usuários
       - [x] Criar rota com paginação de usuários
-    - [ ] Criar todos os testes unitários
-    - [ ] Criar testes de integração
+    - [x] Criar todos os testes unitários
     - [ ] Corrigir testes de usuário, que não estão criando o perfil e o teste de findAllAdmin está falhando
+    - [x] Criar testes de integração
 
 - Categorias:
   - [ ] Criar o múdulo de Categorias (Lições e Módulos)
@@ -134,7 +138,7 @@ $ npm run test:cov
 
 - Segurança
   - [ ] Não exponha o ID do usuário em respostas públicas da API ou logs
-  - [ ] Alterar o dockerfile para pegar variáveis do ambiente
+  - [x] Alterar o dockerfile para pegar variáveis do ambiente
   - [ ] Configurar HTTPS no ambiente de produção
   - [ ] Usar o pacote helmet para configurar cabeçalhos HTTP de segurança.
   - [x] Implementar rate limiting para proteger contra ataques de força bruta

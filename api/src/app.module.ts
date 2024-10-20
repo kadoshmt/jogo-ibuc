@@ -12,17 +12,21 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/exceptions/throttler-limit.exception';
 import { ProfileModule } from './profile/profile.module';
 import { PrismaModule } from './shared/database/prisma.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
   imports: [
     PrismaModule,
     ThrottlerModule.forRoot({
-      throttlers: [
-        {
-          ttl: 60000, // Tempo de vida em milisegundos
-          limit: 10, // Número máximo de requisições permitidas por cliente
-        },
-      ],
+      throttlers:
+        process.env.NODE_ENV === 'test'
+          ? [] // Remove ThrottlerModule no ambiente de teste
+          : [
+              {
+                ttl: 60000, // Tempo de vida em milisegundos
+                limit: 10, // Número máximo de requisições permitidas por cliente
+              },
+            ],
     }),
     CacheModule.register({
       ttl: 120, // Tempo de expiração do cache em segundos (2 minutos)
@@ -31,6 +35,7 @@ import { PrismaModule } from './shared/database/prisma.module';
     AuthModule,
     ProfileModule,
     UsersModule,
+    ResetPasswordModule,
   ],
   controllers: [AppController, TestRolesController],
   providers: [

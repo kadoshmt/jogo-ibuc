@@ -1,14 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
-import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
+import { EmailConflictException } from '@src/common/exceptions/email-conflict.exception';
 import { RegisterInputDto } from '../dtos/register-input.dto';
-import { IProfileRepository } from 'src/profile/interfaces/profile-repository.interface';
+import { IProfileRepository } from '@src/profile/interfaces/profile-repository.interface';
 import { LoggedUserOutputDto } from '../dtos/logged-user-output.dto';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
-import { getAvatarUrl } from 'src/common/utils/avatar.util';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
-import { EmailService } from 'src/shared/email/email.service';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
+import { getAvatarUrl } from '@src/common/utils/avatar.util';
+import { PrismaService } from '@shared/database/prisma.service';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
+import { EmailService } from '@shared/email/email.service';
 
 @Injectable()
 export class RegisterUseCase {

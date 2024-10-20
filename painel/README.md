@@ -49,7 +49,7 @@ And voila! You're now ready to start developing. **Happy coding**!
 - Autenticação:
   - [x] Criar página de Login por e-mail e senha
   - [x] Criar página de registro (Sign-up)
-  - [ ] Criar páginas de reset de senha (forgot-password e reset-password)
+  - [x] Criar páginas de reset de senha (forgot-password e reset-password)
   - [x] Configurar a estratégia de login social do Google do Passaport
   - [ ] Configurar a estratégia de login social da Microsoft do Passaport
   - [ ] Configurar a estratégia de login social do Facebook Passaport

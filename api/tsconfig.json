@@ -10,6 +10,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@shared/*": ["src/shared/*"],
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -20,5 +24,4 @@
     "types": ["vitest/globals", "multer"]
   },
   "include": ["src", "test", "env.d.ts", "vitest.config.ts"]
-
 }

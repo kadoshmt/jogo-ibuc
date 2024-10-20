@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useToastStore } from "@/stores/toastStore";
 import { SignupInput, signupSchema } from "@/validations/auth/signupSchema";
-import { useSignUp } from "@/hooks/useSign";
+import { useSignUp } from "@/hooks/useAuth";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Genre } from "@/types/profile";
@@ -18,7 +18,7 @@ import Button from "@/components/Buttons/Button";
 export default function SignupPageComponent() {
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
-  const {mutateAsync: signUp, isPending } = useSignUp();
+  const {mutateAsync: signUp } = useSignUp();
   const addToast = useToastStore((state) => state.addToast);
 
   const {
@@ -101,7 +101,7 @@ export default function SignupPageComponent() {
       </div>
 
       <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
       <input type="hidden" {...register("username")} disabled={isSubmitting} className="hidden" readOnly />
       <input type="hidden" {...register("genre")} disabled={isSubmitting} className="hidden" readOnly />
@@ -202,7 +202,7 @@ export default function SignupPageComponent() {
       {errors.repeatPassword && <p className="text-red-500 text-sm">{errors.repeatPassword?.message}</p>}
 
       <div className="mb-4.5">
-        <Button buttonText={ isSubmitting ? "Criando..." : "Criar minha conta" } isLoading={isSubmitting} customClasses="w-full transition py-[14px]" />
+        <Button buttonText={ isSubmitting ? "Criando..." : "Criar minha conta" } isLoading={isSubmitting} customClasses="w-full transition py-4" />
       </div>
     </form>
       </div>

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { JwtStrategy } from './jwt.strategy';
-import { IUserRepository } from 'src/users/interfaces/user-repository.interface';
+import { IUserRepository } from '@src/users/interfaces/user-repository.interface';
 import { UnauthorizedException } from '@nestjs/common';
 import { Users } from '@prisma/client';
 

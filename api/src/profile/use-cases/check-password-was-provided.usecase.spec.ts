@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
-import { UserProfileNotFoundException } from 'src/common/exceptions/user-profile-not-found.exception';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
+import { UserProfileNotFoundException } from '@src/common/exceptions/user-profile-not-found.exception';
 import { CheckPasswordWasProvidedUseCase } from './check-password-was-provided.usecase';
 
 describe('CheckPasswordWasProvidedUseCase', () => {

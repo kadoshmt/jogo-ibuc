@@ -66,7 +66,7 @@ export const ProfileCreatePasswordForm = () => {
       </div>
       <div className="p-7">
         <p className="mb-8">Você também pode definir uma senha caso queira entrar na plataforma usando seu e-mail e senha.</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="mb-4 flex items-center gap-3">
 
             <PasswordInputGroup

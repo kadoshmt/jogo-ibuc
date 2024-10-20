@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { CreateUserUseCase } from './use-cases/create-user.usecase';
 import { UpdateUserUseCase } from './use-cases/update-user.usecase';
 import { DeleteUserUseCase } from './use-cases/delete-user.usecase';

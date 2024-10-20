@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { RegisterProviderUseCase } from './register-provider.usecase';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { RegisterProviderDto } from '../dtos/register-provider-input.dto';
-import { ProviderConflictException } from 'src/common/exceptions/provider-conflict.exception';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { EmailService } from 'src/shared/email/email.service';
+import { ProviderConflictException } from '@src/common/exceptions/provider-conflict.exception';
+import { PrismaService } from '@shared/database/prisma.service';
+import { EmailService } from '@shared/email/email.service';
 
 describe('RegisterProviderUseCase', () => {
   let registerProviderUseCase: RegisterProviderUseCase;

@@ -2,14 +2,14 @@ import { describe, it, expect, beforeEach } from 'vitest';
 
 import { UnauthorizedException } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { CreateUserInputDto } from '../dtos/create-user-input.dto';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { CreateUserUseCase } from './create-user.usecase';
-import { PrismaService } from 'src/shared/database/prisma.service';
+import { PrismaService } from '@src/shared/database/prisma.service';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
-import { EmailConflictException } from 'src/common/exceptions/email-conflict.exception';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
+import { EmailConflictException } from '@src/common/exceptions/email-conflict.exception';
 
 describe('CreateUserUseCase', () => {
   let createUserUseCase: CreateUserUseCase;

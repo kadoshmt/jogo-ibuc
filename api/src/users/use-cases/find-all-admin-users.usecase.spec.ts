@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { UnauthorizedException } from '@nestjs/common';
 import { InMemoryUserRepository } from '../repositories/in-memory-user.repository';
 import { IRole, IUsers } from '../interfaces/users.interface';
-import { IGenre } from 'src/profile/interfaces/profile.interface';
+import { IGenre } from '@src/profile/interfaces/profile.interface';
 import { FindAllAdminUsersUserCase } from './find-all-admin-users.usecase';
 
 describe('FindAllAdminUsersUserCase', () => {
