@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { EmailService } from './email.service';
-import { GoogleAuthModule } from '../google-auth/google-auth.module';
+import { GoogleAuthModule } from '@shared/google-auth/google-auth.module';
 
 @Module({
   providers: [EmailService],
