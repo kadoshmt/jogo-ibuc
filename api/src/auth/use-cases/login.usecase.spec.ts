@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { LoginUseCase } from './login.usecase';
-import { InMemoryUserRepository } from 'src/users/repositories/in-memory-user.repository';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
-import { EncryptionUtil } from 'src/common/utils/encryption.util';
+import { InMemoryUserRepository } from '@src/users/repositories/in-memory-user.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
+import { EncryptionUtil } from '@src/common/utils/encryption.util';
 import { Genre } from '@prisma/client';
 
 describe('LoginUseCase', () => {

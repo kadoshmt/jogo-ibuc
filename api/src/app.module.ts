@@ -18,12 +18,15 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
   imports: [
     PrismaModule,
     ThrottlerModule.forRoot({
-      throttlers: [
-        {
-          ttl: 60000, // Tempo de vida em milisegundos
-          limit: 10, // Número máximo de requisições permitidas por cliente
-        },
-      ],
+      throttlers:
+        process.env.NODE_ENV === 'test'
+          ? [] // Remove ThrottlerModule no ambiente de teste
+          : [
+              {
+                ttl: 60000, // Tempo de vida em milisegundos
+                limit: 10, // Número máximo de requisições permitidas por cliente
+              },
+            ],
     }),
     CacheModule.register({
       ttl: 120, // Tempo de expiração do cache em segundos (2 minutos)

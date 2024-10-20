@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { InMemoryProfileRepository } from 'src/profile/repositories/in-memory-profile.repository';
+import { InMemoryProfileRepository } from '@src/profile/repositories/in-memory-profile.repository';
 import { NotFoundException } from '@nestjs/common';
-import { IUsers } from 'src/users/interfaces/users.interface';
+import { IUsers } from '@src/users/interfaces/users.interface';
 import { Genre } from '@prisma/client';
 import { ValidateUserUseCase } from './validade-user.usecase';
 

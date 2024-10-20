@@ -10,7 +10,7 @@ import { FacebookStrategy } from './strategies/facebook.strategy';
 import { RegisterUseCase } from './use-cases/register.usecase';
 import { GenerateAccessTokenUseCase } from './use-cases/generate-access-token.usecase';
 import { RegisterProviderUseCase } from './use-cases/register-provider.usecase';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { LoginUseCase } from './use-cases/login.usecase';
 import { ValidateUserUseCase } from './use-cases/validade-user.usecase';
 import { LocalAuthGuard } from './guards/local-auth.guard';
