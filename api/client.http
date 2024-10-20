@@ -122,6 +122,13 @@ Content-Type: image/png
 
 ###
 
+# @name profile_delete_account
+DELETE {{baseUrl}}/profile/delete-avatar
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
 // -------------- MÓDULO RESET PASSWORD ----------------------------------------
 
 
